@@ -1,4 +1,4 @@
-package byone.hbase;
+package byone.hbase.utils;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.hbase.client.Scan;
