@@ -7,14 +7,10 @@
   	</property>
   	<property>
     	<name>hadoop.tmp.dir</name>
-    	<value>/home/dream/hadoop-temp</value>
+    	<value>/home/dream/hadoop/hdp-temp</value>
   	</property>
 	<property>
-		<name>hbase.cluster.distributed</name>
-		<value>true</value>
-	</property>
-	<property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>master,slave1,slave2</value>
+		<value>master</value>
 	</property>
 </configuration>

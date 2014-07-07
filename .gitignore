@@ -1,6 +1,6 @@
 *.class
 *.log
-
+conf/hbase-site.xml
 # sbt specific
 dist/*
 target/
