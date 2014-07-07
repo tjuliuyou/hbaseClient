@@ -1,5 +1,6 @@
 package byone.hbase
 
+import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.{Cell, HBaseConfiguration}
 import org.apache.hadoop.hbase.client.{Result, ResultScanner, Scan, HTable}
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter
@@ -40,12 +41,17 @@ object Client {
     val ar = Array("id","name")
     admin.create("uid",ar)
 
-    val rw = new RW(conf,"uid")
+    val rw = new RW("uid",conf,sc)
     val row =  "0001" + DatePoint.dateToTs("2014/6/4 14:32:21")+ "000"
     for(i <- 1 to 9)
-      rw.add(row+i.toString,"id","e","event")
+      rw.add(row+i.toString,"id","e","event"+i.toString)
 
     println(rw.get("000140a5026725ee0007"))
+
+    val uid = new UniqueId(conf)
+    uid.readToCache("test/eventuid.txt",sc)
+
+
 //    val scan = new Scan(startRow.getBytes(),stopRow.getBytes())
 //    val fl = new SingleColumnValueFilter("d".getBytes(),"collectorId".getBytes(),CompareOp.EQUAL,"10050".getBytes())
 //

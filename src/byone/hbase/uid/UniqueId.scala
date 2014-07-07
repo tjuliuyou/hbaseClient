@@ -3,6 +3,7 @@ package byone.hbase.uid
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client.{ResultScanner, Scan, HTable}
 import org.apache.hadoop.hbase.{Cell, KeyValue}
+import org.apache.spark.{SparkContext, SparkConf}
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/7/14.
@@ -29,5 +30,16 @@ class UniqueId(conf : Configuration) {
         null
   }
   def getId(name : String) : String = {""}
-  def Insert(name : String) : String = {""}
+  def readToCache (file : String,sc : SparkContext) {
+    val txtFile =sc.textFile(file)
+    val txtFileMap = txtFile.map(line =>
+      line.split(" ").foreach(pair =>
+        (pair(0),pair(1))
+      )
+    )
+    txtFileMap.collect().foreach(x =>println(x.toString))
+  }
+  def Insert(name : String) : String = {
+    ""
+  }
 }
