@@ -2,10 +2,9 @@ package byone.hbase.uid
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client.{ResultScanner, Scan, HTable}
-import org.apache.hadoop.hbase.{Cell, KeyValue}
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.hadoop.hbase.Cell
+
 import org.apache.spark._
-import org.apache.spark.rdd.NewHadoopRDD
 import scala.collection.JavaConverters._
 import SparkContext._
 import byone.hbase.core.RW
@@ -23,23 +22,18 @@ class UniqueId(conf : Configuration,sc : SparkContext) {
     if(cached.contains(id))
       cached(id)
     else
-      for(res <- ss.asScala)
-        for(kv:Cell<- res.rawCells())
-          if(id.equals(new String(kv.getRow)))
-          {
-            cached +=(id -> new String(kv.getValue))
-            new String(kv.getValue)
-          }
-      else
-        println("can not find uid.")
-        null
+    {
+      val name = rw.get(id,"name")
+      cached += (name->id)
+      name
+    }
   }
   def getId(name : String) : String = {
     if(cached.contains(name))
       cached(name)
     else
     {
-      val uid = rw.get(name,"uid")
+      val uid = rw.get(name,"id")
       cached += (uid->name)
       uid
     }
@@ -56,5 +50,15 @@ class UniqueId(conf : Configuration,sc : SparkContext) {
 
   }
   def Insert(name : String) =
-    cached.foreach{case(a,b) =>rw.add(b,"id","uid",a)}
+    cached.foreach{case(a,b) =>
+      rw.add(b,"d","name",a)
+      rw.add(a,"d","id",b)}
+}
+
+object UniqueId {
+
+  def getId(name : String) : String = {
+  ""
+  }
+
 }

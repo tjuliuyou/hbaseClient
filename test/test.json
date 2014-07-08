@@ -1,7 +1,7 @@
 {
 	"test1":
 	{
-		"timerange"	:"3100 3130",
+		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:{},
 		"filter"	:{},
@@ -9,7 +9,7 @@
 	},
 	"test2":
 	{
-		"timerange"	:"3100 3130",	
+		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL",
 		"filter"	:{},
@@ -17,7 +17,7 @@
 	},
 	"test3":
 	{
-		"timerange"	:"3100 3130",
+		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr cpuUtil",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL",
 		"filter"	:"(SingleColumnValueFilter ('d','cpuUtil',>,'binary:0.5'))",
@@ -26,7 +26,7 @@
 	},
 	"test4":	
 	{
-		"timerange"	:"3100 3130",
+		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL PH_DEV_MON_PING_STAT",
 		"filter"	:"(SingleColumnValueFilter ('d','collectorId',>,'binary:10050'))",
@@ -35,7 +35,7 @@
 	},
 	"test5":	
 	{
-		"timerange"	:"3100 3130",
+		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:{},
 		"filter"	:"(SingleColumnValueFilter ('d','rawEventMsg',=,'substring:A2-BB-BJ-CH')) AND (SingleColumnValueFilter ('d','collectorId',>,'binary:10050'))",

@@ -30,20 +30,26 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
 
   //get row
   def get(row : String) : String = {
-    var s =""
-    val res = tb.get(new Get(row.getBytes))
+    var s=""
+    val gt = new Get(row.getBytes)
+    require(tb.exists(gt))
+    val res = tb.get(gt)
     for(kv:Cell <- res.rawCells())
       s = new String(kv.getQualifier) +"=" + new String(kv.getValue)
     s
   }
 
   def get(row : String, col : String) : String = {
+    var s=""
     val gt = new Get(row.getBytes)
-    gt.addColumn("id".getBytes,col.getBytes)
-    require(gt.isCheckExistenceOnly)
-    val res = tb.get(gt)
-    new String(res.getValue("uid".getBytes,col.getBytes))
+    //gt.addColumn("d".getBytes,col.getBytes)
+    require(tb.exists(gt))
 
+    //require(gt.isCheckExistenceOnly)
+    val res = tb.get(gt)
+    for(kv:Cell <- res.rawCells())
+      s = new String(kv.getValue)
+    s
   }
 
   def scan(flist : FilterList,bklist : Array[String]) : ResultScanner = {
@@ -53,23 +59,14 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
   }
 
   //def group()
-  private def getConf : Configuration = {
-    val cf = HBaseConfiguration.create()
-    cf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
-    cf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
-    cf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
-    cf
-  }
 
-  private def getSc : SparkContext = {
-    val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
-    new SparkContext(sparkConf)
-  }
 
 }
 
 object RW {
 
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
+
+
 
 }
