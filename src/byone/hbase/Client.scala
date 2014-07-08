@@ -21,99 +21,22 @@ import scala.xml.NodeSeq
  */
 object Client {
 
-
-  /*
-  *  glable conf
-  */
-  val tablename = "log_data"
-  val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
-  val sc = new SparkContext(sparkConf)
-  val conf = HBaseConfiguration.create()
-  conf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
-  conf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
-  conf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
-
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
 
-  /*
-  *  get (startrow,stoprow) pairs
-  */
-  def getRowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
-    val area = Map[String, String]()
-    if(event.isEmpty)
-      area
-    else {
-      val uid = new UniqueId(conf,sc)
-      uid.readToCache("test/eventuid.txt")
-      for(pre <- event)
-      {
-        val p = uid.getId(pre)
-        area += ((p + DatePoint.dateToTs(range(1)) + "0000")->
-          ( p + DatePoint.dateToTs(range(0)) + "0064"))
-      }
-      area
-    }
-  }
-
-  /*
-  *  get Scan list for scan
-  */
-  def getScan(cdn: Map[String,Vector[String]]) : Vector[Scan] = {
-    require(cdn.contains("range"))
-    //val sl =
-    val area = getRowArea(cdn("range"),cdn("event"))
-    val sl = area.map{rows =>
-      val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
-      println(rows)
-      val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.EQUAL,"10050".getBytes)
-      sn.setFilter(fl)
-      if(!cdn("back").isEmpty)
-        cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
-      sn
-    }
-    Vector() ++ sl //thans iterater to vector
-  }
-
-  def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,String) ={
-    var ky = ""
-    var vl = ""
-    for(kv:Cell<- raw._2.rawCells())
-    {
-      val key = new String(kv.getQualifier())
-      val value = new String(kv.getValue())
-      if(gp.contains(key)) {
-        ky = value
-      }
-      else
-        vl += key +"="+value+","
-    }
-    (ky,vl)
-  }
-
-  def gethbaseRDD(scan: Scan): RDD[(ImmutableBytesWritable, Result)] = {
-    conf.set(TableInputFormat.INPUT_TABLE, tablename)
-    conf.set(TableInputFormat.SCAN,ScanToString(scan))
-    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
-      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-      classOf[org.apache.hadoop.hbase.client.Result])
-    hBaseRDD
-  }
-
-  /*
-      *  get rdd
-      */
-  def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
-
-    val vrdd = for (scan <- sl) yield {
-      val rdd = gethbaseRDD(scan)
-      rdd.map(x =>gpBy(x,gp))
-    }
-    vrdd(0)
-  }
   /*
     *  main fun
     */
   def main(args: Array[String]) {
+    /*
+  *  glable conf
+  */
+    val tablename = "log_data"
+    val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
+    val sc = new SparkContext(sparkConf)
+    val conf = HBaseConfiguration.create()
+    conf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
+    conf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
+    conf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
 
     //args
 
@@ -131,33 +54,110 @@ object Client {
                       "back"   -> display,
                       "filter" -> filters)
 
-    val s = getScan(scanCdn)
+    /*
+  *  get (startrow,stoprow) pairs
+  */
+    def getRowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
+      val area = Map[String, String]()
+      if(event.isEmpty)
+        area
+      else {
+        val uid = new UniqueId(conf,sc)
+        for(pre <- event)
+        {
+          val p = uid.getId(pre)
+          area += ((p + DatePoint.dateToTs(range(1)) + "0000")->
+            ( p + DatePoint.dateToTs(range(0)) + "0064"))
+        }
+        area
+      }
+    }
+
+    /*
+      *  get Scan list for scan
+      */
+    def getScan(cdn: Map[String,Vector[String]]) : Vector[Scan] = {
+      require(cdn.contains("range"))
+      //val sl =
+      val area = getRowArea(cdn("range"),cdn("event"))
+      val sl = area.map{rows =>
+        val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
+        println(rows)
+        val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.EQUAL,"10050".getBytes)
+        sn.setFilter(fl)
+        if(!cdn("back").isEmpty)
+          cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
+        sn
+      }
+      Vector() ++ sl //thans iterater to vector
+    }
+    /**
+     *  map raw hbase date to (string,string) by grouplist
+     */
+    def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,String) ={
+      var ky = ""
+      var vl = ""
+      for(kv:Cell<- raw._2.rawCells())
+      {
+        val key = new String(kv.getQualifier())
+        val value = new String(kv.getValue())
+        if(gp.contains(key)) {
+          ky = value
+        }
+        else
+          vl += key +"="+value+","
+      }
+      (ky,vl)
+    }
+
+    def gethbaseRDD(scan: Scan): RDD[(ImmutableBytesWritable, Result)] = {
+      conf.set(TableInputFormat.INPUT_TABLE, tablename)
+      conf.set(TableInputFormat.SCAN,ScanToString(scan))
+      val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+        classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+        classOf[org.apache.hadoop.hbase.client.Result])
+      hBaseRDD
+    }
+
+    /*
+        *  get rdd
+        */
+    def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
+      val ret: RDD[(String, String)] = null
+      val vrdd = for (scan <- sl) yield {
+        val rdd = gethbaseRDD(scan)
+        ret ++ rdd.map(x =>gpBy(x,gp))
+      }
+      ret
+    }
 
 
 
+    //get hbase RDD and print it
+//    val s = getScan(scanCdn)
+//
+//    val hbaseRDD = getRDD(s,gpbylist)
+//
+//    hbaseRDD.collect().foreach(x =>println(x))
 
-    val hbaseRDD = getRDD(s,gpbylist)
 
-    hbaseRDD.collect().foreach(x =>println(x))
+    val table = new HTable(conf,tablename)
+    //delete 'uid' table
+    val admin = new Man(conf)
+    //admin.delete("uid")
+    val ar = Array("d")
+    admin.create("log_data",ar)
 
+    val rw = new RW("uid",conf,sc)
+    println(rw.get("0001"))
 
-//    val table = new HTable(conf,tablename)
-//    //delete 'uid' table
-//    val admin = new Man(conf)
-//    admin.delete("uid")
-//    val ar = Array("d")
-//    admin.create("uid",ar)
+    println(rw.get("0001","name"))
 
-//    val rw = new RW("uid",conf,sc)
-//    val row =  "0001" + DatePoint.dateToTs("18/06/2014 14:40:11")+ "000"
-//    for(i <- 1 to 9)
-//      rw.add(row+i.toString,"id","e","event"+i.toString)
-
-//    val uid = new UniqueId(conf,sc)
-//    uid.readToCache("test/eventuid.txt")
-//   // uid.Insert("uid")
-//    //println(uid.getName("0001"))
-//    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
+    val uid = new UniqueId(conf,sc)
+    //uid.readToCache("test/eventuid.txt")
+    //uid.Insert("uid")
+    println(uid.getName("0001"))
+    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
 
 
 

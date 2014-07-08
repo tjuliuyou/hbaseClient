@@ -3,7 +3,7 @@ package byone.hbase.core
 import byone.hbase.utils.ScanCovert
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client._
-import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
+import org.apache.hadoop.hbase.{KeyValue, HBaseConfiguration, Cell}
 import org.apache.hadoop.hbase.filter.FilterList
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.{RDD, HadoopRDD, NewHadoopRDD}
@@ -32,21 +32,25 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
   def get(row : String) : String = {
     var s=""
     val gt = new Get(row.getBytes)
-    require(tb.exists(gt))
+    //require(tb.exists(gt))
     val res = tb.get(gt)
-    for(kv:Cell <- res.rawCells())
+    for(kv: Cell<- res.rawCells())
       s = new String(kv.getQualifier) +"=" + new String(kv.getValue)
     s
+
+//    val res = tb.get(new Get(row.getBytes))
+//    for(kv:Cell <- res.rawCells())
+//      s = new String(kv.getQualifier) +"=" + new String(kv.getValue)
+//    s
   }
 
   def get(row : String, col : String) : String = {
     var s=""
     val gt = new Get(row.getBytes)
-    //gt.addColumn("d".getBytes,col.getBytes)
-    require(tb.exists(gt))
-
-    //require(gt.isCheckExistenceOnly)
+    gt.addColumn("d".getBytes,col.getBytes)
+    //require(tb.exists(gt))
     val res = tb.get(gt)
+    require(!res.isEmpty)
     for(kv:Cell <- res.rawCells())
       s = new String(kv.getValue)
     s
