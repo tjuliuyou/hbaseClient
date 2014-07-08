@@ -48,8 +48,11 @@ object Client {
 
     println(rw.get("000140a5026725ee0007"))
 
-    val uid = new UniqueId(conf)
-    uid.readToCache("test/eventuid.txt",sc)
+    val uid = new UniqueId(conf,sc)
+    uid.readToCache("test/eventuid.txt")
+    //uid.Insert("uid")
+
+    println(uid.getId("PH_DEV_MON_SYS_PER_CPU_UTIL"))
 
 
 //    val scan = new Scan(startRow.getBytes(),stopRow.getBytes())

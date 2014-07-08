@@ -11,16 +11,12 @@ import scala.collection.JavaConverters._
 import SparkContext._
 import org.apache.spark._
 
+
 /**
  * Created by dream on 7/7/14.
  */
 class RW(table : String,conf : Configuration,sc : SparkContext) {
   private val tb = new HTable(conf,table)
-
-  //def this(table : String,conf : Configuration) = this(table : String,conf : Configuration,
-   // getSc())
-
-  //def this() = this("log_data",getConf(),getSc())
 
   def add(row : String, fc : String, col : String, vl : String) {
     val pt = new Put(row.getBytes)
@@ -28,9 +24,9 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
     tb.put(pt)
     println("put " + row +" to table " + table + " successfully.")
   }
+
   //put rows
   //def adds()
-
 
   //get row
   def get(row : String) : String = {
@@ -41,6 +37,15 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
     s
   }
 
+  def get(row : String, col : String) : String = {
+    val gt = new Get(row.getBytes)
+    gt.addColumn("id".getBytes,col.getBytes)
+    require(gt.isCheckExistenceOnly)
+    val res = tb.get(gt)
+    new String(res.getValue("uid".getBytes,col.getBytes))
+
+  }
+
   def scan(flist : FilterList,bklist : Array[String]) : ResultScanner = {
     val scan = new Scan()
     scan.setFilter(flist)
@@ -48,7 +53,7 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
   }
 
   //def group()
-  private def getConf() : Configuration = {
+  private def getConf : Configuration = {
     val cf = HBaseConfiguration.create()
     cf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
     cf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
@@ -56,19 +61,15 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
     cf
   }
 
-  private def getSc() : SparkContext = {
+  private def getSc : SparkContext = {
     val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
     new SparkContext(sparkConf)
   }
 
-
 }
 
 object RW {
+
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
-  def scanToRDD(rc : SparkContext) {
-
-  }
-
 
 }
