@@ -8,18 +8,24 @@ import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.spark._
-import org.apache.spark.rdd.NewHadoopRDD
+import org.apache.spark.rdd.{RDD, NewHadoopRDD}
 import scala.collection.JavaConverters._
 import SparkContext._
 import byone.hbase.utils.{DatePoint, ScanCovert}
 import byone.hbase.core.{RW, Man}
 import scala.collection.mutable.Map
+import scala.xml.NodeSeq
 
 /**
  * Created by dream on 7/7/14.
  */
 object Client {
 
+
+  /*
+  *  glable conf
+  */
+  val tablename = "log_data"
   val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
   val sc = new SparkContext(sparkConf)
   val conf = HBaseConfiguration.create()
@@ -29,6 +35,9 @@ object Client {
 
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
 
+  /*
+  *  get (startrow,stoprow) pairs
+  */
   def getRowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
     val area = Map[String, String]()
     if(event.isEmpty)
@@ -46,6 +55,9 @@ object Client {
     }
   }
 
+  /*
+  *  get Scan list for scan
+  */
   def getScan(cdn: Map[String,Vector[String]]) : Vector[Scan] = {
     require(cdn.contains("range"))
     //val sl =
@@ -59,34 +71,74 @@ object Client {
         cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
       sn
     }
-    Vector() ++ sl
+    Vector() ++ sl //thans iterater to vector
   }
+
+  def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,String) ={
+    var ky = ""
+    var vl = ""
+    for(kv:Cell<- raw._2.rawCells())
+    {
+      val key = new String(kv.getQualifier())
+      val value = new String(kv.getValue())
+      if(gp.contains(key)) {
+        ky = value
+      }
+      else
+        vl += key +"="+value+","
+    }
+    (ky,vl)
+  }
+
+  def gethbaseRDD(scan: Scan): RDD[(ImmutableBytesWritable, Result)] = {
+    conf.set(TableInputFormat.INPUT_TABLE, tablename)
+    conf.set(TableInputFormat.SCAN,ScanToString(scan))
+    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+      classOf[org.apache.hadoop.hbase.client.Result])
+    hBaseRDD
+  }
+
+  /*
+      *  get rdd
+      */
+  def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
+
+    val vrdd = for (scan <- sl) yield {
+      val rdd = gethbaseRDD(scan)
+      rdd.map(x =>gpBy(x,gp))
+    }
+    vrdd(0)
+  }
+  /*
+    *  main fun
+    */
   def main(args: Array[String]) {
 
     //args
-    val tablename = "log_data"
+
     val timerange = Vector("18/06/2014 14:40:11","18/06/2014 14:50:11")
     val display = Vector("phRecvTime", "collectorId", "eventType", "relayDevIpAddr","pollIntv")
     val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL")
     val filters = Vector("collectorId","<","10050")
-    val gpbylist = Vector("relayDevIpAddr")
+    val gpbylist = Set("relayDevIpAddr")
     val aggrelist = Vector("cpuUtil","collectorId")
     val condtion = Vector("avg")
-
 
     //parser args
     val scanCdn = Map("range"  -> timerange,
                       "event"  -> eventType,
                       "back"   -> display,
                       "filter" -> filters)
+
     val s = getScan(scanCdn)
 
 
 
 
+    val hbaseRDD = getRDD(s,gpbylist)
 
-
-
+    hbaseRDD.collect().foreach(x =>println(x))
 
 
 //    val table = new HTable(conf,tablename)
@@ -108,84 +160,58 @@ object Client {
 //    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
 
 
-//    val scan = new Scan(startRow.getBytes(),stopRow.getBytes())
-//    val fl = new SingleColumnValueFilter("d".getBytes(),"collectorId".getBytes(),CompareOp.EQUAL,"10050".getBytes())
+
+//    val scan = s(0)
+//    conf.set(TableInputFormat.INPUT_TABLE, tablename)
+//    conf.set(TableInputFormat.SCAN,ScanToString(scan))
+//    //conf.set(TableInputFormat.)
+//    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+//      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+//      classOf[org.apache.hadoop.hbase.client.Result])
 //
-//    scan.setFilter(fl)
-//    scan.addColumn("d".getBytes(),"collectorId".getBytes())
-//    scan.addColumn("d".getBytes(),"relayDevIpAddr".getBytes())
-//    scan.addColumn("d".getBytes(),"cpuUtil".getBytes())
-//    scan.addColumn("d".getBytes(),"eventType".getBytes())
-//    val ss: ResultScanner = table.getScanner(scan)
-//    var a = 0
+//    println("count = "+hBaseRDD.count())
 //
-//    for ( va <- ss.asScala)
-//    {  a=a+1}
-//    println(a)
-//
-//    def preProc(a:ImmutableBytesWritable,b:Result,gb:String) : (String , String) = {
+//    val gb = "relayDevIpAddr"
+//    val middata = hBaseRDD.map{case (a,b) =>
+//      var ky = ""
 //      var vl = ""
-//
-//      for(kv:Cell <- b.rawCells())
+//      for(kv:Cell<- b.rawCells())
 //      {
 //        val key = new String(kv.getQualifier())
 //        val value = new String(kv.getValue())
-//        vl += key +","+value
+//        if(key == gb) {
+//          ky = value
+//        }
+//        else
+//          vl += key +"="+value+","
 //      }
-//      (gb,vl)
-//    }
+//      (ky,vl)
 //
-    val scan = s(0)
-    conf.set(TableInputFormat.INPUT_TABLE, tablename)
-    conf.set(TableInputFormat.SCAN,ScanToString(scan))
-    //conf.set(TableInputFormat.)
-    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
-      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-      classOf[org.apache.hadoop.hbase.client.Result])
-
-    println("count = "+hBaseRDD.count())
-
-    val gb = "relayDevIpAddr"
-    val middata = hBaseRDD.map{case (a,b) =>
-      var ky = ""
-      var vl = ""
-      for(kv:Cell<- b.rawCells())
-      {
-        val key = new String(kv.getQualifier())
-        val value = new String(kv.getValue())
-        if(key == gb) {
-          ky = value
-        }
-        else
-          vl += key +"="+value+","
-      }
-      (ky,vl)
-
-
-    }
-    middata.collect().foreach(x =>println(x))
-
-    val avgar = "cpuUtil"
-    val last=middata.map{case (a,b)=>
-      var u= 0.0
-      b.split(",").foreach(kvpairs => {
-        if(!kvpairs.isEmpty()){
-          val kv=kvpairs.split("=")
-          if(kv(0).contains(avgar))
-            u = kv(1).toFloat
-        }
-      }
-      )
-      (a,(u,1))
-    }
-    last.collect().foreach(x =>println(x))
-
-    last.reduceByKey((x,y)=> (x._1+y._1,x._2+y._2)).mapValues{ case (sum,count) =>
-      1.0*sum/count
-    }.collectAsMap().foreach(x=>println(x))
-
-
-
+//
+//    }
+//    middata.collect().foreach(x =>println(x))
+//
+//    val avgar = "cpuUtil"
+//    val last=middata.map{case (a,b)=>
+//      var u= 0.0
+//      b.split(",").foreach(kvpairs => {
+//        if(!kvpairs.isEmpty()){
+//          val kv=kvpairs.split("=")
+//          if(kv(0).contains(avgar))
+//            u = kv(1).toFloat
+//        }
+//      }
+//      )
+//      (a,(u,1))
+//    }
+//    last.collect().foreach(x =>println(x))
+//
+//    last.reduceByKey((x,y)=> (x._1+y._1,x._2+y._2)).mapValues{ case (sum,count) =>
+//      1.0*sum/count
+//    }.collectAsMap().foreach(x=>println(x))
+//
+//
+//
 
     sc.stop()
   }
