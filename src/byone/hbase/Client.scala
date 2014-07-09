@@ -41,10 +41,10 @@ object Client {
     //args
 
     val timerange = Vector("18/06/2014 14:40:11","18/06/2014 14:50:11")
-    val display = Vector("phRecvTime", "collectorId", "eventType", "relayDevIpAddr","pollIntv")
-    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL")
+    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","hwFanStatus")
+    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_STATUS")
     val filters = Vector("collectorId","<","10050")
-    val gpbylist = Set("relayDevIpAddr")
+    val gpbylist = Set("cpuUtil","hwFanStatus")
     val aggrelist = Vector("cpuUtil","collectorId")
     val condtion = Vector("avg")
 
@@ -123,41 +123,43 @@ object Client {
         *  get rdd
         */
     def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
-      val ret: RDD[(String, String)] = null
-      val vrdd = for (scan <- sl) yield {
-        val rdd = gethbaseRDD(scan)
-        ret ++ rdd.map(x =>gpBy(x,gp))
+      var ret: RDD[(String, String)] = sc.emptyRDD
+      for (scan <- sl)  {
+        val rdd =gethbaseRDD(scan).map(x =>gpBy(x,gp))
+        rdd.collect()
+        ret = ret ++ rdd
       }
+      //vrdd.foreach(x =>(ret = ret.union(x)))
       ret
     }
 
 
 
     //get hbase RDD and print it
-//    val s = getScan(scanCdn)
+    val s = getScan(scanCdn)
+
+    val hbaseRDD = getRDD(s,gpbylist)
+
+    hbaseRDD.collect().foreach(x =>println(x))
+    println("hbaseRDD count: " + hbaseRDD.count())
+
+//    val table = new HTable(conf,tablename)
+//    //delete 'uid' table
+//    val admin = new Man(conf)
+//    //admin.delete("uid")
+//    val ar = Array("d")
+//    admin.create("log_data",ar)
+
+//    val rw = new RW("uid",conf,sc)
+//    println(rw.get("0001"))
 //
-//    val hbaseRDD = getRDD(s,gpbylist)
+//    println(rw.get("0001","name"))
 //
-//    hbaseRDD.collect().foreach(x =>println(x))
-
-
-    val table = new HTable(conf,tablename)
-    //delete 'uid' table
-    val admin = new Man(conf)
-    //admin.delete("uid")
-    val ar = Array("d")
-    admin.create("log_data",ar)
-
-    val rw = new RW("uid",conf,sc)
-    println(rw.get("0001"))
-
-    println(rw.get("0001","name"))
-
-    val uid = new UniqueId(conf,sc)
-    //uid.readToCache("test/eventuid.txt")
-    //uid.Insert("uid")
-    println(uid.getName("0001"))
-    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
+//    val uid = new UniqueId(conf,sc)
+//    //uid.readToCache("test/eventuid.txt")
+//    //uid.Insert("uid")
+//    println(uid.getName("0001"))
+//    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
 
 
 
