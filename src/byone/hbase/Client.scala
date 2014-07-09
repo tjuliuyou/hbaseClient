@@ -23,6 +23,7 @@ object Client {
 
 
 
+
   /**
     *  main fun
     */
@@ -105,20 +106,26 @@ object Client {
       hBaseRDD
     }
 
-      /**
-     *  get merged hbase RDD
-     */
-    def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, Map[String,String])] = {
-      var ret: RDD[(String, Map[String,String])] = sc.emptyRDD
+    def MergeRDD(sl: Vector[Scan]) : RDD[(ImmutableBytesWritable, Result)] = {
+      var ret: RDD[(ImmutableBytesWritable, Result)] = sc.emptyRDD
       for (scan <- sl)  {
-        val rdd =gethbaseRDD(scan).map(x =>gpBy(x,gp))
+        val rdd =gethbaseRDD(scan)
         rdd.collect()
         ret = ret ++ rdd
       }
       ret
     }
 
-    def AggFilter(event: (String, Map[String,String]), args: Vector[String]): (String,Map[String, (Double, Int)]) ={
+
+
+      /**
+     *  get merged hbase RDD
+     */
+    def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, Map[String,String])] =
+      MergeRDD(sl).map(x =>gpBy(x,gp))
+
+
+    def PreAggre(event: (String, Map[String,String]), args: Vector[String]): (String,Map[String, (Double, Int)]) ={
       val retmap = Map[String, (Double,Int)]()
       args.foreach(ar => {
         if(event._2.contains(ar))
@@ -128,6 +135,30 @@ object Client {
       line
     }
 
+    def AggreRDD(x:Map[String, (Double,Int)],y:Map[String, (Double,Int)]): Map[String, (Double,Int)] = {
+      val ret = Map[String, (Double,Int)]()
+      x.foreach(subx =>{
+        if(y.contains(subx._1)) {
+          val sum = subx._2._1 + y(subx._1)._1
+          val count = subx._2._2 + y(subx._1)._2
+          ret += (subx._1->(sum,count))
+        }
+        else
+          ret += (subx._1->subx._2)
+      })
+      y.foreach(suby => {
+        if (!x.contains(suby._1)) {
+          ret += (suby._1->suby._2)
+        }
+      })
+      ret
+    }
+
+    def avg(sum: Map[String,(Double,Int)]):Map[String,(Double)] = {
+      val ret = Map[String,(Double)]()
+      sum.foreach(x => ret += (x._1->(x._2._1/x._2._2)))
+      ret
+    }
     //args
 
     val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
@@ -152,50 +183,17 @@ object Client {
     //hbaseRDD.collect().foreach(x =>println(x))
     println("hbaseRDD count: " + hbaseRDD.count())
 
-    val last = hbaseRDD.map(x =>AggFilter(x,aggitems))
+
+    val last = hbaseRDD.map(x =>PreAggre(x,aggitems))
 
     last.collect().foreach(x =>println(x))
 
-    val afterreduce = last.reduceByKey((x,y) => {
-      val ret = Map[String, (Double,Int)]()
-      x.foreach(subx =>{
-        if(y.contains(subx._1)) {
-          val sum = subx._2._1 + y(subx._1)._1
-          val count = subx._2._2 + y(subx._1)._2
-          ret += (subx._1->(sum,count))
-        }
-        else
-          ret += (subx._1->subx._2)
-      })
-      y.foreach(suby => {
-      if (!x.contains(suby._1)) {
-         ret += (suby._1->suby._2)
-        }
-      })
-
-//      for(sx <-x; sy <- y){
-//        if(sx._1.equals(sy._1))
-//        {
-//          val count = sx._2._2 +sy._2._2
-//          val sum = sx._2._1 +sy._2._1
-//          ret += (sx._1->(sum,count))
-//        }
-//        else
-//        {
-//         ret += (sx._1 -> sx._2)
-//         ret += (sy._1 -> sy._2)
-//        }
-//      }
-       ret
-    })
+    val afterreduce = last.reduceByKey((x,y) => AggreRDD(x,y))
 
     afterreduce.collect().foreach(x =>println(x))
-    afterreduce.mapValues{ sum =>
 
-      val ret = Map[String,(Double)]()
-      sum.foreach(x => ret += (x._1->(x._2._1/x._2._2)))
-      ret
-    }.collect().foreach(x =>println(x))
+
+    afterreduce.mapValues(avg).collect().foreach(x =>println(x))
 
 
     sc.stop()
