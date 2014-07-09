@@ -11,7 +11,8 @@ import org.apache.spark._
 import org.apache.spark.rdd.RDD
 import byone.hbase.utils.{DatePoint, ScanCovert}
 import scala.collection.mutable.Map
-
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.SparkContext._
 /**
  * Created by dream on 7/7/14.
  */
@@ -19,6 +20,8 @@ object Client {
 
   // scan to string
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
+
+
 
   /**
     *  main fun
@@ -75,9 +78,9 @@ object Client {
       /**
      *  map raw hbase date to (string,string) by grouplist
      */
-    def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,String) ={
+    def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,Map[String,String]) ={
+      val retmap = Map[String, String]()
       var ky = ""
-      var vl = ""
       for(kv:Cell<- raw._2.rawCells())
       {
         val key = new String(kv.getQualifier())
@@ -86,9 +89,9 @@ object Client {
           ky = value
         }
         else
-          vl += key +"="+value+","
+          retmap += (key->value)
       }
-      (ky,vl)
+      (ky,retmap)
     }
 
       /**
@@ -106,8 +109,8 @@ object Client {
       /**
      *  get merged hbase RDD
      */
-    def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
-      var ret: RDD[(String, String)] = sc.emptyRDD
+    def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, Map[String,String])] = {
+      var ret: RDD[(String, Map[String,String])] = sc.emptyRDD
       for (scan <- sl)  {
         val rdd =gethbaseRDD(scan).map(x =>gpBy(x,gp))
         rdd.collect()
@@ -116,15 +119,26 @@ object Client {
       //vrdd.foreach(x =>(ret = ret.union(x)))
       ret
     }
+
+    def AggFilter(event: (String, Map[String,String]), args: Vector[String]): (String,Map[String, (Double, Int)]) ={
+      val retmap = Map[String, (Double,Int)]()
+      args.foreach(ar => {
+        if(event._2.contains(ar))
+          retmap += (ar->(event._2(ar).toDouble,1))
+      })
+      val line = (event._1,retmap)
+      line
+    }
+
     //args
 
-    val timerange = Vector("18/06/2014 14:40:11","18/06/2014 14:50:11")
-    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","hwFanStatus")
-    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_STATUS")
+    val timerange = Vector("18/06/2014 14:20:11","18/06/2014 14:50:11")
+    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
+    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
     val filters = Vector("collectorId","<","10050")
-    val gpbylist = Set("cpuUtil","hwFanStatus")
-    val aggrelist = Vector("cpuUtil","collectorId")
-    val condtion = Vector("avg")
+    val gpbylist = Set("relayDevIpAddr")
+    val aggitems = Vector("cpuUtil","envTempOffHighDegC")
+    val aggars = Map("avg" -> Set("cpuUtil","envTempOffHighDegC"))
 
     //parser args
     val scanCdn = Map("range"  -> timerange,
@@ -137,9 +151,38 @@ object Client {
 
     val hbaseRDD = getRDD(s,gpbylist)
 
-    hbaseRDD.collect().foreach(x =>println(x))
+    //hbaseRDD.collect().foreach(x =>println(x))
     println("hbaseRDD count: " + hbaseRDD.count())
 
+    val last = hbaseRDD.map(x =>AggFilter(x,aggitems))
+
+    //last.collect().foreach(x =>println(x))
+
+    val afterreduce = last.reduceByKey((x,y) => {
+      val ret = Map[String, (Double,Int)]()
+      for(sx <-x; sy <- y){
+        if(sx._1.equals(sy._1))
+        {
+          val count = sx._2._2 +sy._2._2
+          val sum = sx._2._1 +sy._2._1
+          ret += (sx._1->(sum,count))
+        }
+        else
+        {
+         ret += (sx._1 -> sx._2)
+         ret += (sy._1 -> sy._2)
+        }
+      }
+      ret
+    })
+
+    afterreduce.collect().foreach(x =>println(x))
+    afterreduce.mapValues{ sum =>
+
+      val ret = Map[String,(Double)]()
+      sum.foreach(x => ret += (x._1->(x._2._1/x._2._2)))
+      ret
+    }.collect().foreach(x =>println(x))
 
 //
 //    val avgar = "cpuUtil"
