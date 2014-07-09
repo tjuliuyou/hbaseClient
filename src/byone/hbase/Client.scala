@@ -2,34 +2,30 @@ package byone.hbase
 
 import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.{Cell, HBaseConfiguration}
-import org.apache.hadoop.hbase.client.{Result, ResultScanner, Scan, HTable}
+import org.apache.hadoop.hbase.client.{Result, Scan}
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter
 import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.spark._
-import org.apache.spark.rdd.{RDD, NewHadoopRDD}
-import scala.collection.JavaConverters._
-import SparkContext._
+import org.apache.spark.rdd.RDD
 import byone.hbase.utils.{DatePoint, ScanCovert}
-import byone.hbase.core.{RW, Man}
 import scala.collection.mutable.Map
-import scala.xml.NodeSeq
 
 /**
  * Created by dream on 7/7/14.
  */
 object Client {
 
+  // scan to string
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
 
-  /*
+  /**
     *  main fun
     */
   def main(args: Array[String]) {
-    /*
-  *  glable conf
-  */
+
+    // glable conf
     val tablename = "log_data"
     val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
     val sc = new SparkContext(sparkConf)
@@ -38,25 +34,9 @@ object Client {
     conf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
     conf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
 
-    //args
-
-    val timerange = Vector("18/06/2014 14:40:11","18/06/2014 14:50:11")
-    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","hwFanStatus")
-    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_STATUS")
-    val filters = Vector("collectorId","<","10050")
-    val gpbylist = Set("cpuUtil","hwFanStatus")
-    val aggrelist = Vector("cpuUtil","collectorId")
-    val condtion = Vector("avg")
-
-    //parser args
-    val scanCdn = Map("range"  -> timerange,
-                      "event"  -> eventType,
-                      "back"   -> display,
-                      "filter" -> filters)
-
-    /*
-  *  get (startrow,stoprow) pairs
-  */
+      /**
+      *  get (startrow,stoprow) pairs
+      */
     def getRowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
       val area = Map[String, String]()
       if(event.isEmpty)
@@ -73,7 +53,7 @@ object Client {
       }
     }
 
-    /*
+      /**
       *  get Scan list for scan
       */
     def getScan(cdn: Map[String,Vector[String]]) : Vector[Scan] = {
@@ -91,7 +71,8 @@ object Client {
       }
       Vector() ++ sl //thans iterater to vector
     }
-    /**
+
+      /**
      *  map raw hbase date to (string,string) by grouplist
      */
     def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,String) ={
@@ -110,6 +91,9 @@ object Client {
       (ky,vl)
     }
 
+      /**
+     *  get base hbase RDD with one Scan
+     */
     def gethbaseRDD(scan: Scan): RDD[(ImmutableBytesWritable, Result)] = {
       conf.set(TableInputFormat.INPUT_TABLE, tablename)
       conf.set(TableInputFormat.SCAN,ScanToString(scan))
@@ -119,9 +103,9 @@ object Client {
       hBaseRDD
     }
 
-    /*
-        *  get rdd
-        */
+      /**
+     *  get merged hbase RDD
+     */
     def getRDD(sl: Vector[Scan], gp: Set[String]): RDD[(String, String)] = {
       var ret: RDD[(String, String)] = sc.emptyRDD
       for (scan <- sl)  {
@@ -132,8 +116,21 @@ object Client {
       //vrdd.foreach(x =>(ret = ret.union(x)))
       ret
     }
+    //args
 
+    val timerange = Vector("18/06/2014 14:40:11","18/06/2014 14:50:11")
+    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","hwFanStatus")
+    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_STATUS")
+    val filters = Vector("collectorId","<","10050")
+    val gpbylist = Set("cpuUtil","hwFanStatus")
+    val aggrelist = Vector("cpuUtil","collectorId")
+    val condtion = Vector("avg")
 
+    //parser args
+    val scanCdn = Map("range"  -> timerange,
+      "event"  -> eventType,
+      "back"   -> display,
+      "filter" -> filters)
 
     //get hbase RDD and print it
     val s = getScan(scanCdn)
@@ -143,55 +140,7 @@ object Client {
     hbaseRDD.collect().foreach(x =>println(x))
     println("hbaseRDD count: " + hbaseRDD.count())
 
-//    val table = new HTable(conf,tablename)
-//    //delete 'uid' table
-//    val admin = new Man(conf)
-//    //admin.delete("uid")
-//    val ar = Array("d")
-//    admin.create("log_data",ar)
 
-//    val rw = new RW("uid",conf,sc)
-//    println(rw.get("0001"))
-//
-//    println(rw.get("0001","name"))
-//
-//    val uid = new UniqueId(conf,sc)
-//    //uid.readToCache("test/eventuid.txt")
-//    //uid.Insert("uid")
-//    println(uid.getName("0001"))
-//    println(uid.getId("PH_DEV_MON_PROC_RESOURCE_UTIL"))
-
-
-
-//    val scan = s(0)
-//    conf.set(TableInputFormat.INPUT_TABLE, tablename)
-//    conf.set(TableInputFormat.SCAN,ScanToString(scan))
-//    //conf.set(TableInputFormat.)
-//    val hBaseRDD = sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
-//      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-//      classOf[org.apache.hadoop.hbase.client.Result])
-//
-//    println("count = "+hBaseRDD.count())
-//
-//    val gb = "relayDevIpAddr"
-//    val middata = hBaseRDD.map{case (a,b) =>
-//      var ky = ""
-//      var vl = ""
-//      for(kv:Cell<- b.rawCells())
-//      {
-//        val key = new String(kv.getQualifier())
-//        val value = new String(kv.getValue())
-//        if(key == gb) {
-//          ky = value
-//        }
-//        else
-//          vl += key +"="+value+","
-//      }
-//      (ky,vl)
-//
-//
-//    }
-//    middata.collect().foreach(x =>println(x))
 //
 //    val avgar = "cpuUtil"
 //    val last=middata.map{case (a,b)=>
