@@ -65,8 +65,7 @@ object Client {
       val area = getRowArea(cdn("range"),cdn("event"))
       val sl = area.map{rows =>
         val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
-        println(rows)
-        val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.EQUAL,"10050".getBytes)
+        val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.LESS,"10004".getBytes)
         sn.setFilter(fl)
         if(!cdn("back").isEmpty)
           cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
@@ -116,7 +115,6 @@ object Client {
         rdd.collect()
         ret = ret ++ rdd
       }
-      //vrdd.foreach(x =>(ret = ret.union(x)))
       ret
     }
 
@@ -132,12 +130,12 @@ object Client {
 
     //args
 
-    val timerange = Vector("18/06/2014 14:20:11","18/06/2014 14:50:11")
+    val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
     val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
     val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
     val filters = Vector("collectorId","<","10050")
     val gpbylist = Set("relayDevIpAddr")
-    val aggitems = Vector("cpuUtil","envTempOffHighDegC")
+    val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
     val aggars = Map("avg" -> Set("cpuUtil","envTempOffHighDegC"))
 
     //parser args
@@ -156,24 +154,39 @@ object Client {
 
     val last = hbaseRDD.map(x =>AggFilter(x,aggitems))
 
-    //last.collect().foreach(x =>println(x))
+    last.collect().foreach(x =>println(x))
 
     val afterreduce = last.reduceByKey((x,y) => {
       val ret = Map[String, (Double,Int)]()
-      for(sx <-x; sy <- y){
-        if(sx._1.equals(sy._1))
-        {
-          val count = sx._2._2 +sy._2._2
-          val sum = sx._2._1 +sy._2._1
-          ret += (sx._1->(sum,count))
+      x.foreach(subx =>{
+        if(y.contains(subx._1)) {
+          val sum = subx._2._1 + y(subx._1)._1
+          val count = subx._2._2 + y(subx._1)._2
+          ret += (subx._1->(sum,count))
         }
         else
-        {
-         ret += (sx._1 -> sx._2)
-         ret += (sy._1 -> sy._2)
+          ret += (subx._1->subx._2)
+      })
+      y.foreach(suby => {
+      if (!x.contains(suby._1)) {
+         ret += (suby._1->suby._2)
         }
-      }
-      ret
+      })
+
+//      for(sx <-x; sy <- y){
+//        if(sx._1.equals(sy._1))
+//        {
+//          val count = sx._2._2 +sy._2._2
+//          val sum = sx._2._1 +sy._2._1
+//          ret += (sx._1->(sum,count))
+//        }
+//        else
+//        {
+//         ret += (sx._1 -> sx._2)
+//         ret += (sy._1 -> sy._2)
+//        }
+//      }
+       ret
     })
 
     afterreduce.collect().foreach(x =>println(x))
@@ -184,28 +197,6 @@ object Client {
       ret
     }.collect().foreach(x =>println(x))
 
-//
-//    val avgar = "cpuUtil"
-//    val last=middata.map{case (a,b)=>
-//      var u= 0.0
-//      b.split(",").foreach(kvpairs => {
-//        if(!kvpairs.isEmpty()){
-//          val kv=kvpairs.split("=")
-//          if(kv(0).contains(avgar))
-//            u = kv(1).toFloat
-//        }
-//      }
-//      )
-//      (a,(u,1))
-//    }
-//    last.collect().foreach(x =>println(x))
-//
-//    last.reduceByKey((x,y)=> (x._1+y._1,x._2+y._2)).mapValues{ case (sum,count) =>
-//      1.0*sum/count
-//    }.collectAsMap().foreach(x=>println(x))
-//
-//
-//
 
     sc.stop()
   }

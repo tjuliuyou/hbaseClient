@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="64aa54ff-f875-4525-bd52-691602d650ef" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/byone/hbase/Client.scala" afterPath="$PROJECT_DIR$/src/byone/hbase/Client.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="HBaseClient.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,7 +69,7 @@
       <file leaf-file-name="Client.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/byone/hbase/Client.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="9" selection-start="5324" selection-end="5324" vertical-scroll-proportion="0.2674897" vertical-offset="3150" max-vertical-offset="4360">
+            <state line="57" column="0" selection-start="1823" selection-end="1823" vertical-scroll-proportion="0.4238683" vertical-offset="934" max-vertical-offset="4180">
               <folding>
                 <element signature="e#21#52#0" expanded="true" />
               </folding>
@@ -792,7 +791,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="9" selection-start="5324" selection-end="5324" vertical-scroll-proportion="0.2674897" vertical-offset="3150" max-vertical-offset="4360">
+        <state line="57" column="0" selection-start="1823" selection-end="1823" vertical-scroll-proportion="0.4238683" vertical-offset="934" max-vertical-offset="4180">
           <folding>
             <element signature="e#21#52#0" expanded="true" />
           </folding>
