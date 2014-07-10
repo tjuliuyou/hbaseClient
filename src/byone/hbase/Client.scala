@@ -142,20 +142,22 @@ object Client {
     //val aggr = new Aggre(hbaseRDD)
     val tm = Aggre.avg(hbaseRDD,aggitems)
       tm.collect().foreach(println)
-    //aggr.avg(aggitems).collect().foreach(x =>println(x))
-//    val last = hbaseRDD.map(x =>aggr.PreAggre(x,aggitems))
-//
-//    last.collect().foreach(x =>println(x))
-//
-//    val afterreduce = last.reduceByKey((x,y) => aggr.AggreRDD(x,y))
-//
-//    afterreduce.collect().foreach(x =>println(x))
 
-//    val sort =afterreduce.mapValues(aggr.avg1).collect().sortBy(r =>
-//      //r._2.foreach(x =>(x._2))
-//      (r._2("collectorId"),r._2("cpuUtil"))
-//    )
-//      sort.foreach(x =>println(x))
+
+//   val last = hbaseRDD.map(x =>Aggre.PreAggre(x,aggitems))
+//   last.collect().foreach(x =>println(x))
+////
+//   val afterreduce = last.reduceByKey((x,y) => Aggre.AggreRDD(x,y))
+////
+//   afterreduce.collect().foreach(x =>println(x))
+//   afterreduce.mapValues(Aggre.avg1).collect().foreach(println)
+
+    val sort =tm.collect().sortBy(r =>
+      (-r._2("collectorId"),-r._2("cpuUtil"))
+    )
+      sort.foreach(println)
+
+
     }
     sc.stop()
   }
