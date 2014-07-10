@@ -22,10 +22,6 @@ object Client {
 
   // scan to string
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()
-
-
-
-
   /**
     *  main fun
     */
@@ -39,25 +35,7 @@ object Client {
     conf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
     conf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
     conf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
-
-      /**
-      *  get (startrow,stoprow) pairs
-      */
-    def getRowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
-      val area = Map[String, String]()
-      if(event.isEmpty)
-        area
-      else {
-        val uid = new UniqueId(conf,sc)
-        for(pre <- event)
-        {
-          val p = uid.getId(pre)
-          area += ((p + DatePoint.dateToTs(range(1)) + "0000")->
-            ( p + DatePoint.dateToTs(range(0)) + "0064"))
-        }
-        area
-      }
-    }
+    val uidtable = new UniqueId(conf,sc)
 
       /**
       *  get Scan list for scan
@@ -65,7 +43,7 @@ object Client {
     def getScan(cdn: Map[String,Vector[String]]) : Vector[Scan] = {
       require(cdn.contains("range"))
       //val sl =
-      val area = getRowArea(cdn("range"),cdn("event"))
+      val area = DatePoint.getRowArea(cdn("range"),cdn("event"),uidtable)
       val sl = area.map{rows =>
         val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
         val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.LESS,"10004".getBytes)
@@ -80,19 +58,19 @@ object Client {
       /**
      *  map raw hbase date to (string,string) by grouplist
      */
-    def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,Map[String,String]) ={
+    def gpBy(raw: (ImmutableBytesWritable, Result), gp: Set[String]): (String,Map[String,String]) = {
       val retmap = Map[String, String]()
       var ky = ""
-      for(kv:Cell<- raw._2.rawCells())
-      {
-        val key = new String(kv.getQualifier())
-        val value = new String(kv.getValue())
-        if(gp.contains(key)) {
-          ky = value
+        for(kv:Cell<- raw._2.rawCells())
+        {
+          val key = new String(kv.getQualifier)
+          val value = new String(kv.getValue)
+          if(gp.contains(key)) {
+            ky = value
+          }
+          else
+            retmap += (key->value)
         }
-        else
-          retmap += (key->value)
-      }
       (ky,retmap)
     }
 
@@ -118,8 +96,6 @@ object Client {
       ret
     }
 
-
-
       /**
      *  get merged hbase RDD
      */
@@ -138,6 +114,7 @@ object Client {
     val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
     val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
     val filters = Vector("collectorId","<","10050")
+    //val gpbylist:Set[String] = Set.empty
     val gpbylist = Set("relayDevIpAddr")
     val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
     val aggars = Map("avg" -> Set("cpuUtil","envTempOffHighDegC"))
@@ -150,24 +127,36 @@ object Client {
 
     //get hbase RDD and print it
     val s = getScan(scanCdn)
+    if(gpbylist.isEmpty){
+      val hbaseRDD =getRDD(s,Set("d"))
+      hbaseRDD.collect().foreach(x =>println(x._2))
+      println("hbaseRDD count: " + hbaseRDD.count())
+    }
+    else {
 
     val hbaseRDD = getRDD(s,gpbylist)
-
     //hbaseRDD.collect().foreach(x =>println(x))
-    println("hbaseRDD count: " + hbaseRDD.count())
-
-    val last = hbaseRDD.map(x =>Aggre.PreAggre(x,aggitems))
-
-    last.collect().foreach(x =>println(x))
-
-    val afterreduce = last.reduceByKey((x,y) => Aggre.AggreRDD(x,y))
-
-    afterreduce.collect().foreach(x =>println(x))
+    //println("hbaseRDD count: " + hbaseRDD.count())
 
 
-    afterreduce.mapValues(Aggre.avg).collect().foreach(x =>println(x))
+    //val aggr = new Aggre(hbaseRDD)
+    val tm = Aggre.avg(hbaseRDD,aggitems)
+      tm.collect().foreach(println)
+    //aggr.avg(aggitems).collect().foreach(x =>println(x))
+//    val last = hbaseRDD.map(x =>aggr.PreAggre(x,aggitems))
+//
+//    last.collect().foreach(x =>println(x))
+//
+//    val afterreduce = last.reduceByKey((x,y) => aggr.AggreRDD(x,y))
+//
+//    afterreduce.collect().foreach(x =>println(x))
 
-
+//    val sort =afterreduce.mapValues(aggr.avg1).collect().sortBy(r =>
+//      //r._2.foreach(x =>(x._2))
+//      (r._2("collectorId"),r._2("cpuUtil"))
+//    )
+//      sort.foreach(x =>println(x))
+    }
     sc.stop()
   }
 }

@@ -37,11 +37,6 @@ class RW(table : String,conf : Configuration,sc : SparkContext) {
     for(kv: Cell<- res.rawCells())
       s = new String(kv.getQualifier) +"=" + new String(kv.getValue)
     s
-
-//    val res = tb.get(new Get(row.getBytes))
-//    for(kv:Cell <- res.rawCells())
-//      s = new String(kv.getQualifier) +"=" + new String(kv.getValue)
-//    s
   }
 
   def get(row : String, col : String) : String = {
