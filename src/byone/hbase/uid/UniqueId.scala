@@ -7,23 +7,24 @@ import org.apache.hadoop.hbase.Cell
 import org.apache.spark._
 import scala.collection.JavaConverters._
 import SparkContext._
-import byone.hbase.core.RW
+import byone.hbase.core.{Man, RW}
+import byone.hbase.utils.Conf
 
 /**
  * Created by dream on 7/7/14.
  */
-class UniqueId(conf : Configuration,sc : SparkContext) {
+class UniqueId extends java.io.Serializable {
   private val cached = scala.collection.mutable.Map[String, String]()
-  private val tb = new HTable(conf,"uid")
-  val scan = new Scan()
-  val ss : ResultScanner = tb.getScanner(scan)
-  val rw = new RW("uid",conf,sc)
+  //private val tb = new HTable(conf,"uid")
+ // val scan = new Scan()
+ // val ss : ResultScanner = tb.getScanner(scan)
+  val man = new Man
   def getName(id : String) : String = {
     if(cached.contains(id))
       cached(id)
     else
     {
-      val name = rw.get(id,"name")
+      val name = man.getV(id,"name","uid")
       cached += (name->id)
       name
     }
@@ -33,32 +34,32 @@ class UniqueId(conf : Configuration,sc : SparkContext) {
       cached(name)
     else
     {
-      val uid = rw.get(name,"id")
+      val uid = man.getV(name,"id","uid")
       cached += (uid->name)
       uid
     }
 
   }
-  def readToCache (file : String) {
-    val txtFile =sc.textFile(file)
-    val txtFileMap = txtFile.map({lines =>
-      val ev = lines.split(",")
-      (ev(0),ev(1))
-    }
-    )
-    txtFileMap.collect().foreach{case (a,b) =>cached +=(a->b) }
+//  def readToCache (file : String) {
+//    val txtFile =sc.textFile(file)
+//    val txtFileMap = txtFile.map({lines =>
+//      val ev = lines.split(",")
+//      (ev(0),ev(1))
+//    }
+//    )
+//    txtFileMap.collect().foreach{case (a,b) =>cached +=(a->b) }
 
-  }
+//  }
   def Insert(name : String) =
     cached.foreach{case(a,b) =>
-      rw.add(b,"d","name",a)
-      rw.add(a,"d","id",b)}
+      man.add(b,"d","name",a,"uid")
+      man.add(a,"d","id",b,"uid")}
 }
-
-object UniqueId {
-
-  def getId(name : String) : String = {
-  ""
-  }
-
-}
+//
+//object UniqueId {
+//
+//  def getId(name : String) : String = {
+//  ""
+//  }
+//
+//}

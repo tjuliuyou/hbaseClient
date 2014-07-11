@@ -10,7 +10,7 @@ object FilterParser {
   private val f = "d".getBytes
   //private val list = new FilterList(FilterList.Operator.MUST_PASS_ALL)
   private def opType(op: String) = op match {
-    case "<"  => { println("<: less ") ; CompareOp.LESS }
+    case "<"  => CompareOp.LESS 
     case "<=" => CompareOp.LESS_OR_EQUAL
     case "="  => CompareOp.EQUAL
     case ">=" => CompareOp.GREATER_OR_EQUAL
