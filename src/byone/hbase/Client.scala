@@ -13,7 +13,7 @@ import byone.hbase.utils.{DatePoint, ScanCovert}
 import scala.collection.mutable.Map
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.SparkContext._
-import byone.hbase.core.Aggre
+import byone.hbase.core.{FilterParser, Aggre}
 
 /**
  * Created by dream on 7/7/14.
@@ -44,9 +44,13 @@ object Client {
       require(cdn.contains("range"))
       //val sl =
       val area = DatePoint.getRowArea(cdn("range"),cdn("event"),uidtable)
+      val f1 = cdn("filter")(0)
+      //val fl = FilterParser.singleParser("collectorId","<","10004")
+      val fl = FilterParser.singleParser(f1)
       val sl = area.map{rows =>
         val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
-        val fl = new SingleColumnValueFilter("d".getBytes,"collectorId".getBytes,CompareOp.LESS,"10004".getBytes)
+
+
         sn.setFilter(fl)
         if(!cdn("back").isEmpty)
           cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
@@ -113,7 +117,7 @@ object Client {
     val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
     val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
     val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
-    val filters = Vector("collectorId","<","10050")
+    val filters = Vector("collectorId,<,10050")
     //val gpbylist:Set[String] = Set.empty
     val gpbylist = Set("relayDevIpAddr")
     val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
@@ -134,30 +138,15 @@ object Client {
     }
     else {
 
-    val hbaseRDD = getRDD(s,gpbylist)
-    //hbaseRDD.collect().foreach(x =>println(x))
-    //println("hbaseRDD count: " + hbaseRDD.count())
+      val hbaseRDD = getRDD(s,gpbylist)
 
+      val tm = Aggre.avg(hbaseRDD,aggitems)
+        tm.collect().foreach(println)
 
-    //val aggr = new Aggre(hbaseRDD)
-    val tm = Aggre.avg(hbaseRDD,aggitems)
-      tm.collect().foreach(println)
-
-
-//   val last = hbaseRDD.map(x =>Aggre.PreAggre(x,aggitems))
-//   last.collect().foreach(x =>println(x))
-////
-//   val afterreduce = last.reduceByKey((x,y) => Aggre.AggreRDD(x,y))
-////
-//   afterreduce.collect().foreach(x =>println(x))
-//   afterreduce.mapValues(Aggre.avg1).collect().foreach(println)
-
-    val sort =tm.collect().sortBy(r =>
-      (-r._2("collectorId"),-r._2("cpuUtil"))
-    )
-      sort.foreach(println)
-
-
+      val sort =tm.collect().sortBy(r =>
+        (-r._2("collectorId"),-r._2("cpuUtil"))
+      )
+        sort.foreach(println)
     }
     sc.stop()
   }

@@ -24,29 +24,27 @@ object Aggre {
 
   def AggreRDD(x:Map[String, (Double,Int)],y:Map[String, (Double,Int)]): Map[String, (Double,Int)] = {
     val ret = Map[String, (Double,Int)]()
-    for(subx <- x ; suby <- y) {
-      val sum = subx._2._1 + suby._2._1
-      val count = subx._2._2 + suby._2._2
+    for(subx <- x ) {
+      val sum = subx._2._1 + y(subx._1)._1
+      val count = subx._2._2 + y(subx._1)._2
       ret += (subx._1 ->(sum,count))
     }
+//  x.foreach(subx =>{
+//    if(y.contains(subx._1)) {
+//      val sum = subx._2._1 + y(subx._1)._1
+//      val count = subx._2._2 + y(subx._1)._2
+//      ret += (subx._1->(sum,count))
+//    }
+//    else
+//      ret += (subx._1->subx._2)
+//  })
+//  y.foreach(suby => {
+//    if (!x.contains(suby._1)) {
+//      ret += (suby._1->suby._2)
+//    }
+//  })
     ret
-//    x.foreach(subx =>{
-//      if(y.contains(subx._1)) {
-//        val sum = subx._2._1 + y(subx._1)._1
-//        val count = subx._2._2 + y(subx._1)._2
-//        ret += (subx._1->(sum,count))
-//      }
-//      else
-//        ret += (subx._1->subx._2)
-//    })
-//    y.foreach(suby => {
-//      if (!x.contains(suby._1)) {
-//        ret += (suby._1->suby._2)
-//      }
-//    })
-
   }
-
 
   def avg(rdd : RDD[(String, Map[String,String])],agrs: Vector[String]): RDD[(String,Map[String,(Double)])] = {
 
@@ -63,6 +61,8 @@ object Aggre {
       ret
     }
     val pre = rdd.map(x =>PreAggre(x,agrs))
+    //pre.collect().foreach(println)
+    //pre.reduceByKey((x,y) => AggreRDD(x,y)).collect().foreach(println)
     val ret = pre.reduceByKey((x,y) => AggreRDD(x,y)).mapValues(calc)
     ret
   }
