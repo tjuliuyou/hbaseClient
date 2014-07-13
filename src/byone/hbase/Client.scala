@@ -18,13 +18,11 @@ object Client {
     *  main fun
     */
   def main(args: Array[String]) {
-    val conf = Conf.conf
-    val tablename = Conf.tablename
-    val sc = Conf.sc
 
     //args
 
-    val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
+    //val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
+    val timerange = Vector("12/07/2014 11:33:11","12/07/2014 11:35:11")
     val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
     val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
     //val eventType = Vector("PH_DEV_MON_HW_TEMP")
@@ -41,7 +39,7 @@ object Client {
       "filter" -> filters)
 
     //get hbase RDD and print it
-    val rw = new RW(tablename)
+    val rw = new RW(Conf.tablename)
     val s = rw.getScan(scanCdn)
     if(gpbylist.isEmpty){
       val hbaseRDD =RW.getRDD(s,Set("d"))
@@ -50,9 +48,9 @@ object Client {
     }
     else {
 
-      val hbaseRDD = RW.getRDD(s,gpbylist)
-      //hbaseRDD.collect().foreach(println)
-      println("RW count: " + hbaseRDD.count())
+//      val hbaseRDD = RW.getRDD(s,gpbylist)
+//      //hbaseRDD.collect().foreach(println)
+//      println("RW count: " + hbaseRDD.count())
 
       val hbaseRDD2 = rw.getRDD(s,gpbylist)
       //hbaseRDD.collect().foreach(println)
@@ -74,6 +72,6 @@ object Client {
 
 
     }
-    sc.stop()
+    Conf.sc.stop()
   }
 }

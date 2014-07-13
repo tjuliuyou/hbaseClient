@@ -15,9 +15,6 @@ import byone.hbase.utils.Conf
  */
 class UniqueId extends java.io.Serializable {
   private val cached = scala.collection.mutable.Map[String, String]()
-  //private val tb = new HTable(conf,"uid")
- // val scan = new Scan()
- // val ss : ResultScanner = tb.getScanner(scan)
   val man = new Man
   def getName(id : String) : String = {
     if(cached.contains(id))
@@ -40,26 +37,19 @@ class UniqueId extends java.io.Serializable {
     }
 
   }
-//  def readToCache (file : String) {
-//    val txtFile =sc.textFile(file)
-//    val txtFileMap = txtFile.map({lines =>
-//      val ev = lines.split(",")
-//      (ev(0),ev(1))
-//    }
-//    )
-//    txtFileMap.collect().foreach{case (a,b) =>cached +=(a->b) }
+  def readToCache (file : String) {
+    val txtFile =Conf.sc.textFile(file)
+    val txtFileMap = txtFile.map({lines =>
+      val ev = lines.split(",")
+      (ev(0),ev(1))
+    }
+    )
+    txtFileMap.collect().foreach{case (a,b) =>cached +=(a->b) }
 
-//  }
+  }
   def Insert(name : String) =
-    cached.foreach{case(a,b) =>
+    cached.foreach{ case(a,b) =>
       man.add(b,"d","name",a,"uid")
-      man.add(a,"d","id",b,"uid")}
+      man.add(a,"d","id",b,"uid")
+    }
 }
-//
-//object UniqueId {
-//
-//  def getId(name : String) : String = {
-//  ""
-//  }
-//
-//}

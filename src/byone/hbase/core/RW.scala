@@ -19,12 +19,10 @@ import org.apache.hadoop.hbase.mapreduce.TableInputFormat
  * Created by dream on 7/7/14.
  */
 class RW(table : String) extends java.io.Serializable {
-  //val conf = Conf.conf
+
   val tablename = Conf.tablename
-  //val sc = Conf.sc
 
   private val uid = new UniqueId
- // private val tablename = table
 
   def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
   /**
