@@ -1,11 +1,12 @@
 {
 	"test1":
 	{
-		"timerange"	:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
-		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
+		"timerange"	:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
+		"display"	:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
 		"eventType"	:{},
-		"filter"	:{},
-		"groupby"	:{}
+		"filter"	:[{"collectorId,<,10050"}],
+		"groupby"	:["relayDevIpAddr"],
+		"aggregate" :[{"avg":["cpuUtil","envTempOffHighDegC","collectorId"]}]
 	},
 	"test2":
 	{
@@ -13,7 +14,8 @@
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL",
 		"filter"	:{},
-		"groupby"	:"relayDevIpAddr"
+		"groupby"	:"relayDevIpAddr",
+		"aggregate" :{}
 	},
 	"test3":
 	{
@@ -21,8 +23,8 @@
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr cpuUtil",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL",
 		"filter"	:"(SingleColumnValueFilter ('d','cpuUtil',>,'binary:0.5'))",
-		"groupby"	:{}
-
+		"groupby"	:{},
+        "aggregate" :{}
 	},
 	"test4":	
 	{
@@ -30,8 +32,8 @@
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:"PH_DEV_MON_SYS_PER_CPU_UTIL PH_DEV_MON_PING_STAT",
 		"filter"	:"(SingleColumnValueFilter ('d','collectorId',>,'binary:10050'))",
-		"groupby"	:{}
-		
+		"groupby"	:{},
+		"aggregate" :{}
 	},
 	"test5":	
 	{
@@ -39,8 +41,8 @@
 		"display"	:"phRecvTime collectorId eventType relayDevIpAddr",
 		"eventType"	:{},
 		"filter"	:"(SingleColumnValueFilter ('d','rawEventMsg',=,'substring:A2-BB-BJ-CH')) AND (SingleColumnValueFilter ('d','collectorId',>,'binary:10050'))",
-		"groupby"	:{}
-		
+		"groupby"	:{},
+		"aggregate" :{}
 	},
 	"test6":	
 	{
@@ -49,7 +51,7 @@
 		"eventType"	:{},
 		"filter"	:"(SingleColumnValueFilter ('d','collectorId',>,'binary:10050'))",
 		"groupby"	:{}
-		
+		"aggregate" :{}
 	}
 
 	

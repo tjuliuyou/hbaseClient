@@ -12,6 +12,7 @@ import scala.collection.mutable.Map
 import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.filter.ParseFilter
 
 
 /**
@@ -25,6 +26,7 @@ class RwRDD(table : String) extends java.io.Serializable {
 
   private def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
 
+  private def hbaseFilter(in:String) = new ParseFilter().parseFilterString(in)
   /**
    *  get (startrow,stoprow) pairs
    */
@@ -47,16 +49,13 @@ class RwRDD(table : String) extends java.io.Serializable {
     area
   }
 
-
   /**
    *  get Scan list for scan
    */
-  def scanList = (cdn: Map[String,Vector[String]]) => {
+  def scanList = (cdn: Map[String,Vector[String]],fltr: String) => {
     require(cdn.contains("range"))
-    //val sl =
+    val fl = hbaseFilter(fltr)
     val area = rowArea(cdn("range"),cdn("event"))
-    val f1 = cdn("filter")(0)
-    val fl = FilterParser.singleParser(f1)
     val sl = area.map{rows =>
       val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
       sn.setFilter(fl)
@@ -122,6 +121,7 @@ class RwRDD(table : String) extends java.io.Serializable {
   }
 
 }
+
 
 object RwRDD {
   def ScanToString(scan : Scan) : String = new ScanCovert(scan).coverToScan()

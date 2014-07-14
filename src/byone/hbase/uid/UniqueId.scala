@@ -2,8 +2,7 @@ package byone.hbase.uid
 
 import org.apache.spark._
 import scala.collection.JavaConverters._
-import SparkContext._
-import byone.hbase.core.{Man, RwRDD}
+import byone.hbase.core.Man
 import byone.hbase.utils.Conf
 import java.lang.String
 import org.apache.hadoop.hbase.client.{Result, Scan, HTable}

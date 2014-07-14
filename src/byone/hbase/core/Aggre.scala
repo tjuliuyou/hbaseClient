@@ -6,7 +6,7 @@ import org.apache.spark.SparkContext._
 /**
  * Created by dream on 7/10/14.
  */
-object Aggre {
+class Aggre extends java.io.Serializable {
 
   def PreAggre(event: (String, Map[String,String]), args: Vector[String]): (String,Map[String, (Double, Int)]) ={
     val retmap = Map[String, (Double,Int)]()
