@@ -5,7 +5,7 @@ import org.apache.spark._
 import byone.hbase.utils.{Conf, ScanCovert}
 import scala.collection.mutable.Map
 import org.apache.spark.SparkContext._
-import byone.hbase.core.{RW, Aggre}
+import byone.hbase.core.{RwRDD, Aggre}
 
 /**
  * Created by dream on 7/7/14.
@@ -21,11 +21,11 @@ object Client {
 
     //args
 
-    //val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
-    val timerange = Vector("12/07/2014 11:33:11","12/07/2014 11:35:11")
+    val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
+    //val timerange = Vector("12/07/2014 11:33:11","12/07/2014 11:35:11")
     val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
-    val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
-    //val eventType = Vector("PH_DEV_MON_HW_TEMP")
+    val eventType: Vector[String] = Vector.empty
+    //val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
     val filters = Vector("collectorId,<,10050")
     //val gpbylist:Set[String] = Set.empty
     val gpbylist = Set("relayDevIpAddr")
@@ -39,10 +39,10 @@ object Client {
       "filter" -> filters)
 
     //get hbase RDD and print it
-    val rw = new RW(Conf.tablename)
-    val s = rw.getScan(scanCdn)
+    val rw = new RwRDD(Conf.tablename)
+    val s = rw.scanList(scanCdn)
     if(gpbylist.isEmpty){
-      val hbaseRDD =RW.getRDD(s,Set("d"))
+      val hbaseRDD =RwRDD.getRDD(s,Set("d"))
       hbaseRDD.collect().foreach(x =>println(x._2))
       println("hbaseRDD count: " + hbaseRDD.count())
     }
@@ -52,7 +52,7 @@ object Client {
 //      //hbaseRDD.collect().foreach(println)
 //      println("RW count: " + hbaseRDD.count())
 
-      val hbaseRDD2 = rw.getRDD(s,gpbylist)
+      val hbaseRDD2 = rw.get(s,gpbylist)
       //hbaseRDD.collect().foreach(println)
       println("rw count: " + hbaseRDD2.count())
 

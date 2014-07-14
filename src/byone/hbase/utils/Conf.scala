@@ -15,4 +15,7 @@ object Conf {
   conf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")
   conf.addResource("/home/dream/workspace/scalahbaseClient/conf/yarn-site.xml")
   conf.addResource("/home/dream/workspace/scalahbaseClient/conf/mapred-site.xml")
+
+  val UIDLENGTH = 4
+
 }

@@ -1,14 +1,14 @@
 package byone.hbase.uid
 
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.hbase.client.{ResultScanner, Scan, HTable}
-import org.apache.hadoop.hbase.Cell
-
 import org.apache.spark._
 import scala.collection.JavaConverters._
 import SparkContext._
-import byone.hbase.core.{Man, RW}
+import byone.hbase.core.{Man, RwRDD}
 import byone.hbase.utils.Conf
+import java.lang.String
+import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
+import org.apache.hadoop.hbase.filter.KeyOnlyFilter
+import org.apache.hadoop.hbase.Cell
 
 /**
  * Created by dream on 7/7/14.
@@ -16,27 +16,45 @@ import byone.hbase.utils.Conf
 class UniqueId extends java.io.Serializable {
   private val cached = scala.collection.mutable.Map[String, String]()
   val man = new Man
-  def getName(id : String) : String = {
-    if(cached.contains(id))
-      cached(id)
+  def name(uid : String) : String = {
+    if(cached.contains(uid))
+      cached(uid)
     else
     {
-      val name = man.getV(id,"name","uid")
-      cached += (name->id)
+      val name = man.getV(uid,"name","uid")
+      cached += (name->uid)
       name
     }
   }
-  def getId(name : String) : String = {
-    if(cached.contains(name))
-      cached(name)
+  def id(uname : String) : String = {
+    if(cached.contains(uname))
+      cached(uname)
     else
     {
-      val uid = man.getV(name,"id","uid")
-      cached += (uid->name)
+      val uid = man.getV(uname,"id","uid")
+      cached += (uid->uname)
       uid
     }
-
   }
+
+  def ids : List[String] = {
+    var ret: List[String] = List.empty
+    val tb = new HTable(Conf.conf,"uid")
+    val scan = new Scan()
+    val fl = new KeyOnlyFilter ()
+    scan.setFilter(fl)
+    val ss = tb.getScanner(scan)
+    for(res:Result <- ss.asScala)
+      for(kv:Cell <- res.rawCells()){
+        val id = new String(kv.getRow)
+        if(id.length.equals(Conf.UIDLENGTH))
+        ret = ret :+ (new String(kv.getRow))
+      }
+    ss.close()
+    ret.sorted
+  }
+
+
   def readToCache (file : String) {
     val txtFile =Conf.sc.textFile(file)
     val txtFileMap = txtFile.map({lines =>
