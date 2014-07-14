@@ -9,7 +9,11 @@ import org.apache.hadoop.hbase.HBaseConfiguration
 object Conf {
   // glable conf
   val tablename = "log_data"
-  val sparkConf = new SparkConf().setAppName("HBaseTest").setMaster("local")
+  val sparkConf = new SparkConf()
+                      .setAppName("HBaseTest")
+                      .setMaster("local")
+                      .setSparkHome("/opt/spark")
+                      //.setJars(SparkContext.jarOfClass(this.getObject))
   val sc = new SparkContext(sparkConf)
   val conf = HBaseConfiguration.create()
   conf.addResource("/home/dream/workspace/scalahbaseClient/conf/hbase-site.xml")

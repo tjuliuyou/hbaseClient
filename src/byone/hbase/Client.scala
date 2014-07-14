@@ -22,8 +22,8 @@ object Client {
     val filter = "SingleColumnValueFilter ('d','collectorId',=,'binary:10050')"
     //val gpbylist:Set[String] = Set.empty
     val gpbylist = Set("relayDevIpAddr")
-    val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
-    val aggars = Map("avg" -> Set("cpuUtil","envTempOffHighDegC"))
+   // val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
+    val aggars = ("avg",Vector("cpuUtil","envTempOffHighDegC","collectorId"))
 
     //parser args
     val scanCdn = Map("range"  -> timerange,
@@ -42,8 +42,10 @@ object Client {
 
       val hbaseRDD2 = rw.get(s,gpbylist)
       println("rw count: " + hbaseRDD2.count)
-      val ag = new Aggre
-      val tm = ag.avg(hbaseRDD2,aggitems)
+      val ag = new Aggre(hbaseRDD2)
+      //val tm = ag.avg(aggitems)
+      //aggars.foreach{ase (x,y)=>ag.exec(x)(y)}
+      val tm = ag.exec(aggars._1)(aggars._2)
       println("aggre: " + tm.count)
       tm.collect().foreach(println)
 
