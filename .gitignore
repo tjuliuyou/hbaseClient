@@ -1,6 +1,5 @@
 *.class
 *.log
-conf/hbase-site.*
 # sbt specific
 dist/*
 target/
@@ -9,5 +8,6 @@ src_managed/
 project/boot/
 project/plugins/project/
 out
+conf/
 # Scala-IDE specific
 .scala_dependencies

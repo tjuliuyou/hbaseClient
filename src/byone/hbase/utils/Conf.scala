@@ -2,7 +2,6 @@ package byone.hbase.utils
 
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.hadoop.hbase.HBaseConfiguration
-import java.lang.String
 import scala.Predef.String
 
 /**

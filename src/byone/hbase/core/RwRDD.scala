@@ -103,16 +103,6 @@ class RwRDD(table : String) extends java.io.Serializable {
     hBaseRDD
   }
 
-//  def MergeRDD(sl: Vector[Scan]) : RDD[(ImmutableBytesWritable, Result)] = {
-//    var ret: RDD[(ImmutableBytesWritable, Result)] = sc.emptyRDD
-//    for (scan <- sl)  {
-//      val rdd =gethbaseRDD(scan)
-//      rdd.collect()
-//      ret = ret ++ rdd
-//    }
-//    ret
-//  }
-
   /**
    *  get and merge hbase RDD
    */

@@ -2,7 +2,6 @@ package byone.hbase.core
 
 import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
 import org.apache.hadoop.hbase.client._
-import org.apache.hadoop.conf.Configuration
 import java.lang.String
 import byone.hbase.utils.Conf
 import scala.collection.JavaConverters._
