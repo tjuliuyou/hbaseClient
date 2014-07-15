@@ -1,8 +1,7 @@
 package byone.hbase.uid
 
-import org.apache.spark._
 import scala.collection.JavaConverters._
-import byone.hbase.core.Man
+import byone.hbase.core.Table
 import byone.hbase.utils.Conf
 import java.lang.String
 import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
@@ -14,7 +13,7 @@ import org.apache.hadoop.hbase.Cell
  */
 class UniqueId extends java.io.Serializable {
   private val cached = scala.collection.mutable.Map[String, String]()
-  val man = new Man
+  val man = new Table
   def name(uid : String) : String = {
     if(cached.contains(uid))
       cached(uid)

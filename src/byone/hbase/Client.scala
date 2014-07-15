@@ -2,7 +2,6 @@ package byone.hbase
 
 import byone.hbase.core.{RwRDD, Aggre}
 import byone.hbase.utils.{Args, Conf}
-import scala.collection.mutable.Map
 import net.liftweb.json.JsonParser._
 
 /**
@@ -49,6 +48,6 @@ object Client {
       }
     }
 
-  Conf.sc.stop()
+    Conf.sc.stop()
   }
 }

@@ -27,8 +27,8 @@ object Conf {
 }
 
 case class Args(Range: List[String]
-                ,Items: List[String]
-                ,Events: List[String]
-                ,Filter:  String
-                ,Groupby: List[String]
-                ,Aggres: List[List[String]])
+            ,Items: List[String]
+            ,Events: List[String]
+            ,Filter:  String
+            ,Groupby: List[String]
+            ,Aggres: List[List[String]])

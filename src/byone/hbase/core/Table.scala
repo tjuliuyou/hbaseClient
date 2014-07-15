@@ -10,38 +10,38 @@ import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/7/14.
  */
-class Man extends java.io.Serializable {
-  private val table = "log_data"
-  //private val admin = new HBaseAdmin(conf)
+class Table extends java.io.Serializable {
+  private val tablename = "log_data"
+
   // create usual table
-  def create(table : String, familys : Array[String]) {
+  def create(tablename : String, familys : Array[String]) {
     val admin = new HBaseAdmin(Conf.conf)
-    if(admin.tableExists(table))
-      println("table '" + table + "' already exists")
+    if(admin.tableExists(tablename))
+      println("table '" + tablename + "' already exists")
     else
     {
-      val tableDesc : HTableDescriptor = new HTableDescriptor(table)
+      val tableDesc : HTableDescriptor = new HTableDescriptor(tablename)
       for(fc <- familys)
         tableDesc.addFamily(new HColumnDescriptor(fc))
       admin.createTable(tableDesc)
-      println("create table: '" +table + "' successfully.")
+      println("create table: '" +tablename + "' successfully.")
     }
   }
 
   //delete table
-  def delete(table : String) {
+  def delete(tablename : String) {
     val admin = new HBaseAdmin(Conf.conf)
-    if(!admin.tableExists(table))
-      println("table: '" + table + "' does not exists")
+    if(!admin.tableExists(tablename))
+      println("table: '" + tablename + "' does not exists")
     else
     {
-      admin.disableTable(table)
-      admin.deleteTable(table)
-      println("delete table: " + table + " successfully.")
+      admin.disableTable(tablename)
+      admin.deleteTable(tablename)
+      println("delete table: " + tablename + " successfully.")
     }
   }
 
-  def add(row : String, fc : String, col : String, vl : String,tab:String = table) {
+  def add(row : String, fc : String, col : String, vl : String,tab:String = tablename) {
 
     val tb = new HTable(Conf.conf,tab)
     val pt = new Put(row.getBytes)
@@ -50,10 +50,18 @@ class Man extends java.io.Serializable {
     println("put " + row +" to table " + tab + " successfully.")
   }
 
-  def adds(){}
+  def adds(row: String,kvs: Map[String, String],fc: String = "d", tab: String = tablename) {
+    val tb = new HTable(Conf.conf,tab)
+    val pl = for (kv <- kvs) yield {
+      val pt = new Put(row.getBytes)
+      pt.add(fc.getBytes,kv._1.getBytes,kv._2.getBytes)
+    }
+    tb.put(pl.toList.asJava)
+    println("put " + row +" to table " + tab + " successfully.")
+  }
 
   //get row
-  def get(row : String,tab:String = table) : String = {
+  def get(row : String,tab:String = tablename) : String = {
     val tb = new HTable(Conf.conf,tab)
     var s=""
     val gt = new Get(row.getBytes)
@@ -64,7 +72,7 @@ class Man extends java.io.Serializable {
     s
   }
 
-  def getV(row : String, col : String,tab:String = table) : String = {
+  def getV(row : String, col : String,tab:String = tablename) : String = {
     val tb = new HTable(Conf.conf,tab)
     var s=""
     val gt = new Get(row.getBytes)
@@ -76,7 +84,7 @@ class Man extends java.io.Serializable {
     s
   }
 
-  def scanV(scan: Scan,tab:String = table):Set[String] = {
+  def scanV(scan: Scan,tab:String = tablename):Set[String] = {
     var ret: Set[String] = Set.empty
     val tb = new HTable(Conf.conf,tab)
     val ss = tb.getScanner(scan)
@@ -87,9 +95,4 @@ class Man extends java.io.Serializable {
     ret
   }
 
-}
-
-object Man {
-  //val conf =
-  //def create(table : String) = new Manage(conf).create(table)
 }
