@@ -1,14 +1,14 @@
 {
-	"test1":
+	"test0":
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
 		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
-		"Filter"	:"SingleColumnValueFilter ('d','collectorId',=,'binary:10050')",
+		"Filter"	:"SingleColumnValueFilter ('d','collectorId',>,'binary:10056')",
 		"Groupby"	:["relayDevIpAddr"],
-		"Aggres" 	:[["avg","cpuUtil","envTempOffHighDegC","collectorId"]]
+		"Aggres" 	:[["avg","cpuUtil","envTempOffHighDegC"]]
 	},
-	"test2":
+	"test1":
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
@@ -17,7 +17,7 @@
 		"Groupby"	:["relayDevIpAddr"],
 		"Aggres" 	:null
 	},
-	"test3":
+	"test2":
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
@@ -26,7 +26,7 @@
 		"Groupby"	:["relayDevIpAddr"],
         "Aggres" 	:[["avg","cpuUtil"]]
 	},
-	"test4":	
+	"test3":	
 	{
 		"Range"		:["18/06/2014 14:40:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
@@ -35,7 +35,7 @@
 		"Groupby"	:null,
 		"Aggres" 	:null
 	},
-	"test5":	
+	"test4":	
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
@@ -44,7 +44,7 @@
 		"Groupby"	:null,
 		"Aggres" 	:null
 	},
-	"test6":	
+	"test5":	
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
@@ -53,13 +53,22 @@
 		"Groupby"	:null,
 		"Aggres" 	:null
 	},
-	"test7":	
+	"test6":	
 	{
 		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
 		"Events"	:null,
-		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'binary:10010'))",
+		"Filter"	:"null",
 		"Groupby"	:null,
 		"Aggres" 	:null
-	}
+	},
+	"test7":
+	{
+		"Range"		:["18/06/2014 14:47:11","18/06/2014 14:50:11"],
+		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
+		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
+		"Filter"	:"SingleColumnValueFilter ('d','collectorId',>,'binary:10056')",
+		"Groupby"	:["relayDevIpAddr"],
+		"Aggres" 	:[["max","cpuUtil","envTempOffHighDegC"]]
+	},
 }
