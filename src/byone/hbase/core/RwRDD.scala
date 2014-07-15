@@ -1,6 +1,6 @@
 package byone.hbase.core
 
-import byone.hbase.utils.{Conf, DatePoint, ScanCovert}
+import byone.hbase.utils.{Args, Conf, DatePoint, ScanCovert}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.Cell
 import org.apache.spark.SparkContext
@@ -30,7 +30,7 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  get (startrow,stoprow) pairs
    */
-  private def rowArea(range: Vector[String], event: Vector[String]): Map[String,String] = {
+  private def rowArea(range: List[String], event: List[String]): Map[String,String] = {
     val area = Map[String, String]()
     val startTs =  DatePoint.toTs(range(1)) + "0000"
     val stopTs = DatePoint.toTs(range(0)) + "0064"
@@ -52,15 +52,15 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  get Scan list for scan
    */
-  def scanList = (cdn: Map[String,Vector[String]],fltr: String) => {
-    require(cdn.contains("range"))
-    val fl = hbaseFilter(fltr)
-    val area = rowArea(cdn("range"),cdn("event"))
+  def scanList = (args: Args) => {
+    require(!args.Range.isEmpty)
+    val fl = hbaseFilter(args.Filter)
+    val area = rowArea(args.Range,args.Events)
     val sl = area.map{rows =>
       val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
       sn.setFilter(fl)
-      if(!cdn("back").isEmpty)
-        cdn("back").foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
+      if(!args.Items.isEmpty)
+        args.Items.foreach(dis =>sn.addColumn("d".getBytes,dis.getBytes))
       sn
     }
     Vector() ++ sl //thans iterater to vector
@@ -69,7 +69,7 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  map raw hbase date to (string,string) by grouplist
    */
-  def gpBy = (raw: (ImmutableBytesWritable, Result), gp: Set[String]) => {
+  def gpBy = (raw: (ImmutableBytesWritable, Result), gp: List[String]) => {
     val retmap = Map[String, String]()
     var ky = ""
     for(kv:Cell<- raw._2.rawCells())
@@ -110,7 +110,10 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  get merged hbase RDD
    */
-  def get = (sl: Vector[Scan], gp: Set[String])=>{
+  //def get = (sl: Vector[Scan], gp: List[String])=>{
+  def get = (args: Args)=>{
+    val sl = scanList(args)
+    val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
     var ret: RDD[(String, Map[String,String])] = Conf.sc.emptyRDD
     for (scan <- sl)  {
       val rdd =gethbaseRDD(scan).map(x =>gpBy(x,gp))

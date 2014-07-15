@@ -1,62 +1,54 @@
 package byone.hbase
 
 import byone.hbase.core.{RwRDD, Aggre}
-import byone.hbase.utils.Conf
+import byone.hbase.utils.{Args, Conf}
 import scala.collection.mutable.Map
+import net.liftweb.json.JsonParser._
 
 /**
  * Created by dream on 7/7/14.
  */
 object Client {
-  /**
-    *  main func
-    */
+
   def main(args: Array[String]) {
 
-    //args
-    val timerange = Vector("18/06/2014 14:47:11","18/06/2014 14:50:11")
-    //val timerange = Vector("12/07/2014 11:33:11","12/07/2014 11:35:11")
-    val display = Vector("collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC")
-    val eventType: Vector[String] = Vector.empty
-    //val eventType = Vector("PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP")
-    val filter = "SingleColumnValueFilter ('d','collectorId',=,'binary:10050')"
-    //val gpbylist:Set[String] = Set.empty
-    val gpbylist = Set("relayDevIpAddr")
-   // val aggitems = Vector("cpuUtil","envTempOffHighDegC","collectorId")
-    val aggars = ("avg",Vector("cpuUtil","envTempOffHighDegC","collectorId"))
+    implicit val formats = net.liftweb.json.DefaultFormats
+    val source = scala.io.Source.fromFile("test/test.json").mkString
+    //println(source)
+    val m = parse(source)
+    val testlist: List[Args] = m.children.map(_.extract[Args])
+    testlist.foreach(x => println(x))
 
-    //parser args
-    val scanCdn = Map("range"  -> timerange,
-      "event"  -> eventType,
-      "back"   -> display)
+    // this test
+    val thistest = testlist(5)
 
-    //get hbase RDD and print it
     val rw = new RwRDD(Conf.tablename)
-    val s = rw.scanList(scanCdn,filter)
-    if(gpbylist.isEmpty){
-      val hbaseRDD =rw.get(s,Set("d"))
+    val hbaseRDD =rw.get(thistest)
+
+    if(thistest.Groupby.isEmpty){
+
       hbaseRDD.collect().foreach(x =>println(x._2))
       println("hbaseRDD count: " + hbaseRDD.count())
     }
-    else {
-
-      val hbaseRDD2 = rw.get(s,gpbylist)
-      println("rw count: " + hbaseRDD2.count)
-      val ag = new Aggre(hbaseRDD2)
-      //val tm = ag.avg(aggitems)
-      //aggars.foreach{ase (x,y)=>ag.exec(x)(y)}
-      val tm = ag.exec(aggars._1)(aggars._2)
-      println("aggre: " + tm.count)
-      tm.collect().foreach(println)
-
-    val sort =tm.collect().sortBy(r =>
-      (-r._2("collectorId"),-r._2("cpuUtil"))
-    )
-    sort.foreach(println)
-
-
-
+    else
+    {
+      if(thistest.Aggres.isEmpty){
+        hbaseRDD.collect().foreach(println)
+        println("hbaseRDD count: " + hbaseRDD.count())
+      }
+      else
+      {
+        val ag = new Aggre(hbaseRDD)
+        val cond = thistest.Aggres(0)
+        val ar = cond.drop(1)
+        val tm = ag.exec(cond.head)(ar)
+        println("aggre: " + tm.count)
+        tm.collect().foreach(println)
+        val sort =tm.collect().sortBy(r => r._2.values.map{case x=> -x})
+        sort.foreach(println)
+      }
     }
-    Conf.sc.stop()
+
+  Conf.sc.stop()
   }
 }

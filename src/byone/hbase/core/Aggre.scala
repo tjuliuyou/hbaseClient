@@ -9,7 +9,7 @@ import org.apache.spark.SparkContext._
 class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializable {
 
   private val raw = rdd
-  def PreAggre(event: (String, Map[String,String]), args: Vector[String]): (String,Map[String, (Double, Int)]) ={
+  def PreAggre(event: (String, Map[String,String]), args: List[String]): (String,Map[String, (Double, Int)]) ={
     val retmap = Map[String, (Double,Int)]()
     args.foreach(ar => {
         retmap += (ar->{
@@ -47,7 +47,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializabl
     ret
   }
 
-  def avg(args: Vector[String]): RDD[(String,Map[String,(Double)])] = {
+  def avg(args: List[String]): RDD[(String,Map[String,(Double)])] = {
 
     def calc(sum: Map[String,(Double,Int)]):Map[String,(Double)] = {
       val ret = Map[String,(Double)]()
@@ -68,7 +68,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializabl
     ret
   }
 
-  def exec(cond : String)(args: Vector[String]): RDD[(String,Map[String,(Double)])] = {
+  def exec(cond : String)(args: List[String]): RDD[(String,Map[String,(Double)])] = {
     cond match {
       case "avg" => avg(args)
       case _     => {println("not ready");avg(args)}

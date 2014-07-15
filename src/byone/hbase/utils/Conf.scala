@@ -2,6 +2,8 @@ package byone.hbase.utils
 
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.hadoop.hbase.HBaseConfiguration
+import java.lang.String
+import scala.Predef.String
 
 /**
  * Created by dream on 7/11/14.
@@ -23,3 +25,10 @@ object Conf {
   val UIDLENGTH = 4
 
 }
+
+case class Args(Range: List[String]
+                ,Items: List[String]
+                ,Events: List[String]
+                ,Filter:  String
+                ,Groupby: List[String]
+                ,Aggres: List[List[String]])

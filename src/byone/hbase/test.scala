@@ -17,19 +17,16 @@ object test {
 //    val man = new Man
 //    man.scanV(s,"uid").foreach(println)
 //    Conf.sc.stop()
-    implicit val formats = net.liftweb.json.DefaultFormats
-    //case class Range(rg: List[String])
-    //case class Items(it: List[String])
-    case class Agg(op: String, ar: List[String])
-    //case class Events(et: List[String])
-    //case class Groupby(gp:List[String])
+
+
     case class Args(Range: List[String]
                     ,Items: List[String]
-                    ,Events: Option [List[String]]
-                    ,Filter:  Option [String]
-                    ,Groupby: Option [List[String]]
-                    ,Aggres: Option[(String,List[String])])
+                    ,Events: List[String]
+                    ,Filter:  String
+                    ,Groupby: List[String]
+                    ,Aggres: List[List[String]])
 
+    implicit val formats = net.liftweb.json.DefaultFormats
     val source = scala.io.Source.fromFile("test/test.json").mkString
     println(source)
     val m = parse(source)
