@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<events>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_PROC_RESOURCE_UTIL</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:01 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">10.133.64.4</attribute>
+			<attribute name="reptDevName">GZ-Web</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_PROC_RESOURCE_UTIL]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=3847,[swProcName]=mysqld_safe,[hostName]=GZ-Web,[hostIpAddr]=10.133.64.4,[memUtil]=0.019452,[cpuUtil]=0.000000,[appName]=mysqld_safe,[appGroupName]=,[pollIntv]=176,[swParam]= /usr/bin/mysqld_safe --datadir=/var/lib/mysql --socket=/var/lib/mysql/mysql.sock --pid-file=/var/run/mysqld/mysqld.pid --basedir,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">10.133.64.4</attribute>
+			<attribute name="eventName">Process CPU and Memory Utilization stats</attribute>
+			<attribute name="memUtil">0.02</attribute>
+			<attribute name="hostName">GZ-Web</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="swParam">/usr/bin/mysqld_safe --datadir=/var/lib/mysql --socket=/var/lib/mysql/mysql.sock --pid-file=/var/run/mysqld/mysqld.pid --basedir</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="cpuUtil">0.00</attribute>
+			<attribute name="reptModel">byone</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_PROC_RESOURCE_UTIL</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_SYS_MEM_FREE</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:45:35 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">202.181.254.158</attribute>
+			<attribute name="reptDevName">CNlink-GZ-PE-7206A</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_MEM_FREE]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=9548,[memName]=Cisco Network Device Free Contiguous IO Memory (KB),[hostName]=CNlink-GZ-PE-7206A,[hostIpAddr]=202.181.254.158,[freeMemKB]=58706,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="freeMemKB">58706</attribute>
+			<attribute name="memName">Cisco Network Device Free Contiguous IO Memory (KB)</attribute>
+			<attribute name="hostIpAddr">202.181.254.158</attribute>
+			<attribute name="eventName">Free system memory stats for a device</attribute>
+			<attribute name="hostName">CNlink-GZ-PE-7206A</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="hostGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="reptGeoCountry">Hong Kong</attribute>
+			<attribute name="hostGeoOrg">- Hkcix -</attribute>
+			<attribute name="reptGeoOrg">- Hkcix -</attribute>
+			<attribute name="hostGeoLongitude">114.167</attribute>
+			<attribute name="reptGeoLongitude">114.167</attribute>
+			<attribute name="hostGeoLatitude">22.25</attribute>
+			<attribute name="reptGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_MEM_FREE</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_HW_TEMP</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:31 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.64.252.134</attribute>
+			<attribute name="reptDevIpAddr">202.181.254.85</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_HW_TEMP]:[eventSeverity]=PHL_INFO,[fileName]=deviceCiscoIOS.cpp,[lineNumber]=2219,[hostName]=A2-BB-BJ-CH,[hostIpAddr]=202.181.254.85,[hwComponentName]=NPE Inlet,[envTempDegC]=38,[envTempHighThreshDegC]=59,[envTempOffHighDegC]=21,[envTempDegF]=94,[envTempHighThreshDegF]=131,[envTempOffHighDegF]=37,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">202.181.254.85</attribute>
+			<attribute name="eventName">Temperature measurement</attribute>
+			<attribute name="hostName">A2-BB-BJ-CH</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="envTempOffHighDegC">21</attribute>
+			<attribute name="collectorId">10002</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="hostGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="reptGeoCountry">Hong Kong</attribute>
+			<attribute name="envTempOffHighDegF">37</attribute>
+			<attribute name="hwComponentName">NPE Inlet</attribute>
+			<attribute name="hostGeoOrg">- Hkcix -</attribute>
+			<attribute name="envTempHighThreshDegF">131</attribute>
+			<attribute name="reptGeoOrg">- Hkcix -</attribute>
+			<attribute name="envTempDegF">94</attribute>
+			<attribute name="envTempHighThreshDegC">59</attribute>
+			<attribute name="envTempDegC">38</attribute>
+			<attribute name="hostGeoLongitude">114.167</attribute>
+			<attribute name="reptGeoLongitude">114.167</attribute>
+			<attribute name="hostGeoLatitude">22.25</attribute>
+			<attribute name="reptGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_HW_TEMP</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_BGP_NBR_STATUS</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="srcASNum">65003</attribute>
+			<attribute name="destASNum">65001</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:48:49 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.64.252.134</attribute>
+			<attribute name="reptDevIpAddr">10.64.252.134</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_BGP_NBR_STATUS]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=10385,[srcName]=,[srcIpAddr]=202.181.254.85,[destName]=,[destIpAddr]=202.181.254.30,[srcASNum]=65003,[destASNum]=65001,[bgpState]=Established,[phLogDetail]=</attribute>
+			<attribute name="destIpAddr">202.181.254.30</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="srcIpAddr">202.181.254.85</attribute>
+			<attribute name="eventParsedOk">1</attribute>
+			<attribute name="eventParsedOk">1</attribute>
+			<attribute name="eventName">BGP neighbor status</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="bgpState">Established</attribute>
+			<attribute name="collectorId">10002</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="srcGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="destGeoCountry">Hong Kong</attribute>
+			<attribute name="srcGeoOrg">- Hkcix -</attribute>
+			<attribute name="destGeoOrg">- Hkcix -</attribute>
+			<attribute name="srcGeoLongitude">114.167</attribute>
+			<attribute name="destGeoLongitude">114.167</attribute>
+			<attribute name="srcGeoLatitude">22.25</attribute>
+			<attribute name="destGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_BGP_NBR_STATUS</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_PING_STAT</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:52 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">10.128.244.134</attribute>
+			<attribute name="reptDevName">KXC_Monitor</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_PING_STAT]:[eventSeverity]=PHL_INFO,[fileName]=phPerfMonitor.cpp,[lineNumber]=2567,[hostName]=KXC_Monitor,[hostIpAddr]=10.128.244.134,[avgDurationMSec]=0,[minDurationMSec]=0,[maxDurationMSec]=1,[pktLossPct]=0.000000,[sysDownTime]=0,[sysDegradedTime]=0,[pollIntv]=120,[phLogDetail]=</attribute>
+			<attribute name="sysDownTime">0</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="sysDegradedTime">0</attribute>
+			<attribute name="hostIpAddr">10.128.244.134</attribute>
+			<attribute name="eventName">Ping Statistics</attribute>
+			<attribute name="hostName">KXC_Monitor</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="maxDurationMSec">1</attribute>
+			<attribute name="minDurationMSec">0</attribute>
+			<attribute name="avgDurationMSec">0</attribute>
+			<attribute name="pktLossPct">0.00</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="pollIntv">120</attribute>
+			<attribute name="reptModel">byone</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_PING_STAT</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_OSPF_NBR_STATUS</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:05 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevName">GZskylcollector</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_OSPF_NBR_STATUS]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=10358,[srcName]=,[srcIpAddr]=202.181.254.60,[destName]=,[destIpAddr]=202.181.254.58,[ospfAreaId]=0,[ospfState]=Two way,[phLogDetail]=</attribute>
+			<attribute name="destIpAddr">202.181.254.58</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="srcIpAddr">202.181.254.60</attribute>
+			<attribute name="eventName">OSPF neighbor status</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="ospfAreaId">0</attribute>
+			<attribute name="ospfState">Two way</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="srcGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="destGeoCountry">Hong Kong</attribute>
+			<attribute name="srcName">CNlink-GZ-PE-7206B</attribute>
+			<attribute name="srcGeoOrg">- Hkcix -</attribute>
+			<attribute name="destGeoOrg">- Hkcix -</attribute>
+			<attribute name="srcGeoLongitude">114.167</attribute>
+			<attribute name="destGeoLongitude">114.167</attribute>
+			<attribute name="srcGeoLatitude">22.25</attribute>
+			<attribute name="destGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_OSPF_NBR_STATUS</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_SYS_UPTIME</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:45:34 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.64.252.134</attribute>
+			<attribute name="reptDevIpAddr">202.181.254.95</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_UPTIME]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=915,[hostName]=A1-BB-BJ-CH,[hostIpAddr]=202.181.254.95,[sysUpTime]=29230434,[sysUpTimePct]=100.000000,[sysDownTime]=0,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="sysUpTimePct">100.00</attribute>
+			<attribute name="sysDownTime">0</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">202.181.254.95</attribute>
+			<attribute name="eventName">System uptime for a device</attribute>
+			<attribute name="hostName">A1-BB-BJ-CH</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="collectorId">10002</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="hostGeoCountry">Hong Kong</attribute>
+			<attribute name="sysUpTime">29230434</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="reptGeoCountry">Hong Kong</attribute>
+			<attribute name="hostGeoOrg">- Hkcix -</attribute>
+			<attribute name="reptGeoOrg">- Hkcix -</attribute>
+			<attribute name="hostGeoLongitude">114.167</attribute>
+			<attribute name="reptGeoLongitude">114.167</attribute>
+			<attribute name="hostGeoLatitude">22.25</attribute>
+			<attribute name="reptGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_UPTIME</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="cpuInterruptPersec">0.00</attribute>
+			<attribute name="contextSwitchPersec">1989.00</attribute>
+			<attribute name="eventType">PH_DEV_MON_SYS_CPU_UTIL</attribute>
+			<attribute name="kernCpuUtil">0.00</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="waitCpuUtil">0.00</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:45:49 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">10.133.64.1</attribute>
+			<attribute name="reptDevName">byone-super</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_CPU_UTIL]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=1699,[cpuName]=Generic CPU,[hostName]=,[hostIpAddr]=10.133.64.1,[cpuUtil]=2.000000,[sysCpuUtil]=0.465909,[userCpuUtil]=1.000000,[waitCpuUtil]=0.000000,[kernCpuUtil]=0.000000,[contextSwitchPersec]=1989.000000,[cpuInterruptPersec]=0.000000,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="sysCpuUtil">0.47</attribute>
+			<attribute name="userCpuUtil">1.00</attribute>
+			<attribute name="hostIpAddr">10.133.64.1</attribute>
+			<attribute name="eventName">System CPU Utilization for a device</attribute>
+			<attribute name="hostName">byone-super</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="cpuUtil">2.00</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="cpuName">Generic CPU</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_CPU_UTIL</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_SYS_MEM_UTIL</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:45:34 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevName">GZskylcollector</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_MEM_UTIL]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=7614,[memName]=Physical Memory,[hostName]=GZskylcollector,[hostIpAddr]=10.133.64.3,[memUtil]=24.993720,[freeMemKB]=2159980,[bufMemKB]=140932,[cacheMemKB]=873856,[swapMemUtil]=0.000000,[freeSwapMemKB]=6289436,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="swapMemUtil">0.00</attribute>
+			<attribute name="freeMemKB">2159980</attribute>
+			<attribute name="memName">Physical Memory</attribute>
+			<attribute name="freeSwapMemKB">6289436</attribute>
+			<attribute name="hostIpAddr">10.133.64.3</attribute>
+			<attribute name="bufMemKB">140932</attribute>
+			<attribute name="eventName">System memory Utilization stats for a device</attribute>
+			<attribute name="memUtil">24.99</attribute>
+			<attribute name="cacheMemKB">873856</attribute>
+			<attribute name="hostName">GZskylcollector</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="reptModel">byone</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_MEM_UTIL</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_SYS_PER_CPU_UTIL</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:08 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptDevIpAddr">202.181.254.158</attribute>
+			<attribute name="reptDevName">CNlink-GZ-PE-7206A</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_PER_CPU_UTIL]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=3253,[cpuName]=Generic CPU 0,[hostName]=CNlink-GZ-PE-7206A,[hostIpAddr]=202.181.254.158,[cpuUtil]=26.000000,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">202.181.254.158</attribute>
+			<attribute name="eventName">System per CPU Utilization for a device</attribute>
+			<attribute name="hostName">CNlink-GZ-PE-7206A</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="cpuUtil">26.00</attribute>
+			<attribute name="hostGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="pollIntv">176</attribute>
+			<attribute name="cpuName">Generic CPU 0</attribute>
+			<attribute name="reptGeoCountry">Hong Kong</attribute>
+			<attribute name="hostGeoOrg">- Hkcix -</attribute>
+			<attribute name="reptGeoOrg">- Hkcix -</attribute>
+			<attribute name="hostGeoLongitude">114.167</attribute>
+			<attribute name="reptGeoLongitude">114.167</attribute>
+			<attribute name="hostGeoLatitude">22.25</attribute>
+			<attribute name="reptGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_PER_CPU_UTIL</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_SYS_PROC_COUNT</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:45:34 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptDevIpAddr">10.133.64.3</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="reptDevName">GZskylcollector</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_SYS_PROC_COUNT]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=9527,[hostName]=GZskylcollector,[hostIpAddr]=10.133.64.3,[procCount]=79,[pollIntv]=176,[phLogDetail]=</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="procCount">79</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">10.133.64.3</attribute>
+			<attribute name="eventName">System process count for a device</attribute>
+			<attribute name="hostName">GZskylcollector</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_SYS_PROC_COUNT</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_HW_STATUS</attribute>
+			<attribute name="hwFanStatus">0</attribute>
+			<attribute name="hwFanStatus">0</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:46:31 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.64.252.134</attribute>
+			<attribute name="reptDevIpAddr">202.181.254.85</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_HW_STATUS]:[eventSeverity]=PHL_INFO,[fileName]=deviceCiscoIOS.cpp,[lineNumber]=2235,[hostName]=A2-BB-BJ-CH,[hostIpAddr]=202.181.254.85,[hwStatusCode]=0,[hwPowerSupplyStatus]=0,[hwTempSensorStatus]=0,[hwFanStatus]=0,[phLogDetail]=</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="hostIpAddr">202.181.254.85</attribute>
+			<attribute name="eventName">Hardware health status</attribute>
+			<attribute name="hwStatusCode">0</attribute>
+			<attribute name="hostName">A2-BB-BJ-CH</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+			<attribute name="hwPowerSupplyStatus">0</attribute>
+			<attribute name="hwPowerSupplyStatus">0</attribute>
+			<attribute name="hwTempSensorStatus">0</attribute>
+			<attribute name="hwTempSensorStatus">0</attribute>
+			<attribute name="collectorId">10002</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="hostGeoCountry">Hong Kong</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="reptGeoCountry">Hong Kong</attribute>
+			<attribute name="hostGeoOrg">- Hkcix -</attribute>
+			<attribute name="reptGeoOrg">- Hkcix -</attribute>
+			<attribute name="hostGeoLongitude">114.167</attribute>
+			<attribute name="reptGeoLongitude">114.167</attribute>
+			<attribute name="hostGeoLatitude">22.25</attribute>
+			<attribute name="reptGeoLatitude">22.25</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_HW_STATUS</eventType>
+	</event>
+	<event>
+		<attributes>
+			<attribute name="eventType">PH_DEV_MON_IPSLA_ICMP_MET</attribute>
+			<attribute name="eventSeverity">1</attribute>
+			<attribute name="phRecvTime">Thu May 22 09:49:06 CST 2014</attribute>
+			<attribute name="relayDevIpAddr">10.133.64.3</attribute>
+			<attribute name="collectorId">10001</attribute>
+			<attribute name="reptDevIpAddr">10.128.244.134</attribute>
+			<attribute name="reptVendor">byone</attribute>
+			<attribute name="reptDevName">KXC_Monitor</attribute>
+			<attribute name="rawEventMsg">[PH_DEV_MON_IPSLA_ICMP_MET]:[eventSeverity]=PHL_INFO,[fileName]=phPerfJob.cpp,[lineNumber]=2951,[reptDevIpAddr]=10.128.244.134,[reptDevName]=KXC_Monitor,[ipslaTestName]=,[icmpResponseTimeMs]=1878121527,[phLogDetail]=</attribute>
+			<attribute name="reptModel">byone</attribute>
+			<attribute name="phEventCategory">6</attribute>
+			<attribute name="phEventCategory">Performance Event(6)</attribute>
+			<attribute name="icmpResponseTimeMs">1878121527</attribute>
+			<attribute name="eventName">ICMP performance metrics collected via IP SLA</attribute>
+			<attribute name="eventSeverityCat">LOW</attribute>
+		</attributes>
+		<eventType>PH_DEV_MON_IPSLA_ICMP_MET</eventType>
+	</event>
+</events>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="byonehbasecore">
+    <output-path>$PROJECT_DIR$/out/artifacts/byonehbasecore</output-path>
+    <root id="archive" name="byonehbasecore.jar">
+      <element id="module-output" name="hbaseClient" />
+    </root>
+  </artifact>
+</component>
