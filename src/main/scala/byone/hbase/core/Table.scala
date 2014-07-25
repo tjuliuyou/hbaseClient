@@ -49,16 +49,16 @@ class Table extends java.io.Serializable {
     println("put " + row +" to table " + tab + " successfully.")
   }
 
-  def adds(row: String,kvs: Map[String, String],fc: String = "d", tab: String = tablename) {
-    val tb = new HTable(Conf.conf,tab)
-    val pl = for (kv <- kvs) yield {
-      val pt = new Put(row.getBytes)
-      pt.add(fc.getBytes,kv._1.getBytes,kv._2.getBytes)
-    }
-    pl
-    tb.put(pl.toList.asJava)
-    println("put " + row +" to table " + tab + " successfully.")
-  }
+//  def adds(row: String,kvs: Map[String, String],fc: String = "d", tab: String = tablename) {
+//    val tb = new HTable(Conf.conf,tab)
+//    val pl = for (kv <- kvs) yield {
+//      val pt = new Put(row.getBytes)
+//      pt.add(fc.getBytes,kv._1.getBytes,kv._2.getBytes)
+//    }
+//    pl
+//    tb.put(pl.toList.asJava)
+//    println("put " + row +" to table " + tab + " successfully.")
+//  }
 
   def batAdd(puts: List[Put], tab:String = tablename) {
     //val cf = Conf.conf.set
@@ -78,16 +78,17 @@ class Table extends java.io.Serializable {
     s
   }
 
-  def getV(row : String, col : String,tab:String = tablename) : String = {
+  def getV(row : String, col : String,tab:String = tablename) : Array[Byte] = {
     val tb = new HTable(Conf.conf,tab)
-    var s=""
     val gt = new Get(row.getBytes)
+    var s = Array[Byte]()
     gt.addColumn("d".getBytes,col.getBytes)
     val res = tb.get(gt)
     require(!res.isEmpty)
     for(kv:Cell <- res.rawCells())
-      s = new String(kv.getValue)
+    { s ++= kv.getValue }
     s
+
   }
 
   def scanV(scan: Scan,tab:String = tablename):Set[String] = {

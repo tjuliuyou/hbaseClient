@@ -13,7 +13,6 @@ import byone.hbase.core.Table
  * Created by dream on 7/22/14.
  */
 object RandEvent {
-  val table = new Table
 
   def data1: Map[String,String]= {
     val cols = Map("eventType" -> "PH_DEV_MON_PROC_RESOURCE_UTIL",
@@ -435,47 +434,70 @@ object RandEvent {
     //table.adds(row,cols)
   }
 
-  def toPut(cols: Map[String,String],row: String):Put ={
-    val put = new Put(row.getBytes)
+  def toPut(cols: Map[String,String],row: Array[Byte]):Put = {
+    val put = new Put(row)
+    put.setWriteToWAL(false)
     val fc = "d".getBytes
+
     cols.foreach(x=>put.add(fc,x._1.getBytes,x._2.getBytes))
     put
   }
 
+  def Int2Byte(num: Int,max: Int = 3):Array[Byte] = {
+    val ret = for(i <- 0 until max) yield {
+      (num >>>(8*(max-i-1)) & 0xff).toByte
+    }
+    ret.toArray
+  }
+
+  def num2Byte(num: Long,max: Int = 8):Array[Byte] = {
+    val ret = for(i <- 0 until max) yield {
+      (num >>>(8*(max-i-1)) & 0xff).toByte
+    }
+    ret.toArray
+  }
+
+  def randData(u : Int):Put = {
+    val event = Random.nextInt(13)+1
+    val data = event match {
+      case 1 => data1
+      case 2 => data2
+      case 3 => data3
+      case 4 => data4
+      case 5 => data5
+      case 6 => data6
+      case 7 => data7
+      case 8 => data8
+      case 9 => data9
+      case 10 => data10
+      case 11 => data11
+      case 12 => data12
+      case 13 => data13
+    }
+    val ts = Long.MaxValue - System.currentTimeMillis()
+    val row = Int2Byte(event) ++ num2Byte(ts) ++ Int2Byte(u)
+    toPut(data,row)
+  }
 }
 
 object EventFactory {
-  private val events  =XML.loadFile("src/main/resources/event.xml")
-  private val base = Map[String, String]()
+//  private val events  =XML.loadFile("src/main/resources/event.xml")
+//  private val base = Map[String, String]()
+//
+//  def nodeToMap = (event: Node) => {
+//    val cols = event \"attributes" \\ "attribute"
+//    val single = for(col <- cols) yield {
+//      (col \"@name").toString -> col.text
+//    }
+//    single
+//  }
 
-  def nodeToMap = (event: Node) => {
-    val cols = event \"attributes" \\ "attribute"
-    val single = for(col <- cols) yield {
-      (col \"@name").toString -> col.text
+
+  def rand(num: Int): List[Put] = {
+    val pl =for(i <- 0 until num ) yield {
+      RandEvent.randData(i)
     }
-    single
-  }
-
-
-  def toCache{
-    def nToM=(event: Node) =>{
-
-//      val base = Map[String, String]()
-//      val temp = event \"attributes" \\ "attribute"
-//      temp.foreach(col =>{
-//        base += ((col \"@name").toString -> col.text)
-//      })
-//      println("------------------------------------")
-//      base.foreach(println)
-
-  }
-    val xx = events.child.foreach(nToM)
-
-  }
-
-
-  def rand(num: Int): List[Row] = {
-    List[Row]()
+    pl.toList
   }
 
 }

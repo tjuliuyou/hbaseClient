@@ -20,6 +20,8 @@ class RwRDD(table : String) extends java.io.Serializable {
   private val tablename = Conf.tablename
 
   private val uid = new UniqueId
+  uid.readToCache("src/main/resources/test/eventuid.txt")
+
 
   private def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
 
@@ -28,18 +30,18 @@ class RwRDD(table : String) extends java.io.Serializable {
    *  get (startrow,stoprow) pairs
    */
   private def rowArea = (range: List[String], event: List[String]) => {
-    val startTs =  DatePoint.toTs(range(1)) + "0000"
-    val stopTs = DatePoint.toTs(range(0)) + "0064"
+    val startTs =  DatePoint.toTs(range(1)) ++ DatePoint.Int2Byte(0)
+    val stopTs = DatePoint.toTs(range(0)) ++ DatePoint.Int2Byte(500)
     if(event.isEmpty){
-      for(p <- uid.ids) yield {
-        (p + startTs)->( p + stopTs)
+      for(p <- uid.getCached) yield {
+        (p ++ startTs)->( p ++ stopTs)
       }
     }
     else {
       for(pre <- event) yield
       {
         val p = uid.id(pre)
-        (p + startTs)->( p + stopTs)
+        (p ++ startTs)->( p ++ stopTs)
       }
     }
   }
@@ -52,7 +54,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     val area = rowArea(args.Range,args.Events)
     val sl = if(args.Filter.equals("null")){
      area.map{rows =>
-      val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
+       val sn = new Scan(rows._1,rows._2)
       if(!args.Items.isEmpty)
         args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
       sn
@@ -60,7 +62,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     {
       val fl = hbaseFilter(args.Filter)
       area.map{rows =>
-        val sn = new Scan(rows._1.getBytes,rows._2.getBytes)
+        val sn = new Scan(rows._1,rows._2)
         sn.setFilter(fl)
         if(!args.Items.isEmpty)
           args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))

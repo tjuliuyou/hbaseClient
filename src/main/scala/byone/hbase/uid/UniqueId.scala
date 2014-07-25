@@ -2,7 +2,7 @@ package byone.hbase.uid
 
 import scala.collection.JavaConverters._
 import byone.hbase.core.Table
-import byone.hbase.utils.Conf
+import byone.hbase.utils.{Conf,DatePoint}
 import java.lang.String
 import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
@@ -12,25 +12,25 @@ import org.apache.hadoop.hbase.Cell
  * Created by dream on 7/7/14.
  */
 class UniqueId extends java.io.Serializable {
-  private val cached = scala.collection.mutable.Map[String, String]()
+  private val cached = scala.collection.mutable.Map[String, Array[Byte]]()
   val man = new Table
-  def name(uid : String) : String = {
-    if(cached.contains(uid))
-      cached(uid)
+//  def name(uid : String) : String = {
+//    if(cached.contains(uid))
+//      cached(uid)
+//    else
+//    {
+//      val name = man.getV(uid,"name","uid")
+//      cached += (name->uid)
+//      name
+//    }
+//  }
+  def id(event : String) : Array[Byte] = {
+    if(cached.contains(event))
+      cached(event)
     else
     {
-      val name = man.getV(uid,"name","uid")
-      cached += (name->uid)
-      name
-    }
-  }
-  def id(uname : String) : String = {
-    if(cached.contains(uname))
-      cached(uname)
-    else
-    {
-      val uid = man.getV(uname,"id","uid")
-      cached += (uid->uname)
+      val uid = man.getV(event,"id","uid")
+      cached += (event->uid)
       uid
     }
   }
@@ -52,6 +52,14 @@ class UniqueId extends java.io.Serializable {
     ret.sorted
   }
 
+  def getCached: List[Array[Byte]] = {
+    val iter = for(x <- cached) yield {
+      x._2
+    }
+    iter.toList
+  }
+
+
 
   def readToCache (file : String) {
     val txtFile =Conf.sc.textFile(file)
@@ -60,12 +68,12 @@ class UniqueId extends java.io.Serializable {
       (ev(0),ev(1))
     }
     )
-    txtFileMap.collect().foreach{case (a,b) =>cached +=(a->b) }
+    txtFileMap.collect().foreach{case (a,b) =>cached += (a-> DatePoint.Int2Byte(b.toInt)) }
 
   }
-  def Insert(name : String) =
-    cached.foreach{ case(a,b) =>
-      man.add(b,"d","name",a,"uid")
-      man.add(a,"d","id",b,"uid")
-    }
+//  def Insert(name : String) =
+//    cached.foreach{ case(a,b) =>
+//      man.add(b,"d","name",a,"uid")
+//      man.add(a,"d","id",b,"uid")
+//    }
 }

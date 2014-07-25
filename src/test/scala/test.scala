@@ -3,8 +3,8 @@ import byone.hbase.utils.Conf
 import java.lang.String
 import net.liftweb.json.Formats
 import net.liftweb.json.JsonParser.parse
-import org.apache.hadoop.hbase.client.{HTable, Put, HBaseAdmin}
-import org.apache.hadoop.hbase.{HColumnDescriptor, HTableDescriptor}
+import org.apache.hadoop.hbase.client._
+import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.
@@ -28,13 +28,11 @@ object test {
 //    val tablename ="log_data"
 //    val admin = new HBaseAdmin(Conf.conf)
 //    if(admin.tableExists(tablename)){
-//
-//
 //      admin.disableTable(tablename)
 //      admin.deleteTable(tablename)
+//      println("drop table: '" +tablename + "' successfully.")
 //    }
-//    else
-//    {
+//
 //      val desc : HTableDescriptor = new HTableDescriptor(tablename)
 //      val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
 //      hdes.setInMemory(true)
@@ -45,8 +43,8 @@ object test {
 //
 //      admin.createTable(desc)
 //      println("create table: '" +tablename + "' successfully.")
-//    }
-//
+
+
 //    Conf.sc.stop()
 
 //    def intToByte(num: Int): Array[Byte] ={
@@ -57,32 +55,42 @@ object test {
 //      }
 //
 //    }
-val tb = new HTable(Conf.conf,"log_data")
-    //EventFactory.toCache
-    val data1 = RandEvent.data1
-    val data2 = RandEvent.data2
-    val data3 = RandEvent.data3
-    val data4 = RandEvent.data4
-    val data5 = RandEvent.data5
-    val data6 = RandEvent.data6
-    val data7 = RandEvent.data7
-    
-//    val put = new Put("row".getBytes)
-//    put.add("d".getBytes,"a".getBytes,"ee".getBytes)
-//    put.add("d".getBytes,"b".getBytes,"edd".getBytes)
-    val p1 = RandEvent.toPut(data1,"row1")
-    val p2 = RandEvent.toPut(data2,"row2")
-    val p3 = RandEvent.toPut(data3,"row3")
-    val p4 = RandEvent.toPut(data4,"row4")
-    val p5 = RandEvent.toPut(data5,"row5")
-    val p6 = RandEvent.toPut(data6,"row6")
-    val p7 = RandEvent.toPut(data7,"row7")
+
+    val tb = new HTable(Conf.conf,"log_data")
+
+//    val a: Array[Byte] = Array(0.toByte, 0.toByte, 10.toByte, 6.toByte, -72.toByte, -103.toByte, -94.toByte, -114.toByte, 81.toByte,1.toByte)
+//    val ts = Long.MaxValue - System.currentTimeMillis()
+//    val row = RandEvent.Int2Byte(20) ++  RandEvent.num2Byte(ts)
+//    println(row)
+//    row.foreach(println)
+//    val put = new Put(row)
+//    put.add("d".getBytes,"d".getBytes,"d".getBytes)
+//    tb.put(put)
+
+    tb.setAutoFlush(false,true)
+    tb.setWriteBufferSize(10*1024*1024)
+
+    while (true){
+      val plist = EventFactory.rand(500)
+      tb.put(plist.asJava)
+    }
+//
+//    val uid = new UniqueId
+//
+//    uid.readToCache("src/main/resources/test/eventuid.txt")
+//    val x = uid.id("PH_DEV_MON_OSPF_NBR_STATUS")
+//    x.foreach(println)
+//    //x.foreach(println)
+//
+    val scan = new Scan()
+
+    val ss = tb.getScanner(scan)
+    for(res:Result <- ss.asScala)
+      for(kv:Cell <- res.rawCells())
+      {}
+    ss.close()
 
 
-
-
-    val plist = List(p1,p2,p3,p4,p5,p6,p7)
-    tb.put(plist.asJava)
 
   }
 
