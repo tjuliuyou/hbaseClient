@@ -82,13 +82,13 @@ object test {
 //    x.foreach(println)
 //    //x.foreach(println)
 //
-    val scan = new Scan()
-
-    val ss = tb.getScanner(scan)
-    for(res:Result <- ss.asScala)
-      for(kv:Cell <- res.rawCells())
-      {}
-    ss.close()
+//    val scan = new Scan()
+//
+//    val ss = tb.getScanner(scan)
+//    for(res:Result <- ss.asScala)
+//      for(kv:Cell <- res.rawCells())
+//      {}
+//    ss.close()
 
 
 

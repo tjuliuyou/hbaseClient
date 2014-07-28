@@ -19,7 +19,7 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(6)
+    val thistest = testlist(1)
     val rw = new RwRDD(Conf.tablename)
     val hbaseRDD =rw.get(thistest)
     // if group args is empty print raw rdd using  group 'd'

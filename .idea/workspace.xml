@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="byonehbasecore" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__SBT__org_scala_lang_scala_library_2_10_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__SBT__scala_compiler_2_10_2.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/test/eventuid.txt" afterPath="$PROJECT_DIR$/src/main/resources/test/eventuid.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hbaseClient.iml" afterPath="$PROJECT_DIR$/hbaseClient.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbt.xml" afterPath="$PROJECT_DIR$/.idea/sbt.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/test/test.json" afterPath="$PROJECT_DIR$/src/main/resources/test/test.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/test.scala" afterPath="$PROJECT_DIR$/src/test/scala/test.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hbaseClient.iws" />
@@ -80,10 +77,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="test.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="23" selection-start="682" selection-end="682" vertical-scroll-proportion="-0.84573" vertical-offset="834" max-vertical-offset="1920">
+            <state line="51" column="25" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
               <folding />
             </state>
           </provider>
@@ -92,25 +89,25 @@
       <file leaf-file-name="test.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/test/test.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="5" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="1760">
+            <state line="75" column="61" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1760">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="eventuid.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/test/eventuid.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="360">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Client.scala" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Client.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="24" selection-start="625" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+            <state line="46" column="7" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.9011925" vertical-offset="351" max-vertical-offset="1120">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UniqueId.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="79" column="0" selection-start="1908" selection-end="1908" vertical-scroll-proportion="0.0" vertical-offset="993" max-vertical-offset="1580">
               <folding />
             </state>
           </provider>
@@ -119,7 +116,7 @@
       <file leaf-file-name="RwRDD.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="699" selection-end="699" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="2780">
+            <state line="99" column="63" selection-start="2920" selection-end="2942" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2600">
               <folding />
             </state>
           </provider>
@@ -128,7 +125,16 @@
       <file leaf-file-name="Conf.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="23" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+            <state line="27" column="25" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="91" max-vertical-offset="860">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.sbt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.sbt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
               <folding />
             </state>
           </provider>
@@ -150,19 +156,25 @@
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/test/eventuid.txt" />
-        <option value="$PROJECT_DIR$/src/test/scala/test.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/test/test.json" />
+        <option value="$PROJECT_DIR$/src/conf/mapred-site.xml" />
+        <option value="$PROJECT_DIR$/src/conf/yarn-site.xml" />
+        <option value="$PROJECT_DIR$/src/conf/hbase-site.xml" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/test.scala" />
+        <option value="$PROJECT_DIR$/build.sbt" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2122" />
-    <option name="y" value="109" />
-    <option name="width" value="1430" />
-    <option name="height" value="874" />
+    <option name="x" value="1440" />
+    <option name="y" value="-4" />
+    <option name="width" value="1440" />
+    <option name="height" value="904" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -191,16 +203,13 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -516,10 +525,13 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -757,8 +769,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2122" y="109" width="1430" height="874" extended-state="0" />
-    <editor active="false" />
+    <frame x="1440" y="-4" width="1440" height="904" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -771,20 +783,20 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279099" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2041958" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22886866" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20277777" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22778474" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916147" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -811,6 +823,104 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="746" selection-end="746" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test/test.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="61" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="1760">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="1660" selection-end="1660" vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="40" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="4" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="746" selection-end="746" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="2060">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test/test.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="61" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="1760">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="1660" selection-end="1660" vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="40" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="4" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="23" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2060">
           <folding />
         </state>
@@ -825,9 +935,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test/eventuid.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="360">
-          <folding />
-        </state>
+        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
@@ -867,9 +975,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test/eventuid.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="360">
-          <folding />
-        </state>
+        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="360" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
@@ -935,37 +1041,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test/test.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="5" selection-start="1145" selection-end="1145" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1760">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/test/eventuid.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="188" selection-end="188" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="700">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="31" selection-start="1788" selection-end="1788" vertical-scroll-proportion="0.0" vertical-offset="1219" max-vertical-offset="1700">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="24" selection-start="625" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="196" max-vertical-offset="1120">
           <folding />
         </state>
       </provider>
@@ -977,23 +1055,77 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test/eventuid.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="23" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="860">
+        <state line="12" column="28" selection-start="347" selection-end="347" vertical-scroll-proportion="0.40472177" vertical-offset="0" max-vertical-offset="593" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/conf/mapred-site.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="24" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.6964587" vertical-offset="187" max-vertical-offset="780">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/conf/yarn-site.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="22" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.7394366" vertical-offset="240" max-vertical-offset="1000">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="400">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/conf/hbase-site.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="48" selection-start="186" selection-end="186" vertical-scroll-proportion="0.16863406" vertical-offset="0" max-vertical-offset="593">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="699" selection-end="699" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2600">
+        <state line="99" column="63" selection-start="2920" selection-end="2942" vertical-scroll-proportion="0.0" vertical-offset="800" max-vertical-offset="2600">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="682" selection-end="682" vertical-scroll-proportion="-0.84573" vertical-offset="834" max-vertical-offset="1920">
+        <state line="51" column="25" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="25" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="91" max-vertical-offset="860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="0" selection-start="1908" selection-end="1908" vertical-scroll-proportion="0.0" vertical-offset="993" max-vertical-offset="1580">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/test/test.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="61" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0" vertical-offset="1060" max-vertical-offset="1760">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="7" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.9011925" vertical-offset="351" max-vertical-offset="1120">
           <folding />
         </state>
       </provider>

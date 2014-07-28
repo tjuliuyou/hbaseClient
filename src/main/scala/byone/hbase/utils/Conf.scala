@@ -25,8 +25,8 @@ object Conf {
 
   val sparkConf = new SparkConf()
     .setAppName("HBase Client")
-    .setMaster("local")
-    //.setMaster("spark://master3:7077")
+    //.setMaster("local")
+    .setMaster("spark://master3.dream:7077")
     //.setSparkHome("/opt/spark")
     .setJars(Seq("out/artifacts/byonehbasecore/byonehbasecore.jar"))
   val sc = new SparkContext(sparkConf)

@@ -16,11 +16,11 @@ import org.apache.hadoop.hbase.filter.ParseFilter
  * Created by dream on 7/7/14.
  */
 class RwRDD(table : String) extends java.io.Serializable {
-
+  private val serialVersionUID = 6529685098267757690L
   private val tablename = Conf.tablename
 
   private val uid = new UniqueId
-  uid.readToCache("src/main/resources/test/eventuid.txt")
+  uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
 
   private def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
