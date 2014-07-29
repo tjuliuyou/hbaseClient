@@ -26,6 +26,6 @@ object DatePoint {
   def toTs(date : String) : Array[Byte] = {
     val df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
     val time =df.parse(date).getTime
-    num2Byte(Long.MaxValue-time)
+    num2Byte(time,4)
   }
 }

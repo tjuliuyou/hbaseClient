@@ -17,7 +17,7 @@ import org.apache.hadoop.hbase.filter.ParseFilter
  */
 class RwRDD(table : String) extends java.io.Serializable {
   private val serialVersionUID = 6529685098267757690L
-  private val tablename = Conf.tablename
+  private val tablename = Conf.tablename.getBytes
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
@@ -30,8 +30,8 @@ class RwRDD(table : String) extends java.io.Serializable {
    *  get (startrow,stoprow) pairs
    */
   private def rowArea = (range: List[String], event: List[String]) => {
-    val startTs =  DatePoint.toTs(range(1)) ++ DatePoint.Int2Byte(0)
-    val stopTs = DatePoint.toTs(range(0)) ++ DatePoint.Int2Byte(500)
+    val startTs =  DatePoint.toTs(range(0)) ++ DatePoint.Int2Byte(0)
+    val stopTs = DatePoint.toTs(range(1)) ++ DatePoint.Int2Byte(500)
     if(event.isEmpty){
       for(p <- uid.getCached) yield {
         (p ++ startTs)->( p ++ stopTs)
@@ -53,22 +53,28 @@ class RwRDD(table : String) extends java.io.Serializable {
     require(!args.Range.isEmpty)
     val area = rowArea(args.Range,args.Events)
     val sl = if(args.Filter.equals("null")){
-     area.map{rows =>
-       val sn = new Scan(rows._1,rows._2)
+      area.map{rows =>
+      val sn = new Scan(rows._1,rows._2)
+      sn.setCacheBlocks(false)
+      sn.setCaching(10000)
+      sn.setReversed(true)
+      //sn.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tablename);
       if(!args.Items.isEmpty)
         args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
-      sn
-    }}else
-    {
-      val fl = hbaseFilter(args.Filter)
-      area.map{rows =>
-        val sn = new Scan(rows._1,rows._2)
-        sn.setFilter(fl)
-        if(!args.Items.isEmpty)
-          args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
         sn
-    }}
-    Vector() ++ sl //thans iterater to vector
+      }
+    }else
+       {
+         val fl = hbaseFilter(args.Filter)
+         area.map{rows =>
+           val sn = new Scan(rows._1,rows._2)
+           sn.setFilter(fl)
+           if(!args.Items.isEmpty)
+             args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
+           sn
+         }
+       }
+    Vector() ++ sl //thanslate iterater to vector
   }
 
   /**
@@ -94,7 +100,7 @@ class RwRDD(table : String) extends java.io.Serializable {
    *  get base hbase RDD with one Scan
    */
   def gethbaseRDD = (scan: Scan) =>  {
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+    Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
     Conf.conf.set(TableInputFormat.SCAN,ScanToString(scan))
     val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
@@ -106,7 +112,7 @@ class RwRDD(table : String) extends java.io.Serializable {
    *  get base hbase RDD with Scan list
    */
   def gethbaseRDDs = (scan: Scan) =>  {
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+    Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
     Conf.conf.set(TableInputFormat.SCAN,ScanToString(scan))
     val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],

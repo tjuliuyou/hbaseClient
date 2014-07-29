@@ -80,4 +80,14 @@
     	"Groupby"	:["relayDevIpAddr"],
     	"Aggres" 	:[["min","cpuUtil"],["max","envTempOffHighDegC"]]
     }
+
+    "test9":
+        {
+        	"Range"		:["24/07/2014 12:20:11","30/07/2014 12:23:10"],
+        	"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
+        	"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
+        	"Filter"	:"SingleColumnValueFilter ('d','collectorId',>,'binary:10056')",
+        	"Groupby"	:["relayDevIpAddr"],
+        	"Aggres" 	:[["min","cpuUtil"],["max","envTempOffHighDegC"]]
+        }
 }

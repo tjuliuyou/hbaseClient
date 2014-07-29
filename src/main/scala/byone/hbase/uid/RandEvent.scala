@@ -474,8 +474,8 @@ object RandEvent {
       case 12 => data12
       case 13 => data13
     }
-    val ts = Long.MaxValue - System.currentTimeMillis()
-    val row = Int2Byte(event) ++ num2Byte(ts) ++ Int2Byte(u)
+    val ts = System.currentTimeMillis()
+    val row = Int2Byte(event) ++ num2Byte(ts,4) ++ Int2Byte(u)
     toPut(data,row)
   }
 }
