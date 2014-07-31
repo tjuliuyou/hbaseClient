@@ -27,7 +27,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializabl
     for(subx <- x ) yield {
       val sum = subx._2._1 + y(subx._1)._1
       val count = subx._2._2 + y(subx._1)._2
-      (subx._1 ->(sum,count))
+      subx._1 ->(sum,count)
     }
   }
 
@@ -67,6 +67,11 @@ class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializabl
     value}).mapValues{calc}
   }
 
+//  def sort(opt: String) {
+//    opt match {
+//      case "asc" =>
+//    }
+//  }
 
   def exec(cond : String)(args: List[String]): RDD[(String,Map[String,(Double)])] = {
     cond match {

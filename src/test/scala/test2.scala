@@ -6,32 +6,48 @@ import net.liftweb.json.JsonParser.parse
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.regionserver.BloomType
 import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.
  */
 object test2 {
-  def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
+  def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
 
   def main(args: Array[String]) {
 
 
-    val sn = new Scan()
-    sn.setCacheBlocks(false)
-    sn.setCaching(10000)
-    sn.setReversed(true)
+    val tablename ="log_data"
+        val admin = new HBaseAdmin(Conf.conf)
+        if(admin.tableExists(tablename)){
+          admin.disableTable(tablename)
+          admin.deleteTable(tablename)
+          println("drop table: '" +tablename + "' successfully.")
+        }
 
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
-    Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
-    val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
-      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-      classOf[org.apache.hadoop.hbase.client.Result])
-    hBaseRDD.collect()
+          val desc : HTableDescriptor = new HTableDescriptor(tablename)
+          val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
+          hdes.setInMemory(true)
+          hdes.setMaxVersions(1)
+          hdes.setCompressionType(Algorithm.SNAPPY)
+          hdes.setBloomFilterType(BloomType.ROW)
+          desc.addFamily(hdes)
 
+          def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
+            val range = stopkey - startkey
+            val rangeIncrement = range/num
+            val ret =for(i <- 0 until num) yield {
+              val key = startkey + rangeIncrement*i
+              println(key)
+              RandEvent.Int2Byte(key,1) //++ RandEvent.Int2Byte(Int.MaxValue, 4)
+            }
+            ret.toArray
+          }
 
-    Conf.sc.stop()
+          admin.createTable(desc,getSplits(16,256,16))
+
+          println("create table: '" +tablename + "' successfully.")
 
   }
-
 }

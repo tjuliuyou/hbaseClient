@@ -13,19 +13,19 @@ object Client {
 
     // read test.json to class testlist
     implicit val formats = net.liftweb.json.DefaultFormats
-    val source = scala.io.Source.fromFile("src/main/resources/test/test.json").mkString
+    val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
     val m = parse(source)
     val testlist: List[Args] = m.children.map(_.extract[Args])
 
     // using one of testlist
 
-    val thistest = testlist(1)
+    val thistest = testlist(9)
     val rw = new RwRDD(Conf.tablename)
     val hbaseRDD =rw.get(thistest)
     // if group args is empty print raw rdd using  group 'd'
     if(thistest.Groupby.isEmpty){
 
-      hbaseRDD.collect().foreach(x =>println(x._2))
+      //hbaseRDD.collect().foreach(x =>println(x._2))
       println("hbaseRDD count: " + hbaseRDD.count())
     }
     else

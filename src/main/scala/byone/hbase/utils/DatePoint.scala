@@ -23,9 +23,9 @@ object DatePoint {
     ret.toArray
   }
 
-  def toTs(date : String) : Array[Byte] = {
+  def toTs(date : String, delay: Int = 0) : Array[Byte] = {
     val df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-    val time =df.parse(date).getTime
-    num2Byte(time,4)
+    val time =df.parse(date).getTime/1000
+    num2Byte(time+delay,4)
   }
 }

@@ -22,16 +22,16 @@ object Conf {
   conf.addResource(new Path(YARN_CONF_PATH))
   conf.addResource(new Path(MAPR_CONF_PATH))
 
-
   val sparkConf = new SparkConf()
     .setAppName("HBase Client")
-    .setMaster("local")
-    //.setMaster("spark://master3.dream:7077")
-    //.setSparkHome("/opt/spark")
+    //.setMaster("local")
+    .setMaster("spark://master3.dream:7077")
     .setJars(Seq("out/artifacts/byonehbasecore/byonehbasecore.jar"))
   val sc = new SparkContext(sparkConf)
 
   val UIDLENGTH = 4
+  val PRELENGTH = 1
+  val TSLENGTH = 4
 
 }
 

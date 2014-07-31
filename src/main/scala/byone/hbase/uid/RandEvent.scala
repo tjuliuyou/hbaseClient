@@ -474,8 +474,10 @@ object RandEvent {
       case 12 => data12
       case 13 => data13
     }
-    val ts = System.currentTimeMillis()
-    val row = Int2Byte(event) ++ num2Byte(ts,4) ++ Int2Byte(u)
+    val ts = System.currentTimeMillis()/1000
+    //val pre = hashCode()%16
+    val pre = Random.nextInt(255)
+    val row =  Int2Byte(pre,1) ++ num2Byte(ts,4) ++ Int2Byte(event) ++ Int2Byte(u)
     toPut(data,row)
   }
 }

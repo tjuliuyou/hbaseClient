@@ -8,28 +8,30 @@ import org.apache.spark.rdd.RDD
 import scala.collection.mutable.Map
 import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
 import org.apache.hadoop.hbase.filter.ParseFilter
-
+import scala.collection.JavaConverters._
 
 /**
  * Created by dream on 7/7/14.
  */
 class RwRDD(table : String) extends java.io.Serializable {
   private val serialVersionUID = 6529685098267757690L
-  private val tablename = Conf.tablename.getBytes
+  private val tablename = Conf.tablename
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
 
-  private def ScanToString = (scan : Scan) => new ScanCovert(scan).coverToScan()
-
+  private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
+  private def ScansToString = (sl : List[Scan]) => new ScanCovert().coverToScan(sl.asJava)
   private def hbaseFilter(in:String) = new ParseFilter().parseFilterString(in)
+
+  private def NumRegion(): Int = 16
   /**
    *  get (startrow,stoprow) pairs
    */
-  private def rowArea = (range: List[String], event: List[String]) => {
+  private def rowAreaOrg = (range: List[String], event: List[String]) => {
     val startTs =  DatePoint.toTs(range(0)) ++ DatePoint.Int2Byte(0)
     val stopTs = DatePoint.toTs(range(1)) ++ DatePoint.Int2Byte(500)
     if(event.isEmpty){
@@ -46,6 +48,28 @@ class RwRDD(table : String) extends java.io.Serializable {
     }
   }
 
+  private def rowArea = (range: List[String], event: List[String]) => {
+
+    val startTs =  DatePoint.toTs(range(0),-1) //add -1 mill seconds
+    val stopTs = DatePoint.toTs(range(1),1)    //add 1 mill seconds
+    val ret = for(num <- 0 to NumRegion) yield {
+       val pre1 = DatePoint.Int2Byte(num*256/NumRegion,Conf.PRELENGTH)
+        val pre2 = DatePoint.Int2Byte((num+1)*256/NumRegion,Conf.PRELENGTH)
+       ( pre1 ++ startTs) -> (pre2 ++ stopTs)
+    }
+    if(event.isEmpty){
+      ret
+    }
+    else {
+      ret.flatMap{case (x,y) => {
+        for(pre <- event) yield {
+          val p = uid.id(pre)
+          (x ++ p)->( y ++ p)
+        }
+      }}
+    }
+  }
+
   /**
    *  get Scan list for scan
    */
@@ -58,7 +82,7 @@ class RwRDD(table : String) extends java.io.Serializable {
       sn.setCacheBlocks(false)
       sn.setCaching(10000)
       sn.setReversed(true)
-      //sn.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tablename);
+     // sn.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tablename.getBytes);
       if(!args.Items.isEmpty)
         args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
         sn
@@ -100,7 +124,7 @@ class RwRDD(table : String) extends java.io.Serializable {
    *  get base hbase RDD with one Scan
    */
   def gethbaseRDD = (scan: Scan) =>  {
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
+    Conf.conf.set(TableInputFormat.INPUT_TABLE, tablename)
     Conf.conf.set(TableInputFormat.SCAN,ScanToString(scan))
     val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
@@ -111,14 +135,14 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  get base hbase RDD with Scan list
    */
-  def gethbaseRDDs = (scan: Scan) =>  {
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
-    Conf.conf.set(TableInputFormat.SCAN,ScanToString(scan))
-    val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
-      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-      classOf[org.apache.hadoop.hbase.client.Result])
-    hBaseRDD
-  }
+//  def gethbaseRDDs = (scans: List[Scan]) =>  {
+//    //Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
+//    Conf.conf.setStrings(MultiTableInputFormat.SCANS,ScanToString(scans))
+//    val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+//      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+//      classOf[org.apache.hadoop.hbase.client.Result])
+//    hBaseRDD
+//  }
 
   /**
    *  get and merge hbase RDD
@@ -129,7 +153,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     var ret: RDD[(String, Map[String,String])] = Conf.sc.emptyRDD
     for (scan <- sl)  {
       val rdd =gethbaseRDD(scan).map(x =>gpBy(x,gp))
-      rdd.collect()
+      //rdd.collect()
       ret = ret ++ rdd
     }
     ret
