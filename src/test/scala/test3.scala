@@ -4,6 +4,7 @@ import java.lang.String
 import org.apache.hadoop.hbase.client.{HTable, Scan}
 import org.apache.hadoop.hbase.HRegionInfo
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import scala._
 import scala.collection.JavaConverters._
 
 /**
@@ -38,17 +39,18 @@ object test3 {
     val endkey = keys.first().getEndKey//DatePoint.Int2Byte(1,1) ++ stopTs
 
     val pair = for(k:HRegionInfo <- keys.asScala) yield {
-     // k.getStartKey -> k.getEndKey
-      if(k.getEndKey.isEmpty)
-        k.getStartKey -> k.getEndKey
-      else {
+//      if(k.getStartKey.isEmpty)
+//        k.getStartKey -> k.getEndKey
+//      if(k.getEndKey.isEmpty)
+//        k.getStartKey -> k.getEndKey
+//      else {
         val ktmep = k.getEndKey
         val temp = ktmep(0) - 1
         println("temp= "+ temp)
         val pre = DatePoint.Int2Byte(temp,1)
         pre.foreach(x=>print(x.toInt + ","))
         k.getStartKey -> (DatePoint.Int2Byte(temp,1) ++ stopTs)
-      }
+  //    }
     }
 
     println(" -------------")
@@ -80,33 +82,37 @@ object test3 {
     println("counts: " + counts)
   }
 
+  def totolCount = {
+    val sn = new Scan()
+    sn.setCacheBlocks(false)
+    sn.setCaching(10000)
+    sn.setReversed(true)
+    Conf.conf.set(TableInputFormat.INPUT_TABLE, Conf.tablename)
+    Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
+    val hbaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+      classOf[org.apache.hadoop.hbase.client.Result])
+    val tmp = hbaseRDD.count()
+    println("hbaseRDD count: " + tmp)
+  }
 
   def main(args: Array[String]) {
     val tablename ="log_data"
     val tb = new HTable(Conf.conf,tablename)
     val keys = tb.getRegionLocations.navigableKeySet()
 
-    for(k: HRegionInfo <- keys.asScala) {
+
+    val keysseq = for(k: HRegionInfo <- keys.asScala) yield {
       k.getStartKey.foreach(x=>print(x + ","))
       print("    ")
       k.getEndKey.foreach(x=>print(x.toInt + ","))
       println()
+      (k.getStartKey,k.getEndKey)
     }
+
+
     count
 
-//    def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
-//      val range = stopkey - startkey
-//      val rangeIncrement = range/num
-//      val ret =for(i <- 0 until  num) yield {
-//        val key = startkey + rangeIncrement*i
-//        RandEvent.Int2Byte(key,1) ++ RandEvent.Int2Byte(Int.MaxValue, 4)
-//      }
-//      ret.toArray
-//    }
-//    val splist = getSplits(1,256,16)
-//    for(sp <-splist){
-//      sp.foreach(print)
-//      println("")
-//    }
+
   }
 }

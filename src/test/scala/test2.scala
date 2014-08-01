@@ -36,16 +36,15 @@ object test2 {
 
           def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
             val range = stopkey - startkey
-            val rangeIncrement = range/num
-            val ret =for(i <- 0 until num) yield {
+            val rangeIncrement = range/(num-1)
+            val ret =for(i <- 0 until (num-1)) yield {
               val key = startkey + rangeIncrement*i
-              println(key)
               RandEvent.Int2Byte(key,1) //++ RandEvent.Int2Byte(Int.MaxValue, 4)
             }
             ret.toArray
           }
 
-          admin.createTable(desc,getSplits(16,256,16))
+          admin.createTable(desc,getSplits(1,16,16))
 
           println("create table: '" +tablename + "' successfully.")
 
