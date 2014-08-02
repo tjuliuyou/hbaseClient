@@ -115,6 +115,7 @@ object tests4 {
   }
 
   def totolCount = {
+
     val sn = new Scan()
     sn.setCacheBlocks(false)
     sn.setCaching(10000)
@@ -132,6 +133,7 @@ object tests4 {
 
 
   def danCount = {
+
     val range: List[String] = List("01/08/2014 09:00:00","01/08/2014 17:39:10")
 
     val startTs =  DatePoint.toTs(range(0))
@@ -193,21 +195,21 @@ object tests4 {
     val startTs =  DatePoint.toTs(range(0))
     val stopTs = DatePoint.toTs(range(1))
 
-//    val threads = new Array[Thread](list.length)
-//    var i = 0
-//    for(startkey <- list){
+    val threads = new Array[Thread](list.length)
+    var i = 0
+    for(startkey <- list){
+
+      threads(i) = new Thread(new Query(startTs, stopTs, startkey.toByte, 16, ""))
+
+      threads(i).start()
+      i += 1
+    }
+
+    threads.foreach(_.join())
 //
-//      threads(i) = new Thread(new Query(startTs, stopTs, startkey.toByte, 16, ""))
-//
-//      threads(i).start()
-//      i += 1
-//    }
-//
-//    threads.foreach(_.join())
-//
-   val threads = new Thread(new Query(startTs, stopTs, 0.toByte, 16, ""))
-    threads.start()
-    threads.join()
+//   val threads = new Thread(new Query(startTs, stopTs, 0.toByte, 16, ""))
+//    threads.start()
+//    threads.join()
     println("thread end")
 // //   ghconn.close()
   }

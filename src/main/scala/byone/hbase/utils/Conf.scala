@@ -32,6 +32,7 @@ object Conf {
   val UIDLENGTH = 4
   val PRELENGTH = 1
   val TSLENGTH = 4
+  val REGIONRANGE = 16
 
 }
 

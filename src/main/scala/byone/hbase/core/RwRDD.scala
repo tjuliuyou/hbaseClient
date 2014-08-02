@@ -1,8 +1,10 @@
 package byone.hbase.core
 
+import java.util.concurrent.{Executors, ExecutorService, Future}
+
 import byone.hbase.utils.{Args, Conf, DatePoint,ScanCovert}
 import org.apache.hadoop.hbase.client._
-import org.apache.hadoop.hbase.Cell
+import org.apache.hadoop.hbase.{HRegionInfo, Cell}
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import scala.collection.mutable.Map
@@ -144,6 +146,21 @@ class RwRDD(table : String) extends java.io.Serializable {
 //    hBaseRDD
 //  }
 
+  def startList: Iterable[Int] = {
+    val tb = new HTable(Conf.conf,tablename)
+    val keys = tb.getRegionLocations.navigableKeySet()
+    for(k: HRegionInfo <- keys.asScala) yield {
+      val starpre = if(k.getStartKey.isEmpty) 0 else {
+        val temp = k.getStartKey
+        (temp)(0) + 0
+      }
+      starpre
+    }
+  }
+
+
+
+
   /**
    *  get and merge hbase RDD
    */
@@ -156,6 +173,35 @@ class RwRDD(table : String) extends java.io.Serializable {
       //rdd.collect()
       ret = ret ++ rdd
     }
+    ret
+  }
+
+  def singleGet()={}
+
+  def multiGet(args: Args): RDD[(String, Map[String,String])] ={
+    require(!args.Range.isEmpty)
+    val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
+    Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
+    val ret: RDD[(String, Map[String,String])] = Conf.sc.emptyRDD
+
+    val keyRange = startList.size
+    val pool: ExecutorService = Executors.newFixedThreadPool(keyRange)
+    //val futures = new Array[Future[RDD[(ImmutableBytesWritable,Result)]]](keyRange)
+
+    val futures = for(key <- startList) yield {
+        pool.submit(new Query(key,range,hbaseFilter(args.Filter)))
+    }
+    var x = 0
+
+    for(future <- futures ){
+
+      val r = future.get()
+      println("futures startpre:  "+ x + "   singlerdd: "+ r.count())
+      //ret = ret ++ r
+      x +=1
+    }
+
+    val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
     ret
   }
 
