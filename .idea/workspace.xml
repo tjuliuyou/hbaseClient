@@ -6,8 +6,101 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="">
+    <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="add Query class">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__aopalliance_aopalliance_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__asm_asm_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_github_stephenc_findbugs_findbugs_annotations_1_3_9_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_github_stephenc_high_scale_lib_high_scale_lib_1_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_google_code_findbugs_jsr305_1_3_9.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_google_guava_guava_12_0_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_google_inject_extensions_guice_servlet_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_google_inject_guice_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_google_protobuf_protobuf_java_2_5_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_jamesmurty_utils_java_xmlbuilder_0_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_jcraft_jsch_0_1_42.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_sun_jersey_jersey_core_1_9.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_sun_jersey_jersey_json_1_9.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_sun_jersey_jersey_server_1_9.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_sun_xml_bind_jaxb_impl_2_2_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_thoughtworks_paranamer_paranamer_2_4_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__com_yammer_metrics_metrics_core_2_1_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_beanutils_commons_beanutils_1_7_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_beanutils_commons_beanutils_core_1_8_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_cli_commons_cli_1_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_codec_commons_codec_1_7.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_collections_commons_collections_3_2_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_configuration_commons_configuration_1_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_digester_commons_digester_1_8.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_el_commons_el_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_httpclient_commons_httpclient_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_io_commons_io_2_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_lang_commons_lang_2_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_logging_commons_logging_1_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_net_commons_net_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__io_netty_netty_3_6_6_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_activation_activation_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_inject_javax_inject_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_servlet_jsp_jsp_api_2_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_servlet_servlet_api_2_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_xml_bind_jaxb_api_2_2_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__javax_xml_stream_stax_api_1_0_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__junit_junit_4_11.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__log4j_log4j_1_2_17.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__net_java_dev_jets3t_jets3t_0_9_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__net_liftweb_lift_json_2_10_2_6_M4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_avro_avro_1_7_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_commons_commons_compress_1_4_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hadoop_hadoop_annotations_2_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hadoop_hadoop_auth_2_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hadoop_hadoop_common_2_3_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hbase_hbase_client_0_98_2_hadoop2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hbase_hbase_common_0_98_2_hadoop2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hbase_hbase_prefix_tree_0_98_2_hadoop2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hbase_hbase_protocol_0_98_2_hadoop2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_hbase_hbase_server_0_98_2_hadoop2.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_httpcomponents_httpclient_4_2_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_httpcomponents_httpcore_4_2_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_zookeeper_zookeeper_3_4_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_cloudera_htrace_htrace_core_2_04.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_codehaus_jackson_jackson_core_asl_1_8_8.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_codehaus_jackson_jackson_jaxrs_1_8_8.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_codehaus_jackson_jackson_mapper_asl_1_8_8.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_codehaus_jackson_jackson_xc_1_8_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_codehaus_jettison_jettison_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_jamon_jamon_runtime_2_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_jetty_6_1_26.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_jetty_sslengine_6_1_26.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_jetty_util_6_1_26.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_jsp_2_1_6_1_14.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_jsp_api_2_1_6_1_14.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_mortbay_jetty_servlet_api_2_5_6_1_14.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_scala_lang_scala_compiler_2_10_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_scala_lang_scala_library_2_10_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_scala_lang_scala_reflect_2_10_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_scala_lang_scalap_2_10_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_slf4j_slf4j_api_1_7_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_slf4j_slf4j_log4j12_1_7_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_sonatype_sisu_inject_cglib_2_2_1_v20090111.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_tukaani_xz_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_xerial_snappy_snappy_java_1_0_4_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__scala_compiler_2_10_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__tomcat_jasper_compiler_5_5_23.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__tomcat_jasper_runtime_5_5_23.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__xmlenc_xmlenc_0_52.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\project\.classpath" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\liuyou\workspace\hbaseClient\project\.project" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__commons_logging_commons_logging_1_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__commons_logging_commons_logging_1_1_3.xml" />
+      <change type="MOVED" beforePath="C:\Users\liuyou\workspace\hbaseClient\.idea\libraries\SBT__SBT__org_apache_commons_commons_math3_3_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/SBT__org_apache_commons_commons_lang3_3_3_2.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sbt.xml" afterPath="$PROJECT_DIR$/.idea/sbt.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/tests4.scala" afterPath="$PROJECT_DIR$/src/test/scala/tests4.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hbaseClient.iws" />
@@ -26,7 +119,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
         <option name="NOTIFY_UNCAUGHT" value="true" />
@@ -62,9 +155,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <breakpoint_rules />
-    <ui_properties />
+    <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -72,37 +164,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="0" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="980">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test2.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/test2.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="35" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.0" vertical-offset="740" max-vertical-offset="1160">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Client.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="46" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1160">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test3.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/test3.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="20" selection-start="1965" selection-end="1965" vertical-scroll-proportion="0.0" vertical-offset="1240" max-vertical-offset="2480">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -111,15 +177,31 @@
       <file leaf-file-name="tests4.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/scala/tests4.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="206" column="29" selection-start="5927" selection-end="5927" vertical-scroll-proportion="-1.4552846" vertical-offset="3596" max-vertical-offset="4460">
+            <state vertical-scroll-proportion="0.3344426" vertical-offset="564" max-vertical-offset="4573">
+              <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Query.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="1377">
+              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
-                <element signature="e#0#48#0" expanded="true" />
-                <element signature="e#1920#2281#0" expanded="false" />
-                <element signature="e#2285#2667#0" expanded="false" />
-                <element signature="e#2672#3175#0" expanded="false" />
-                <element signature="e#3180#3212#0" expanded="false" />
-                <element signature="e#3216#3733#0" expanded="false" />
+                <element signature="e#26#100#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DatePoint.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+              <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,16 +209,18 @@
       <file leaf-file-name="Table.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="38" selection-start="4349" selection-end="4418" vertical-scroll-proportion="0.0" vertical-offset="2488" max-vertical-offset="2980">
+            <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="2533">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Conf.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+      <file leaf-file-name="build.sbt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.sbt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="10" selection-start="538" selection-end="542" vertical-scroll-proportion="0.0" vertical-offset="128" max-vertical-offset="860">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -145,7 +229,20 @@
       <file leaf-file-name="ScanCovert.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/utils/ScanCovert.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="48" selection-start="1123" selection-end="1123" vertical-scroll-proportion="0.0" vertical-offset="508" max-vertical-offset="1000">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
+              <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Conf.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -154,7 +251,8 @@
       <file leaf-file-name="RandEvent.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="480" column="3" selection-start="21370" selection-end="21370" vertical-scroll-proportion="0.0" vertical-offset="9600" max-vertical-offset="10180">
+            <state vertical-scroll-proportion="0.0" vertical-offset="7516" max-vertical-offset="8534">
+              <caret line="480" column="3" selection-start-line="480" selection-start-column="3" selection-end-line="480" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -163,7 +261,8 @@
       <file leaf-file-name="RwRDD.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="154" column="52" selection-start="4867" selection-end="4867" vertical-scroll-proportion="0.0" vertical-offset="2688" max-vertical-offset="3180">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2703">
+              <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -179,6 +278,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="liuyou" />
         <option value="tjuliuyou" />
       </list>
     </option>
@@ -191,7 +291,6 @@
         <option value="$PROJECT_DIR$/src/conf/mapred-site.xml" />
         <option value="$PROJECT_DIR$/src/conf/yarn-site.xml" />
         <option value="$PROJECT_DIR$/src/conf/hbase-site.xml" />
-        <option value="$PROJECT_DIR$/build.sbt" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala" />
         <option value="$PROJECT_DIR$/src/main/java/byone/hbase/utils/ScanCovert.java" />
         <option value="$PROJECT_DIR$/src/main/resources/test/test.json" />
@@ -199,22 +298,24 @@
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/test.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/test.json" />
         <option value="$PROJECT_DIR$/src/test/scala/test2.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/test3.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
+        <option value="$PROJECT_DIR$/build.sbt" />
         <option value="$PROJECT_DIR$/src/test/scala/tests4.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1440" />
-    <option name="y" value="24" />
-    <option name="width" value="1440" />
-    <option name="height" value="876" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -223,6 +324,8 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
@@ -230,7 +333,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -243,7 +346,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -259,7 +361,7 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -269,33 +371,19 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -305,41 +393,23 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -349,27 +419,27 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -379,61 +449,27 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conf.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="uid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -443,61 +479,27 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uid" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RandEvent.scala" />
-              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="scala" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -507,19 +509,15 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -529,41 +527,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -573,17 +558,28 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="FullScreen" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="228" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="247" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="249" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1153" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="228" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="247" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="249" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1153" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -594,30 +590,35 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.test4">
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <module name="" />
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="depsClasspath" value="false" />
+      <setting name="passParentEnv" value="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
       <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
       <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -628,7 +629,24 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -655,34 +673,8 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -702,6 +694,125 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -719,9 +830,26 @@
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="test" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="test" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -738,6 +866,7 @@
       <method />
     </configuration>
     <configuration default="false" name="client" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="byone.hbase.Client" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -754,6 +883,7 @@
       <method />
     </configuration>
     <configuration default="false" name="test2" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="test2" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -770,6 +900,7 @@
       <method />
     </configuration>
     <configuration default="false" name="test3" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="test3" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -786,6 +917,7 @@
       <method />
     </configuration>
     <configuration default="false" name="test4" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="tests4" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -831,11 +963,11 @@
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="hbaseClient" />
+                <option name="name" value="hbaseclient" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
-                <option name="name" value="hbaseClient-build" />
+                <option name="name" value="hbaseclient-build" />
                 <option name="path" value="$PROJECT_DIR$/project" />
               </ExternalProjectPojo>
             </list>
@@ -845,34 +977,22 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="1405581565492" />
         <entry key="$PROJECT_DIR$/../hbasetest" value="1405561772021" />
       </map>
     </option>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
-    <option name="USER" value="" />
-    <option name="PASSWORD" value="" />
-    <option name="mySSHConnectionTimeout" value="30000" />
-    <option name="mySSHReadTimeout" value="30000" />
-    <option name="LAST_MERGED_REVISION" />
-    <option name="MERGE_DRY_RUN" value="false" />
-    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
-    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
-    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
-    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
-    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <option name="FORCE_UPDATE" value="false" />
-    <option name="IGNORE_EXTERNALS" value="false" />
-    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  <component name="SvnConfiguration" myUseAcceleration="nothing">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="" />
       <created>1406163450723</created>
       <updated>1406163450723</updated>
+      <workItem from="1406937613585" duration="55000" />
+      <workItem from="1406937682541" duration="590000" />
+      <workItem from="1406938311619" duration="3397000" />
     </task>
     <task id="LOCAL-00001" summary="mess&#10;multi-thread">
       <created>1406888738376</created>
@@ -881,8 +1001,11 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="4042000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="24" width="1440" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -890,22 +1013,26 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="SBT Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34793493" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3266583" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32979852" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32661718" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="SBT" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19444445" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31539425" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24270834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31495228" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -914,7 +1041,10 @@
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USERS">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
   </component>
@@ -926,7 +1056,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="mess&#10;multi-thread" />
-    <option name="LAST_COMMIT_MESSAGE" value="mess&#10;multi-thread" />
+    <MESSAGE value="add Query class" />
+    <option name="LAST_COMMIT_MESSAGE" value="add Query class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -936,349 +1067,402 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8160" max-vertical-offset="8653">
+          <caret line="480" column="3" selection-start-line="480" selection-start-column="3" selection-end-line="480" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2618" max-vertical-offset="2873">
+          <caret line="154" column="52" selection-start-line="154" selection-start-column="52" selection-end-line="154" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+          <caret line="23" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="6" selection-start="1830" selection-end="1830" vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="1700">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1500" max-vertical-offset="1700">
+          <caret line="75" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="26" selection-start="1792" selection-end="1792" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1960" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1960">
+          <caret line="43" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="3" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="2520">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="2520">
+          <caret line="57" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="0" selection-start="4760" selection-end="4780" vertical-scroll-proportion="0.0" vertical-offset="1508" max-vertical-offset="3360">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1508" max-vertical-offset="3360">
+          <caret line="154" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="4" selection-start="850" selection-end="850" vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="840">
+        <state vertical-scroll-proportion="0.0" vertical-offset="580" max-vertical-offset="840">
+          <caret line="29" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="42" selection-start="2272" selection-end="2294" vertical-scroll-proportion="0.0" vertical-offset="2173" max-vertical-offset="2820">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2173" max-vertical-offset="2820">
+          <caret line="78" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="25" selection-start="800" selection-end="800" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+        <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+          <caret line="27" column="25" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
+          <caret line="4" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="746" selection-end="746" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1920">
+        <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="1920">
+          <caret line="21" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+          <caret line="22" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="1660" selection-end="1660" vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
+          <caret line="70" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="40" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+        <state vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+          <caret line="19" column="40" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="4" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+        <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+          <caret line="27" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
+          <caret line="4" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="746" selection-end="746" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="2060">
+        <state vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="2060">
+          <caret line="21" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="440" max-vertical-offset="1160">
+          <caret line="22" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="1660" selection-end="1660" vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="1700">
+          <caret line="70" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="40" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+        <state vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="2780">
+          <caret line="19" column="40" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="4" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+        <state vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="960">
+          <caret line="27" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="24" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="400">
+          <caret line="4" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2060">
+        <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2060">
+          <caret line="18" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="24" selection-start="625" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+          <caret line="23" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="699" selection-end="699" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="2780">
+        <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="2780">
+          <caret line="24" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="23" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+        <state vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+          <caret line="39" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="39" selection-start="2240" selection-end="2240" vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="2060">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1400" max-vertical-offset="2060">
+          <caret line="70" column="39" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="24" selection-start="625" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1160">
+          <caret line="23" column="24" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="124" column="22" selection-start="3733" selection-end="3733" vertical-scroll-proportion="0.0" vertical-offset="1759" max-vertical-offset="2740">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1759" max-vertical-offset="2740">
+          <caret line="124" column="22" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="8" selection-start="365" selection-end="365" vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="740">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="179" max-vertical-offset="740">
+          <caret line="18" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="23" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+        <state vertical-scroll-proportion="0.0" vertical-offset="780" max-vertical-offset="960">
+          <caret line="39" column="23" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="31" selection-start="1788" selection-end="1788" vertical-scroll-proportion="0.0" vertical-offset="1460" max-vertical-offset="1700">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1460" max-vertical-offset="1700">
+          <caret line="73" column="31" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="4" selection-start="2839" selection-end="3031" vertical-scroll-proportion="0.0" vertical-offset="1900" max-vertical-offset="2220">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1900" max-vertical-offset="2220">
+          <caret line="95" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="478" column="19" selection-start="21298" selection-end="21298" vertical-scroll-proportion="0.0" vertical-offset="9492" max-vertical-offset="10160">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9492" max-vertical-offset="10160">
+          <caret line="478" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/conf/mapred-site.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="24" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.6964587" vertical-offset="187" max-vertical-offset="780" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/conf/yarn-site.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="22" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.7394366" vertical-offset="240" max-vertical-offset="1000" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/conf/hbase-site.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="48" selection-start="186" selection-end="186" vertical-scroll-proportion="0.16863406" vertical-offset="0" max-vertical-offset="593" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="1" selection-start="482" selection-end="482" vertical-scroll-proportion="0.6113537" vertical-offset="0" max-vertical-offset="458" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="6" selection-start="1830" selection-end="1830" vertical-scroll-proportion="1.2956989" vertical-offset="416" max-vertical-offset="1580">
-          <folding />
+        <state vertical-scroll-proportion="1.2956989" vertical-offset="416" max-vertical-offset="1580">
+          <caret line="75" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Aggre.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="7" selection-start="1798" selection-end="1798" vertical-scroll-proportion="0.0" vertical-offset="936" max-vertical-offset="1780">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="525" selection-end="525" vertical-scroll-proportion="0.5913978" vertical-offset="0" max-vertical-offset="744">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="936" max-vertical-offset="1780">
+          <caret line="64" column="7" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test2.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="35" selection-start="1440" selection-end="1440" vertical-scroll-proportion="0.0" vertical-offset="469" max-vertical-offset="960">
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="986">
+          <caret line="37" column="35" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="5" selection-start="14" selection-end="14" vertical-scroll-proportion="0.10050251" vertical-offset="0" max-vertical-offset="1960" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.0" vertical-offset="309" max-vertical-offset="780">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="46" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.0" vertical-offset="337" max-vertical-offset="1120">
-          <folding />
+        <state vertical-scroll-proportion="0.10050251" vertical-offset="0" max-vertical-offset="1960">
+          <caret line="2" column="5" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test3.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="20" selection-start="1965" selection-end="1965" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="2340">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1054" max-vertical-offset="2108">
+          <caret line="62" column="20" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="480" column="3" selection-start="21370" selection-end="21370" vertical-scroll-proportion="0.0" vertical-offset="9160" max-vertical-offset="10040">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+    <entry file="file://$PROJECT_DIR$/build.sbt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="52" selection-start="4867" selection-end="4867" vertical-scroll-proportion="0.0" vertical-offset="1089" max-vertical-offset="3180">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="38" selection-start="4349" selection-end="4418" vertical-scroll-proportion="0.0" vertical-offset="2500" max-vertical-offset="2980">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2652">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/utils/ScanCovert.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="48" selection-start="1123" selection-end="1123" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1000">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
+          <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="8160" max-vertical-offset="8653">
+          <caret line="480" column="3" selection-start-line="480" selection-start-column="3" selection-end-line="480" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2703">
+          <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="80" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="10" selection-start="538" selection-end="542" vertical-scroll-proportion="0.0" vertical-offset="128" max-vertical-offset="860">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="1377">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#26#100#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/tests4.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="29" selection-start="5927" selection-end="5927" vertical-scroll-proportion="-1.4552846" vertical-offset="3596" max-vertical-offset="4460">
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-            <element signature="e#1920#2281#0" expanded="false" />
-            <element signature="e#2285#2667#0" expanded="false" />
-            <element signature="e#2672#3175#0" expanded="false" />
-            <element signature="e#3180#3212#0" expanded="false" />
-            <element signature="e#3216#3733#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.3344426" vertical-offset="564" max-vertical-offset="4573">
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
