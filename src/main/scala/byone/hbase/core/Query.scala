@@ -22,9 +22,9 @@ class Query(startKey: Int, range: List[Array[Byte]],filter: Filter)
   private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
   def call(): RDD[(ImmutableBytesWritable,Result)] = {
 
-    val futures = new Array[Future[RDD[(ImmutableBytesWritable,Result)]]](regions)
+
     var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
-    for (i <- 0 until regions)
+    val futures = for (i <- 0 until regions) yield
     {
       val pre = DatePoint.Int2Byte(startKey+i,1)
       val startRow = pre ++ range(0)
@@ -35,7 +35,7 @@ class Query(startKey: Int, range: List[Array[Byte]],filter: Filter)
       sn.setCacheBlocks(true)
       sn.setCaching(10000)
       sn.setReversed(true)
-      futures(i) = pool.submit(new RegionQuery(ScanToString(sn)))
+      pool.submit(new RegionQuery(ScanToString(sn)))
 
     }
     var x = 0
@@ -63,7 +63,8 @@ class RegionQuery(scanString: String) extends Callable[RDD[(ImmutableBytesWritab
   {
 
     //
-    val conf = new HBaseConfiguration(Conf.conf)
+    //val conf = new HBaseConfiguration(Conf.conf)
+    val conf = HBaseConfiguration.create(Conf.conf)
     conf.set(TableInputFormat.SCAN,scanString)
     val singlerdd = Conf.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
