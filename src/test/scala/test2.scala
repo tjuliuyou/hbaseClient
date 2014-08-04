@@ -18,35 +18,65 @@ object test2 {
   def main(args: Array[String]) {
 
 
-    val tablename ="log_data"
-        val admin = new HBaseAdmin(Conf.conf)
-        if(admin.tableExists(tablename)){
-          admin.disableTable(tablename)
-          admin.deleteTable(tablename)
-          println("drop table: '" +tablename + "' successfully.")
-        }
+    val tablename ="test"
+//        val admin = new HBaseAdmin(Conf.conf)
+//        if(admin.tableExists(tablename)){
+//          admin.disableTable(tablename)
+//          admin.deleteTable(tablename)
+//          println("drop table: '" +tablename + "' successfully.")
+//        }
+//
+//          val desc : HTableDescriptor = new HTableDescriptor(tablename)
+//          val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
+//          hdes.setInMemory(true)
+//          hdes.setMaxVersions(1)
+//          hdes.setCompressionType(Algorithm.SNAPPY)
+//          hdes.setBloomFilterType(BloomType.ROW)
+//          desc.addFamily(hdes)
+//
+//
+//
+//          admin.createTable(desc)
+//
+//          println("create table: '" +tablename + "' successfully.")
 
-          val desc : HTableDescriptor = new HTableDescriptor(tablename)
-          val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
-          hdes.setInMemory(true)
-          hdes.setMaxVersions(1)
-          hdes.setCompressionType(Algorithm.SNAPPY)
-          hdes.setBloomFilterType(BloomType.ROW)
-          desc.addFamily(hdes)
+    val uid = new UniqueId
+    uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
+    val tb = new HTable(Conf.conf,tablename)
 
-          def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
-            val range = stopkey - startkey
-            val rangeIncrement = range/(num-1)
-            val ret =for(i <- 0 until (num-1)) yield {
-              val key = startkey + rangeIncrement*i
-              RandEvent.Int2Byte(key,1) //++ RandEvent.Int2Byte(Int.MaxValue, 4)
-            }
-            ret.toArray
-          }
+    val a = (129).toByte
+    val b = (230).toByte
+    val c = (5).toByte
+    val x = Array(a,b,c)
+    val y =for(sub <- x) yield {
+      print(sub+",")
+      sub.toChar
+    }
+    println()
+    val value = y.mkString
 
-          admin.createTable(desc,getSplits(1,16,16))
+    println(x.mkString +"   ---   "+ value)
+    println()
+    val xx = value.toList
+    val yy = x.mkString.toList
+    xx.foreach(sx=>print(sx+"--"))
+    yy.map(x=>x.toByte).foreach(print)
+    val pt = new Put(value.getBytes)
+   uid.getCached.foreach(x=>{
+     val vle = x.mkString
+     pt.add("d".getBytes,vle.getBytes,x)
+     pt.add("d".getBytes,vle.getBytes,vle.getBytes)
+   })
 
-          println("create table: '" +tablename + "' successfully.")
+
+
+    //pt.add("d".getBytes,"d".getBytes,x)
+
+
+   // tb.put(pt)
+    println("put to table successfully.")
+
+
 
   }
 }

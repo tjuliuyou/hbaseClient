@@ -13,7 +13,7 @@ import org.apache.spark.rdd.RDD
 /**
  * Created by liuyou on 2014/8/2.
  */
-class Query(startKey: Int, range: List[Array[Byte]],filter: Filter)
+class Query(startKey: Int,filter: Filter, range: List[Array[Byte]],items: List[String])
   extends Callable[RDD[(ImmutableBytesWritable,Result)]] {
   //Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
   private val regions = Conf.REGIONRANGE
@@ -21,7 +21,6 @@ class Query(startKey: Int, range: List[Array[Byte]],filter: Filter)
   private val pool: ExecutorService = Executors.newFixedThreadPool(regions)
   private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
   def call(): RDD[(ImmutableBytesWritable,Result)] = {
-
 
     var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
     val futures = for (i <- 0 until regions) yield
@@ -31,24 +30,21 @@ class Query(startKey: Int, range: List[Array[Byte]],filter: Filter)
       val stopRow = pre ++ range(1)
 
       val sn = new Scan(startRow, stopRow)
-      //val sn = new Scan()
+      sn.setFilter(filter)
       sn.setCacheBlocks(true)
       sn.setCaching(10000)
       sn.setReversed(true)
+      if(items.nonEmpty){
+        items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
+      }
+
       pool.submit(new RegionQuery(ScanToString(sn)))
 
     }
-    var x = 0
     for(future <- futures ){
-
       val r = future.get()
-      println("futures startpre:  "+ x + "   singlerdd: "+ r.count())
       ret = ret ++ r
-      x +=1
     }
-
-    println("startkey: "+ startKey.toInt +"  ret count: " + ret.count())
-
     pool.shutdown()
     ret
 
@@ -61,17 +57,11 @@ class RegionQuery(scanString: String) extends Callable[RDD[(ImmutableBytesWritab
 {
   def call() : RDD[(ImmutableBytesWritable,Result)] =
   {
-
-    //
-    //val conf = new HBaseConfiguration(Conf.conf)
     val conf = HBaseConfiguration.create(Conf.conf)
     conf.set(TableInputFormat.SCAN,scanString)
     val singlerdd = Conf.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
-    //print("startpre:  "+(startRow(0)).toInt+"   ")
-    //println("startpre:  "+(startRow(0)).toInt+ "   singlerdd: "+singlerdd.count())
     singlerdd
-
   }
 }

@@ -11,8 +11,10 @@ import scala.collection.mutable.Map
 import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
-import org.apache.hadoop.hbase.filter.{FilterList, Filter, ParseFilter}
+import org.apache.hadoop.hbase.filter._
 import scala.collection.JavaConverters._
+import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp
+import byone.hbase.utils.Args
 
 /**
  * Created by dream on 7/7/14.
@@ -26,13 +28,46 @@ class RwRDD(table : String) extends java.io.Serializable {
 
 
   private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
-  private def ScansToString = (sl : List[Scan]) => new ScanCovert().coverToScan(sl.asJava)
-  private def hbaseFilter(in:String) = {
-    if(in.isEmpty)
-      new FilterList()
-    else
-      new ParseFilter().parseFilterString(in)
+
+
+  private def hbaseFilter(in:String,events: List[String]) = {
+    val fl =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+    if(!events.isEmpty){
+      val ents = for(event <- events) yield {
+        val e = for(x <- uid.id(event)) yield x.toChar
+        e.mkString
+      }
+      //ents.foreach(println)
+      val sg = "(RowFilter (=, 'substring:" +ents(1)+ "'))"
+      println(sg)
+      val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator("(?s)^.{5}"+ents(0)+"*"))
+     // val rowfilter = new ParseFilter().parseFilterString(in)
+      fl.addFilter(rowfilter)
+    }
+    if(!in.equals("null")){
+      val colfilter = new ParseFilter().parseFilterString(in)
+      fl.addFilter(colfilter)
+    }
+    fl
   }
+
+//  private def hbaseFilter(in:String,events: List[String]) = {
+//    val fl =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+//    if(!events.isEmpty){
+//      val ents = for(event <- events) yield {
+//        val e = for(x <- uid.id(event)) yield x.toChar
+//        e.mkString
+//      }
+//      val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator("(?s)^.{5}"+ents(0)+"*"))
+//      //val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator()
+//      fl.addFilter(rowfilter)
+//    }
+//    if(!in.equals("null")){
+//      val colfilter = new ParseFilter().parseFilterString(in)
+//      fl.addFilter(colfilter)
+//    }
+//    fl
+//  }
 
   private def NumRegion(): Int = 16
   /**
@@ -89,6 +124,7 @@ class RwRDD(table : String) extends java.io.Serializable {
       sn.setCacheBlocks(false)
       sn.setCaching(10000)
       sn.setReversed(true)
+      //sn.set
      // sn.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tablename.getBytes);
       if(!args.Items.isEmpty)
         args.Items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
@@ -96,7 +132,7 @@ class RwRDD(table : String) extends java.io.Serializable {
       }
     }else
        {
-         val fl = hbaseFilter(args.Filter)
+         val fl = hbaseFilter(args.Filter,args.Events)
          area.map{rows =>
            val sn = new Scan(rows._1,rows._2)
            sn.setFilter(fl)
@@ -139,17 +175,6 @@ class RwRDD(table : String) extends java.io.Serializable {
     hBaseRDD
   }
 
-  /**
-   *  get base hbase RDD with Scan list
-   */
-//  def gethbaseRDDs = (scans: List[Scan]) =>  {
-//    //Conf.conf.set(TableInputFormat.INPUT_TABLE, "log_data")
-//    Conf.conf.setStrings(MultiTableInputFormat.SCANS,ScanToString(scans))
-//    val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
-//      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
-//      classOf[org.apache.hadoop.hbase.client.Result])
-//    hBaseRDD
-//  }
 
   def startList: Iterable[Int] = {
     val tb = new HTable(Conf.conf,tablename)
@@ -173,9 +198,11 @@ class RwRDD(table : String) extends java.io.Serializable {
     require(!args.Range.isEmpty)
     val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
     val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
-    val retrdd = if(rsyc){
+    val filter = hbaseFilter(args.Filter,args.Events)
 
-      multiGet(range,hbaseFilter(args.Filter))
+    val retrdd = if(rsyc){
+      Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
+      multiGet(filter,range,args.Items)
 
     }else {
 
@@ -193,27 +220,19 @@ class RwRDD(table : String) extends java.io.Serializable {
   def singleGet()={}
 
   // multi thread to get rdds
-  def multiGet(range: List[Array[Byte]], filter: Filter): RDD[(ImmutableBytesWritable,Result)] ={
+  def multiGet( filter: Filter,range: List[Array[Byte]],items:List[String]): RDD[(ImmutableBytesWritable,Result)] ={
 
-    Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
-    val ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
-
+    var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
     val keyRange = startList.size
     val pool: ExecutorService = Executors.newFixedThreadPool(keyRange)
-    //val futures = new Array[Future[RDD[(ImmutableBytesWritable,Result)]]](keyRange)
-
     val futures = for(key <- startList) yield {
-        pool.submit(new Query(key,range,filter))
+        pool.submit(new Query(key,filter,range,items))
     }
-    var x = 0
-
     for(future <- futures ){
-
       val r = future.get()
-      println("futures startpre:  "+ x + "   singlerdd: "+ r.count())
-      //ret = ret ++ r
-      x +=1
+      ret = ret ++ r
     }
+    pool.shutdown()
     ret
   }
 

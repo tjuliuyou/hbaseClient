@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.hadoop.hbase.regionserver.BloomType
-import org.apache.hadoop.hbase.{HRegionInfo, HColumnDescriptor, HTableDescriptor}
+import org.apache.hadoop.hbase.{HBaseConfiguration, HRegionInfo, HColumnDescriptor, HTableDescriptor}
 import org.apache.spark.rdd.RDD
 import scala.collection.JavaConverters._
 import scala.collection.mutable.Map
@@ -263,8 +263,10 @@ object tests4 {
       sn.setReversed(true)
 
       Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
-      Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
-      val singlerdd = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+     // val conf = new HBaseConfiguration(Conf.conf)
+      val conf = HBaseConfiguration.create(Conf.conf)
+      conf.set(TableInputFormat.SCAN,ScanToString(sn))
+      val singlerdd = Conf.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
         classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
         classOf[org.apache.hadoop.hbase.client.Result])
       //print("startpre:  "+(startRow(0)).toInt+"   ")

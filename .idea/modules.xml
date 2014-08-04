@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hbaseclient.iml" filepath="$PROJECT_DIR$/.idea/modules/hbaseclient.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hbaseclient-build.iml" filepath="$PROJECT_DIR$/.idea/modules/hbaseclient-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hbaseClient.iml" filepath="$PROJECT_DIR$/hbaseClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project/hbaseClient-build.iml" filepath="$PROJECT_DIR$/project/hbaseClient-build.iml" />
     </modules>
   </component>
 </project>
