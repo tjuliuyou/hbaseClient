@@ -19,26 +19,26 @@ object test2 {
 
 
     val tablename ="test"
-//        val admin = new HBaseAdmin(Conf.conf)
-//        if(admin.tableExists(tablename)){
-//          admin.disableTable(tablename)
-//          admin.deleteTable(tablename)
-//          println("drop table: '" +tablename + "' successfully.")
-//        }
-//
-//          val desc : HTableDescriptor = new HTableDescriptor(tablename)
-//          val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
-//          hdes.setInMemory(true)
-//          hdes.setMaxVersions(1)
-//          hdes.setCompressionType(Algorithm.SNAPPY)
-//          hdes.setBloomFilterType(BloomType.ROW)
-//          desc.addFamily(hdes)
-//
-//
-//
-//          admin.createTable(desc)
-//
-//          println("create table: '" +tablename + "' successfully.")
+        val admin = new HBaseAdmin(Conf.conf)
+        if(admin.tableExists(tablename)){
+          admin.disableTable(tablename)
+          admin.deleteTable(tablename)
+          println("drop table: '" +tablename + "' successfully.")
+        }
+
+          val desc : HTableDescriptor = new HTableDescriptor(tablename)
+          val hdes: HColumnDescriptor = new HColumnDescriptor("d".getBytes)
+          hdes.setInMemory(true)
+          hdes.setMaxVersions(1)
+          hdes.setCompressionType(Algorithm.SNAPPY)
+          hdes.setBloomFilterType(BloomType.ROW)
+          desc.addFamily(hdes)
+
+
+
+          admin.createTable(desc)
+
+          println("create table: '" +tablename + "' successfully.")
 
     val uid = new UniqueId
     uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
@@ -53,27 +53,29 @@ object test2 {
       sub.toChar
     }
     println()
-    val value = y.mkString
+    val value = new String(x.map(_.toChar))
 
-    println(x.mkString +"   ---   "+ value)
-    println()
-    val xx = value.toList
-    val yy = x.mkString.toList
-    xx.foreach(sx=>print(sx+"--"))
-    yy.map(x=>x.toByte).foreach(print)
-    val pt = new Put(value.getBytes)
+
+
+    val pt = new Put(value.toCharArray.map(_.toByte))
    uid.getCached.foreach(x=>{
-     val vle = x.mkString
+     val vle = new String(x.map(_.toChar))
      pt.add("d".getBytes,vle.getBytes,x)
      pt.add("d".getBytes,vle.getBytes,vle.getBytes)
    })
 
-
+    val put = new Put(x)
+    uid.getCached.foreach(x=>{
+      val vle = new String(x.map(_.toChar))
+      put.add("d".getBytes,vle.getBytes,x)
+      put.add("d".getBytes,vle.getBytes,vle.getBytes)
+    })
 
     //pt.add("d".getBytes,"d".getBytes,x)
 
 
-   // tb.put(pt)
+   tb.put(pt)
+    tb.put(put)
     println("put to table successfully.")
 
 

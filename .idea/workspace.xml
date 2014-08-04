@@ -6,22 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="add Query class">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__commons_logging_commons_logging_1_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/SBT__org_apache_commons_commons_lang3_3_3_2.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.sbt" afterPath="$PROJECT_DIR$/build.sbt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/test.json" afterPath="$PROJECT_DIR$/src/main/resources/test.json" />
+    <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/test2.scala" afterPath="$PROJECT_DIR$/src/test/scala/test2.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/test5.scala" afterPath="$PROJECT_DIR$/src/test/scala/test5.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/tests4.scala" afterPath="$PROJECT_DIR$/src/test/scala/tests4.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hbaseClient.iws" />
@@ -107,7 +93,7 @@
       <file leaf-file-name="test2.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/scala/test2.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="22" selection-start="1991" selection-end="1991" vertical-scroll-proportion="0.78228784" vertical-offset="616" max-vertical-offset="1560">
+            <state line="61" column="42" selection-start="1924" selection-end="1924" vertical-scroll-proportion="0.55719554" vertical-offset="718" max-vertical-offset="1600">
               <folding />
             </state>
           </provider>
@@ -575,6 +561,14 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -967,7 +961,11 @@
       <created>1406942306488</created>
       <updated>1406942306488</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="rowfilte dev">
+      <created>1407146529139</created>
+      <updated>1407146529139</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -997,7 +995,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24236111" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25281602" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25281602" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1023,7 +1021,8 @@
     </option>
     <MESSAGE value="mess&#10;multi-thread" />
     <MESSAGE value="add Query class" />
-    <option name="LAST_COMMIT_MESSAGE" value="add Query class" />
+    <MESSAGE value="rowfilte dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="rowfilte dev" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1360,7 +1359,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test2.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="22" selection-start="1991" selection-end="1991" vertical-scroll-proportion="0.78228784" vertical-offset="616" max-vertical-offset="1560">
+        <state line="61" column="42" selection-start="1924" selection-end="1924" vertical-scroll-proportion="0.55719554" vertical-offset="718" max-vertical-offset="1600">
           <folding />
         </state>
       </provider>
