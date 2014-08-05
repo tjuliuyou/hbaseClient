@@ -12,11 +12,11 @@ import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.
  */
-object test {
+object puttest {
   //implicit formats = DefaultFormats
   def main(args: Array[String]) {
 
-    val tablename ="log_data"
+    val tablename = Conf.tablename
 
 
 

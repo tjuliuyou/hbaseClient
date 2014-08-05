@@ -57,8 +57,8 @@
 	{
 		"Range"		:["01/08/2014 10:48:59","01/08/2014 10:49:00"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
-		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
-		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',=,'binary:103')",
+		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_PING_STAT"],
+		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',=,'binary:56'))",
 		"Groupby"	:null,
 		"Aggres" 	:null
 	},
@@ -83,7 +83,7 @@
 
     "test9":
         {
-        	"Range"		:["01/08/2014 10:48:59","01/08/2014 10:49:00"],
+        	"Range"		:["05/08/2014 15:15:17","05/08/2014 15:15:18"],
         	"Items"		:["eventType", "relayDevIpAddr"],
         	"Events"	:null,
         	"Filter"	:"null",

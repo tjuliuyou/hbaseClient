@@ -1,5 +1,5 @@
 import byone.hbase.uid.{RandEvent, EventFactory, UniqueId}
-import byone.hbase.utils.{ScanCovert, Conf}
+import byone.hbase.utils.{DatePoint, ScanCovert, Conf}
 import java.lang.String
 import net.liftweb.json.Formats
 import net.liftweb.json.JsonParser.parse
@@ -12,13 +12,13 @@ import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.
  */
-object test2 {
+object creatTable {
   def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
 
   def main(args: Array[String]) {
 
 
-    val tablename ="test"
+    val tablename ="log_data"
         val admin = new HBaseAdmin(Conf.conf)
         if(admin.tableExists(tablename)){
           admin.disableTable(tablename)
@@ -34,49 +34,21 @@ object test2 {
           hdes.setBloomFilterType(BloomType.ROW)
           desc.addFamily(hdes)
 
+          def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
+            val range = stopkey - startkey
+            val rangeIncrement = range/(num-1)
+            val ret =for(i <- 0 until (num-1)) yield {
+              val key = startkey + rangeIncrement*i
+              RandEvent.Int2Byte(key,1) //++ RandEvent.Int2Byte(Int.MaxValue, 4)
+            }
+            ret.toArray
+          }
+
+    admin.createTable(desc,getSplits(1,16,16))
+
+    println("create table: '" +tablename + "' successfully.")
 
 
-          admin.createTable(desc)
-
-          println("create table: '" +tablename + "' successfully.")
-
-    val uid = new UniqueId
-    uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
-    val tb = new HTable(Conf.conf,tablename)
-
-    val a = (129).toByte
-    val b = (230).toByte
-    val c = (5).toByte
-    val x = Array(a,b,c)
-    val y =for(sub <- x) yield {
-      print(sub+",")
-      sub.toChar
-    }
-    println()
-    val value = new String(x.map(_.toChar))
-
-
-
-    val pt = new Put(value.toCharArray.map(_.toByte))
-   uid.getCached.foreach(x=>{
-     val vle = new String(x.map(_.toChar))
-     pt.add("d".getBytes,vle.getBytes,x)
-     pt.add("d".getBytes,vle.getBytes,vle.getBytes)
-   })
-
-    val put = new Put(x)
-    uid.getCached.foreach(x=>{
-      val vle = new String(x.map(_.toChar))
-      put.add("d".getBytes,vle.getBytes,x)
-      put.add("d".getBytes,vle.getBytes,vle.getBytes)
-    })
-
-    //pt.add("d".getBytes,"d".getBytes,x)
-
-
-   tb.put(pt)
-    tb.put(put)
-    println("put to table successfully.")
 
 
 

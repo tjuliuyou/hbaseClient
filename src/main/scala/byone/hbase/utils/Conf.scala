@@ -12,7 +12,7 @@ import org.apache.spark.SparkContext
  */
 object Conf {
   // glable conf
-  val tablename = "log_data1"
+  val tablename = "log_data"
 
   private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
   private val YARN_CONF_PATH = "src/conf/yarn-site.xml"

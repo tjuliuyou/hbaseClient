@@ -13,8 +13,9 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
 import org.apache.hadoop.hbase.filter._
 import scala.collection.JavaConverters._
-import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp
 import byone.hbase.utils.Args
+import byone.hbase.filter.{EventListComparator, RowFilter, BinaryComparator}
+import byone.hbase.filter.CompareFilter.CompareOp
 
 /**
  * Created by dream on 7/7/14.
@@ -31,23 +32,23 @@ class RwRDD(table : String) extends java.io.Serializable {
 
 
   private def hbaseFilter(in:String,events: List[String]) = {
-    val fl =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+    val fl =new FilterList(FilterList.Operator.MUST_PASS_ONE)
     if(!events.isEmpty){
       val ents = for(event <- events) yield {
-        val e = for(x <- uid.id(event)) yield x.toChar
-        e.mkString
+        uid.id(event)
       }
-      //ents.foreach(println)
-      val sg = "(RowFilter (=, 'substring:" +ents(1)+ "'))"
-      println(sg)
-      val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator("(?s)^.{5}"+ents(0)+"*"))
-     // val rowfilter = new ParseFilter().parseFilterString(in)
+      ents(0).foreach(x=>print(x+","))
+      println
+      val rowfilter = new RowFilter(CompareOp.NOT_EQUAL,new BinaryComparator(ents(0)))
+
       fl.addFilter(rowfilter)
     }
+
     if(!in.equals("null")){
       val colfilter = new ParseFilter().parseFilterString(in)
       fl.addFilter(colfilter)
     }
+
     fl
   }
 
