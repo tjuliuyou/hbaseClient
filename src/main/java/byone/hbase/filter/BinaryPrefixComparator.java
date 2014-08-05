@@ -26,7 +26,7 @@ public class BinaryPrefixComparator extends ByteArrayComparable {
     private int offset;
     public BinaryPrefixComparator(byte[] value) {
         super(value);
-        this.offset = 5;
+        this.offset = 0;
     }
 
     public BinaryPrefixComparator(byte[] value, int offset) {
