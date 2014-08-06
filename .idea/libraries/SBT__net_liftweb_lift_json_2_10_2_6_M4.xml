@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="SBT: net.liftweb:lift-json_2.10:2.6-M4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/net.liftweb/lift-json_2.10/jars/lift-json_2.10-2.6-M4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.ivy2/cache/net.liftweb/lift-json_2.10/docs/lift-json_2.10-2.6-M4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/net.liftweb/lift-json_2.10/srcs/lift-json_2.10-2.6-M4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -19,7 +19,7 @@ class Query(startKey: Int,filter: Filter, range: List[Array[Byte]],items: List[S
   private val regions = Conf.REGIONRANGE
 
   private val pool: ExecutorService = Executors.newFixedThreadPool(regions)
-  private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
+
   def call(): RDD[(ImmutableBytesWritable,Result)] = {
 
     var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
@@ -38,7 +38,7 @@ class Query(startKey: Int,filter: Filter, range: List[Array[Byte]],items: List[S
         items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
       }
 
-      pool.submit(new RegionQuery(ScanToString(sn)))
+      pool.submit(new RegionQuery(DatePoint.ScanToString(sn)))
 
     }
     for(future <- futures ){

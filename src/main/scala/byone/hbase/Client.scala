@@ -25,7 +25,7 @@ object Client {
     // if group args is empty print raw rdd using  group 'd'
     if(thistest.Groupby.isEmpty){
 
-      //hbaseRDD.collect().foreach(x =>println(x._2))
+      hbaseRDD.collect().foreach(x =>println(x._2))
       println("hbaseRDD count: " + hbaseRDD.count())
     }
     else

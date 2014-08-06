@@ -6,26 +6,12 @@ import java.util.ArrayList;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
 import org.apache.hadoop.hbase.filter.Filter;
-//import org.apache.hadoop.hbase.protobuf.ProtobufUtil;
 import org.apache.hadoop.hbase.protobuf.generated.FilterProtos;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
-/**
- * This filter is used to filter based on the key. It takes an operator
- * (equal, greater, not equal, etc) and a byte [] comparator for the row,
- * and column qualifier portions of a key.
- * <p>
- * This filter can be wrapped with {@link //WhileMatchFilter} to add more control.
- * <p>
- * Multiple filters can be combined using {@link //FilterList}.
- * <p>
- * If an already known row range needs to be scanned, use {@link Scan} start
- * and stop rows directly rather than a filter.
- */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class RowFilter extends CompareFilter {
@@ -37,7 +23,7 @@ public class RowFilter extends CompareFilter {
      * @param rowCompareOp the compare op for row matching
      * @param rowComparator the comparator for row matching
      */
-    public RowFilter(final CompareOp rowCompareOp,
+    public RowFilter(final CompareFilter.CompareOp rowCompareOp,
                      final ByteArrayComparable rowComparator) {
         super(rowCompareOp, rowComparator);
     }

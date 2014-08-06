@@ -3,6 +3,7 @@ package byone.hbase.utils
 import java.text.SimpleDateFormat
 import scala.collection.mutable.Map
 import byone.hbase.uid.UniqueId
+import org.apache.hadoop.hbase.client.Scan
 
 /**
  * Created by dream on 7/7/14.
@@ -28,4 +29,5 @@ object DatePoint {
     val time =df.parse(date).getTime/1000
     num2Byte(time+delay,4)
   }
+  def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
 }

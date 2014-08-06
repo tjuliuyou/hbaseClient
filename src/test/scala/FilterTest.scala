@@ -1,13 +1,12 @@
 import byone.hbase.filter.CompareFilter.CompareOp
-import byone.hbase.filter.{BinaryPrefixComparator, BinaryComparator, RowFilter}
-import byone.hbase.uid.{UniqueId, RandEvent}
-import byone.hbase.utils.{DatePoint, ScanCovert, Conf}
-import java.lang.String
-import org.apache.hadoop.hbase.client.{Result, HTable, Scan}
-import org.apache.hadoop.hbase.filter.FilterList
-import org.apache.hadoop.hbase.{Cell, HRegionInfo}
+import byone.hbase.filter.{BinaryComparator, RowFilter}
+import byone.hbase.uid.UniqueId
+import byone.hbase.utils.{Conf, DatePoint, ScanCovert}
+import org.apache.hadoop.hbase.Cell
+import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
+import org.apache.hadoop.hbase.filter.{ParseFilter, Filter, FilterList}
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
-import scala._
+
 import scala.collection.JavaConverters._
 
 /**
@@ -59,11 +58,20 @@ object FilterTest {
 
     ents(0).foreach(x=>print(x+","))
     println()
-    val fl =new FilterList(FilterList.Operator.MUST_PASS_ONE)
-    //val rowfilter = new RowFilter(CompareOp.EQUAL,new BinaryPrefixComparator(pre ++ ts))
-    val rowfilter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(0)))
-    fl.addFilter(rowfilter)
-    sn.setFilter(fl)
+
+    //val rowfilter = new RowFilter(CompareOp.EQUAL,new BinaryPrefixComparator(pre ++ ts,1))
+    val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(0)))
+    val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(1)))
+    val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(2)))
+    val rowfl = List(rowfilter1,rowfilter2,rowfilter3)
+    val jrowfl = rowfl.asJava
+
+    val fl:Filter  =new FilterList(FilterList.Operator.MUST_PASS_ONE,jrowfl)
+    val flist  =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+    val colfilter = new ParseFilter().parseFilterString("SingleColumnValueFilter ('d','collectorId',=,'binary:114')")
+    flist.addFilter(fl)
+    flist.addFilter(colfilter)
+    sn.setFilter(flist)
     val ss = tb.getScanner(sn)
     var count =0
     for(res:Result <- ss.asScala){

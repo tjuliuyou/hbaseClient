@@ -482,17 +482,6 @@ object RandEvent {
 }
 
 object EventFactory {
-//  private val events  =XML.loadFile("src/main/resources/event.xml")
-//  private val base = Map[String, String]()
-//
-//  def nodeToMap = (event: Node) => {
-//    val cols = event \"attributes" \\ "attribute"
-//    val single = for(col <- cols) yield {
-//      (col \"@name").toString -> col.text
-//    }
-//    single
-//  }
-
 
   def rand(num: Int): List[Put] = {
     val pl =for(i <- 0 until num ) yield {

@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/byonehbasecore</output-path>
     <root id="archive" name="byonehbasecore.jar">
       <element id="module-output" name="hbaseClient" />
+      <element id="module-output" name="hbaseclient" />
     </root>
   </artifact>
 </component>

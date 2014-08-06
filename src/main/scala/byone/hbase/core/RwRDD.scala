@@ -1,20 +1,19 @@
 package byone.hbase.core
 
-import java.util.concurrent.{Executors, ExecutorService, Future}
+import java.util.concurrent.{Executors, ExecutorService}
 
-import byone.hbase.utils.{Args, Conf, DatePoint,ScanCovert}
+import byone.hbase.utils.{Conf, DatePoint}
 import org.apache.hadoop.hbase.client._
+import org.apache.hadoop.hbase.filter.{Filter, FilterList}
 import org.apache.hadoop.hbase.{HRegionInfo, Cell}
-import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import scala.collection.mutable.Map
 import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
-import org.apache.hadoop.hbase.filter._
+import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import scala.collection.JavaConverters._
 import byone.hbase.utils.Args
-import byone.hbase.filter.{EventListComparator, RowFilter, BinaryComparator}
+import byone.hbase.filter.{RowFilter, BinaryComparator}
 import byone.hbase.filter.CompareFilter.CompareOp
 
 /**
@@ -28,47 +27,27 @@ class RwRDD(table : String) extends java.io.Serializable {
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
 
-  private def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
-
-
   private def hbaseFilter(in:String,events: List[String]) = {
-    val fl =new FilterList(FilterList.Operator.MUST_PASS_ONE)
-    if(!events.isEmpty){
+    val flist =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+    if(events.nonEmpty){
       val ents = for(event <- events) yield {
-        uid.id(event)
+        val rowfilter: Filter = new RowFilter(
+          byone.hbase.filter.CompareFilter.CompareOp.EQUAL,new BinaryComparator(uid.id(event)))
+        rowfilter
       }
-      ents(0).foreach(x=>print(x+","))
-      println
-      val rowfilter = new RowFilter(CompareOp.NOT_EQUAL,new BinaryComparator(ents(0)))
-
-      fl.addFilter(rowfilter)
+      println("row filter")
+      val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE,ents.asJava)
+      flist.addFilter(rowlist)
     }
 
     if(!in.equals("null")){
-      val colfilter = new ParseFilter().parseFilterString(in)
-      fl.addFilter(colfilter)
+      flist.addFilter(new org.apache.hadoop.hbase.filter.ParseFilter().parseFilterString(in))
+
     }
 
-    fl
-  }
 
-//  private def hbaseFilter(in:String,events: List[String]) = {
-//    val fl =new FilterList(FilterList.Operator.MUST_PASS_ALL)
-//    if(!events.isEmpty){
-//      val ents = for(event <- events) yield {
-//        val e = for(x <- uid.id(event)) yield x.toChar
-//        e.mkString
-//      }
-//      val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator("(?s)^.{5}"+ents(0)+"*"))
-//      //val rowfilter = new RowFilter(CompareOp.EQUAL,new RegexStringComparator()
-//      fl.addFilter(rowfilter)
-//    }
-//    if(!in.equals("null")){
-//      val colfilter = new ParseFilter().parseFilterString(in)
-//      fl.addFilter(colfilter)
-//    }
-//    fl
-//  }
+    flist
+  }
 
   private def NumRegion(): Int = 16
   /**
@@ -169,7 +148,7 @@ class RwRDD(table : String) extends java.io.Serializable {
    */
   def gethbaseRDD = (scan: Scan) =>  {
     Conf.conf.set(TableInputFormat.INPUT_TABLE, tablename)
-    Conf.conf.set(TableInputFormat.SCAN,ScanToString(scan))
+    Conf.conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
     val hBaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
@@ -190,8 +169,6 @@ class RwRDD(table : String) extends java.io.Serializable {
   }
 
 
-
-
   /**
    *  get and merge hbase RDD
    */
@@ -199,7 +176,13 @@ class RwRDD(table : String) extends java.io.Serializable {
     require(!args.Range.isEmpty)
     val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
     val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
-    val filter = hbaseFilter(args.Filter,args.Events)
+    val filter =
+      if(args.Filter.equals("null") && args.Events.isEmpty) {
+        println("filter: null")
+        null
+      }
+      else
+        hbaseFilter(args.Filter,args.Events)
 
     val retrdd = if(rsyc){
       Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)

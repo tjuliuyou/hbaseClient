@@ -23,6 +23,7 @@ public abstract class CompareFilter extends FilterBase {
     @InterfaceAudience.Public
     @InterfaceStability.Stable
     public enum CompareOp {
+
         /** less than */
         LESS,
         /** less than or equal to */
@@ -37,6 +38,10 @@ public abstract class CompareFilter extends FilterBase {
         GREATER,
         /** no operation */
         NO_OP,
+        /** in */
+        IN,
+        /** no in */
+        NOT_IN,
     }
 
     protected CompareOp compareOp;
