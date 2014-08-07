@@ -7,7 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
+
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
@@ -43,8 +43,8 @@ public class BinaryPrefixComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.BinaryPrefixComparator.Builder builder =
-                ComparatorProtos.BinaryPrefixComparator.newBuilder();
+        ByComparatorProtos.BinaryPrefixComparator.Builder builder =
+                ByComparatorProtos.BinaryPrefixComparator.newBuilder();
         builder.setComparable(super.convert());
         return builder.build().toByteArray();
     }
@@ -57,9 +57,9 @@ public class BinaryPrefixComparator extends ByteArrayComparable {
      */
     public static BinaryPrefixComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ComparatorProtos.BinaryPrefixComparator proto;
+        ByComparatorProtos.BinaryPrefixComparator proto;
         try {
-            proto = ComparatorProtos.BinaryPrefixComparator.parseFrom(pbBytes);
+            proto = ByComparatorProtos.BinaryPrefixComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

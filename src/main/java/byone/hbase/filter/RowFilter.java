@@ -8,7 +8,6 @@ import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
 import org.apache.hadoop.hbase.filter.Filter;
-import org.apache.hadoop.hbase.protobuf.generated.FilterProtos;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 
@@ -66,8 +65,8 @@ public class RowFilter extends CompareFilter {
      * @return The filter serialized using pb
      */
     public byte [] toByteArray() {
-        FilterProtos.RowFilter.Builder builder =
-                FilterProtos.RowFilter.newBuilder();
+        ByFilterProtos.RowFilter.Builder builder =
+                ByFilterProtos.RowFilter.newBuilder();
         builder.setCompareFilter(super.convert());
         return builder.build().toByteArray();
     }
@@ -80,9 +79,9 @@ public class RowFilter extends CompareFilter {
      */
     public static RowFilter parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        FilterProtos.RowFilter proto;
+        ByFilterProtos.RowFilter proto;
         try {
-            proto = FilterProtos.RowFilter.parseFrom(pbBytes);
+            proto = ByFilterProtos.RowFilter.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
@@ -91,7 +90,7 @@ public class RowFilter extends CompareFilter {
         ByteArrayComparable valueComparator = null;
         try {
             if (proto.getCompareFilter().hasComparator()) {
-                valueComparator = ProtobufUtil.toComparator(proto.getCompareFilter().getComparator());
+                valueComparator = ByProtobufUtil.toComparator(proto.getCompareFilter().getComparator());
             }
         } catch (IOException ioe) {
             throw new DeserializationException(ioe);

@@ -7,28 +7,30 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
- * A binary comparator which lexicographically compares against the specified
- * byte array using {@link org.apache.hadoop.hbase.util.Bytes#compareTo(byte[], byte[])}.
+ * A comparator which compares against a specified byte array, but only compares
+ * up to the length of this byte array. For the rest it is similar to
+ *
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class BinaryComparator extends ByteArrayComparable {
+public class EventComparator extends ByteArrayComparable {
 
-    /**
-     * Constructor
-     * @param value value
-     */
-    public BinaryComparator(byte[] value) {
+    private int offset;
+    public EventComparator(byte [] value){
         super(value);
+        this.offset = 5;
+    }
+    public EventComparator(byte [] value,int offset){
+        super(value);
+        this.offset = offset;
     }
 
     @Override
     public int compareTo(byte [] value, int offset, int length) {
-        return Bytes.compareTo(this.value, 0, this.value.length, value, offset, this.value.length);
+        return Bytes.compareTo(this.value, 0, this.value.length, value,offset + this.offset, this.value.length);
     }
 
     /**
@@ -58,15 +60,12 @@ public class BinaryComparator extends ByteArrayComparable {
         return new BinaryComparator(proto.getComparable().getValue().toByteArray());
     }
 
-    /**
-     * @param other
-     * @return true if and only if the fields of the comparator that are serialized
-     * are equal to the corresponding fields in other.  Used for testing.
-     */
+
+
     boolean areSerializedFieldsEqual(ByteArrayComparable other) {
         if (other == this) return true;
-        if (!(other instanceof BinaryComparator)) return false;
-
+        if (!(other instanceof EventComparator)) return false;
         return super.areSerializedFieldsEqual(other);
     }
+
 }

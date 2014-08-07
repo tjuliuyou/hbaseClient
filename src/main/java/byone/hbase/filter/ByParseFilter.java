@@ -1,17 +1,15 @@
 package byone.hbase.filter;
 
-/**
- * Created by dream on 8/5/14.
- */
-import byone.hbase.filter.ByteArrayComparable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.filter.*;
+import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.SkipFilter;
+import org.apache.hadoop.hbase.filter.WhileMatchFilter;
 import org.apache.hadoop.hbase.util.Bytes;
-
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,8 +34,8 @@ import java.util.Stack;
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class ParseFilter {
-    private static final Log LOG = LogFactory.getLog(ParseFilter.class);
+public class ByParseFilter {
+    private static final Log LOG = LogFactory.getLog(ByParseFilter.class);
 
     private static HashMap<ByteBuffer, Integer> operatorPrecedenceHashMap;
     private static HashMap<String, String> filterHashMap;
@@ -45,49 +43,49 @@ public class ParseFilter {
     static {
         // Registers all the filter supported by the Filter Language
         filterHashMap = new HashMap<String, String>();
-        filterHashMap.put("KeyOnlyFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("KeyOnlyFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "KeyOnlyFilter");
-        filterHashMap.put("FirstKeyOnlyFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("FirstKeyOnlyFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "FirstKeyOnlyFilter");
-        filterHashMap.put("PrefixFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("PrefixFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "PrefixFilter");
-        filterHashMap.put("ColumnPrefixFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("ColumnPrefixFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "ColumnPrefixFilter");
-        filterHashMap.put("MultipleColumnPrefixFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("MultipleColumnPrefixFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "MultipleColumnPrefixFilter");
-        filterHashMap.put("ColumnCountGetFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("ColumnCountGetFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "ColumnCountGetFilter");
-        filterHashMap.put("PageFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("PageFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "PageFilter");
-        filterHashMap.put("ColumnPaginationFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("ColumnPaginationFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "ColumnPaginationFilter");
-        filterHashMap.put("InclusiveStopFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("InclusiveStopFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "InclusiveStopFilter");
-        filterHashMap.put("TimestampsFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("TimestampsFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "TimestampsFilter");
-        filterHashMap.put("RowFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("RowFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "RowFilter");
-        filterHashMap.put("FamilyFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("FamilyFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "FamilyFilter");
-        filterHashMap.put("QualifierFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("QualifierFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "QualifierFilter");
-        filterHashMap.put("ValueFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("ValueFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "ValueFilter");
-        filterHashMap.put("ColumnRangeFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("ColumnRangeFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "ColumnRangeFilter");
-        filterHashMap.put("SingleColumnValueFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("SingleColumnValueFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "SingleColumnValueFilter");
-        filterHashMap.put("SingleColumnValueExcludeFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("SingleColumnValueExcludeFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "SingleColumnValueExcludeFilter");
-        filterHashMap.put("DependentColumnFilter", ParseConstants.FILTER_PACKAGE + "." +
+        filterHashMap.put("DependentColumnFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "DependentColumnFilter");
 
         // Creates the operatorPrecedenceHashMap
         operatorPrecedenceHashMap = new HashMap<ByteBuffer, Integer>();
-        operatorPrecedenceHashMap.put(ParseConstants.SKIP_BUFFER, 1);
-        operatorPrecedenceHashMap.put(ParseConstants.WHILE_BUFFER, 1);
-        operatorPrecedenceHashMap.put(ParseConstants.AND_BUFFER, 2);
-        operatorPrecedenceHashMap.put(ParseConstants.OR_BUFFER, 3);
+        operatorPrecedenceHashMap.put(ByParseConstants.SKIP_BUFFER, 1);
+        operatorPrecedenceHashMap.put(ByParseConstants.WHILE_BUFFER, 1);
+        operatorPrecedenceHashMap.put(ByParseConstants.AND_BUFFER, 2);
+        operatorPrecedenceHashMap.put(ByParseConstants.OR_BUFFER, 3);
     }
 
     /**
@@ -110,46 +108,46 @@ public class ParseFilter {
     public Filter parseFilterString (byte [] filterStringAsByteArray)
             throws CharacterCodingException {
         // stack for the operators and parenthesis
-        Stack <ByteBuffer> operatorStack = new Stack<ByteBuffer>();
+        Stack<ByteBuffer> operatorStack = new Stack<ByteBuffer>();
         // stack for the filter objects
         Stack <Filter> filterStack = new Stack<Filter>();
 
         Filter filter = null;
         for (int i=0; i<filterStringAsByteArray.length; i++) {
-            if (filterStringAsByteArray[i] == ParseConstants.LPAREN) {
+            if (filterStringAsByteArray[i] == ByParseConstants.LPAREN) {
                 // LPAREN found
-                operatorStack.push(ParseConstants.LPAREN_BUFFER);
-            } else if (filterStringAsByteArray[i] == ParseConstants.WHITESPACE ||
-                    filterStringAsByteArray[i] == ParseConstants.TAB) {
+                operatorStack.push(ByParseConstants.LPAREN_BUFFER);
+            } else if (filterStringAsByteArray[i] == ByParseConstants.WHITESPACE ||
+                    filterStringAsByteArray[i] == ByParseConstants.TAB) {
                 // WHITESPACE or TAB found
                 continue;
             } else if (checkForOr(filterStringAsByteArray, i)) {
                 // OR found
-                i += ParseConstants.OR_ARRAY.length - 1;
-                reduce(operatorStack, filterStack, ParseConstants.OR_BUFFER);
-                operatorStack.push(ParseConstants.OR_BUFFER);
+                i += ByParseConstants.OR_ARRAY.length - 1;
+                reduce(operatorStack, filterStack, ByParseConstants.OR_BUFFER);
+                operatorStack.push(ByParseConstants.OR_BUFFER);
             } else if (checkForAnd(filterStringAsByteArray, i)) {
                 // AND found
-                i += ParseConstants.AND_ARRAY.length - 1;
-                reduce(operatorStack, filterStack, ParseConstants.AND_BUFFER);
-                operatorStack.push(ParseConstants.AND_BUFFER);
+                i += ByParseConstants.AND_ARRAY.length - 1;
+                reduce(operatorStack, filterStack, ByParseConstants.AND_BUFFER);
+                operatorStack.push(ByParseConstants.AND_BUFFER);
             } else if (checkForSkip(filterStringAsByteArray, i)) {
                 // SKIP found
-                i += ParseConstants.SKIP_ARRAY.length - 1;
-                reduce(operatorStack, filterStack, ParseConstants.SKIP_BUFFER);
-                operatorStack.push(ParseConstants.SKIP_BUFFER);
+                i += ByParseConstants.SKIP_ARRAY.length - 1;
+                reduce(operatorStack, filterStack, ByParseConstants.SKIP_BUFFER);
+                operatorStack.push(ByParseConstants.SKIP_BUFFER);
             } else if (checkForWhile(filterStringAsByteArray, i)) {
                 // WHILE found
-                i += ParseConstants.WHILE_ARRAY.length - 1;
-                reduce(operatorStack, filterStack, ParseConstants.WHILE_BUFFER);
-                operatorStack.push(ParseConstants.WHILE_BUFFER);
-            } else if (filterStringAsByteArray[i] == ParseConstants.RPAREN) {
+                i += ByParseConstants.WHILE_ARRAY.length - 1;
+                reduce(operatorStack, filterStack, ByParseConstants.WHILE_BUFFER);
+                operatorStack.push(ByParseConstants.WHILE_BUFFER);
+            } else if (filterStringAsByteArray[i] == ByParseConstants.RPAREN) {
                 // RPAREN found
                 if (operatorStack.empty()) {
                     throw new IllegalArgumentException("Mismatched parenthesis");
                 }
                 ByteBuffer argumentOnTopOfStack = operatorStack.peek();
-                while (!(argumentOnTopOfStack.equals(ParseConstants.LPAREN_BUFFER))) {
+                while (!(argumentOnTopOfStack.equals(ByParseConstants.LPAREN_BUFFER))) {
                     filterStack.push(popArguments(operatorStack, filterStack));
                     if (operatorStack.empty()) {
                         throw new IllegalArgumentException("Mismatched parenthesis");
@@ -195,7 +193,7 @@ public class ParseFilter {
             throws CharacterCodingException {
         int quoteCount = 0;
         for (int i=filterExpressionStartOffset; i<filterStringAsByteArray.length; i++) {
-            if (filterStringAsByteArray[i] == ParseConstants.SINGLE_QUOTE) {
+            if (filterStringAsByteArray[i] == ByParseConstants.SINGLE_QUOTE) {
                 if (isQuoteUnescaped(filterStringAsByteArray, i)) {
                     quoteCount ++;
                 } else {
@@ -203,7 +201,7 @@ public class ParseFilter {
                     i++;
                 }
             }
-            if (filterStringAsByteArray[i] == ParseConstants.RPAREN && (quoteCount %2 ) == 0) {
+            if (filterStringAsByteArray[i] == ByParseConstants.RPAREN && (quoteCount %2 ) == 0) {
                 byte [] filterSimpleExpression = new byte [i - filterExpressionStartOffset + 1];
                 Bytes.putBytes(filterSimpleExpression, 0, filterStringAsByteArray,
                         filterExpressionStartOffset, i-filterExpressionStartOffset + 1);
@@ -257,8 +255,8 @@ public class ParseFilter {
         int filterNameEndIndex = 0;
 
         for (int i=filterNameStartIndex; i<filterStringAsByteArray.length; i++) {
-            if (filterStringAsByteArray[i] == ParseConstants.LPAREN ||
-                    filterStringAsByteArray[i] == ParseConstants.WHITESPACE) {
+            if (filterStringAsByteArray[i] == ByParseConstants.LPAREN ||
+                    filterStringAsByteArray[i] == ByParseConstants.WHITESPACE) {
                 filterNameEndIndex = i;
                 break;
             }
@@ -283,7 +281,7 @@ public class ParseFilter {
     public static ArrayList<byte []> getFilterArguments (byte [] filterStringAsByteArray) {
         int argumentListStartIndex = KeyValue.getDelimiter(filterStringAsByteArray, 0,
                 filterStringAsByteArray.length,
-                ParseConstants.LPAREN);
+                ByParseConstants.LPAREN);
         if (argumentListStartIndex == -1) {
             throw new IllegalArgumentException("Incorrect argument list");
         }
@@ -294,17 +292,17 @@ public class ParseFilter {
 
         for (int i = argumentListStartIndex + 1; i<filterStringAsByteArray.length; i++) {
 
-            if (filterStringAsByteArray[i] == ParseConstants.WHITESPACE ||
-                    filterStringAsByteArray[i] == ParseConstants.COMMA ||
-                    filterStringAsByteArray[i] == ParseConstants.RPAREN) {
+            if (filterStringAsByteArray[i] == ByParseConstants.WHITESPACE ||
+                    filterStringAsByteArray[i] == ByParseConstants.COMMA ||
+                    filterStringAsByteArray[i] == ByParseConstants.RPAREN) {
                 continue;
             }
 
             // The argument is in single quotes - for example 'prefix'
-            if (filterStringAsByteArray[i] == ParseConstants.SINGLE_QUOTE) {
+            if (filterStringAsByteArray[i] == ByParseConstants.SINGLE_QUOTE) {
                 argumentStartIndex = i;
                 for (int j = argumentStartIndex+1; j < filterStringAsByteArray.length; j++) {
-                    if (filterStringAsByteArray[j] == ParseConstants.SINGLE_QUOTE) {
+                    if (filterStringAsByteArray[j] == ByParseConstants.SINGLE_QUOTE) {
                         if (isQuoteUnescaped(filterStringAsByteArray,j)) {
                             argumentEndIndex = j;
                             i = j+1;
@@ -324,9 +322,9 @@ public class ParseFilter {
                 // The argument is an integer, boolean, comparison operator like <, >, != etc
                 argumentStartIndex = i;
                 for (int j = argumentStartIndex; j < filterStringAsByteArray.length; j++) {
-                    if (filterStringAsByteArray[j] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[j] == ParseConstants.COMMA ||
-                            filterStringAsByteArray[j] == ParseConstants.RPAREN) {
+                    if (filterStringAsByteArray[j] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[j] == ByParseConstants.COMMA ||
+                            filterStringAsByteArray[j] == ByParseConstants.RPAREN) {
                         argumentEndIndex = j - 1;
                         i = j;
                         byte [] filterArgument = new byte [argumentEndIndex - argumentStartIndex + 1];
@@ -354,7 +352,7 @@ public class ParseFilter {
                        Stack<Filter> filterStack,
                        ByteBuffer operator) {
         while (!operatorStack.empty() &&
-                !(ParseConstants.LPAREN_BUFFER.equals(operatorStack.peek())) &&
+                !(ByParseConstants.LPAREN_BUFFER.equals(operatorStack.peek())) &&
                 hasHigherPriority(operatorStack.peek(), operator)) {
             filterStack.push(popArguments(operatorStack, filterStack));
         }
@@ -371,11 +369,11 @@ public class ParseFilter {
     public static Filter popArguments (Stack<ByteBuffer> operatorStack, Stack <Filter> filterStack) {
         ByteBuffer argumentOnTopOfStack = operatorStack.peek();
 
-        if (argumentOnTopOfStack.equals(ParseConstants.OR_BUFFER)) {
+        if (argumentOnTopOfStack.equals(ByParseConstants.OR_BUFFER)) {
             // The top of the stack is an OR
             try {
                 ArrayList<Filter> listOfFilters = new ArrayList<Filter>();
-                while (!operatorStack.empty() && operatorStack.peek().equals(ParseConstants.OR_BUFFER)) {
+                while (!operatorStack.empty() && operatorStack.peek().equals(ByParseConstants.OR_BUFFER)) {
                     Filter filter = filterStack.pop();
                     listOfFilters.add(0, filter);
                     operatorStack.pop();
@@ -388,11 +386,11 @@ public class ParseFilter {
                 throw new IllegalArgumentException("Incorrect input string - an OR needs two filters");
             }
 
-        } else if (argumentOnTopOfStack.equals(ParseConstants.AND_BUFFER)) {
+        } else if (argumentOnTopOfStack.equals(ByParseConstants.AND_BUFFER)) {
             // The top of the stack is an AND
             try {
                 ArrayList<Filter> listOfFilters = new ArrayList<Filter>();
-                while (!operatorStack.empty() && operatorStack.peek().equals(ParseConstants.AND_BUFFER)) {
+                while (!operatorStack.empty() && operatorStack.peek().equals(ByParseConstants.AND_BUFFER)) {
                     Filter filter = filterStack.pop();
                     listOfFilters.add(0, filter);
                     operatorStack.pop();
@@ -405,7 +403,7 @@ public class ParseFilter {
                 throw new IllegalArgumentException("Incorrect input string - an AND needs two filters");
             }
 
-        } else if (argumentOnTopOfStack.equals(ParseConstants.SKIP_BUFFER)) {
+        } else if (argumentOnTopOfStack.equals(ByParseConstants.SKIP_BUFFER)) {
             // The top of the stack is a SKIP
             try {
                 Filter wrappedFilter = filterStack.pop();
@@ -416,7 +414,7 @@ public class ParseFilter {
                 throw new IllegalArgumentException("Incorrect input string - a SKIP wraps a filter");
             }
 
-        } else if (argumentOnTopOfStack.equals(ParseConstants.WHILE_BUFFER)) {
+        } else if (argumentOnTopOfStack.equals(ByParseConstants.WHILE_BUFFER)) {
             // The top of the stack is a WHILE
             try {
                 Filter wrappedFilter = filterStack.pop();
@@ -427,7 +425,7 @@ public class ParseFilter {
                 throw new IllegalArgumentException("Incorrect input string - a WHILE wraps a filter");
             }
 
-        } else if (argumentOnTopOfStack.equals(ParseConstants.LPAREN_BUFFER)) {
+        } else if (argumentOnTopOfStack.equals(ByParseConstants.LPAREN_BUFFER)) {
             // The top of the stack is a LPAREN
             try {
                 Filter filter  = filterStack.pop();
@@ -468,9 +466,9 @@ public class ParseFilter {
         int unescapedArgumentLength = 2;
         for (int i = argumentStartIndex + 1; i <= argumentEndIndex - 1; i++) {
             unescapedArgumentLength ++;
-            if (filterStringAsByteArray[i] == ParseConstants.SINGLE_QUOTE &&
+            if (filterStringAsByteArray[i] == ByParseConstants.SINGLE_QUOTE &&
                     i != (argumentEndIndex - 1) &&
-                    filterStringAsByteArray[i+1] == ParseConstants.SINGLE_QUOTE) {
+                    filterStringAsByteArray[i+1] == ByParseConstants.SINGLE_QUOTE) {
                 i++;
                 continue;
             }
@@ -480,9 +478,9 @@ public class ParseFilter {
         int count = 1;
         unescapedArgument[0] = '\'';
         for (int i = argumentStartIndex + 1; i <= argumentEndIndex - 1; i++) {
-            if (filterStringAsByteArray [i] == ParseConstants.SINGLE_QUOTE &&
+            if (filterStringAsByteArray [i] == ByParseConstants.SINGLE_QUOTE &&
                     i != (argumentEndIndex - 1) &&
-                    filterStringAsByteArray [i+1] == ParseConstants.SINGLE_QUOTE) {
+                    filterStringAsByteArray [i+1] == ByParseConstants.SINGLE_QUOTE) {
                 unescapedArgument[count++] = filterStringAsByteArray [i+1];
                 i++;
             }
@@ -505,12 +503,12 @@ public class ParseFilter {
             throws CharacterCodingException, ArrayIndexOutOfBoundsException {
 
         try {
-            if (filterStringAsByteArray[indexOfOr] == ParseConstants.O &&
-                    filterStringAsByteArray[indexOfOr+1] == ParseConstants.R &&
-                    (filterStringAsByteArray[indexOfOr-1] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfOr-1] == ParseConstants.RPAREN) &&
-                    (filterStringAsByteArray[indexOfOr+2] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfOr+2] == ParseConstants.LPAREN)) {
+            if (filterStringAsByteArray[indexOfOr] == ByParseConstants.O &&
+                    filterStringAsByteArray[indexOfOr+1] == ByParseConstants.R &&
+                    (filterStringAsByteArray[indexOfOr-1] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfOr-1] == ByParseConstants.RPAREN) &&
+                    (filterStringAsByteArray[indexOfOr+2] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfOr+2] == ByParseConstants.LPAREN)) {
                 return true;
             } else {
                 return false;
@@ -531,13 +529,13 @@ public class ParseFilter {
             throws CharacterCodingException {
 
         try {
-            if (filterStringAsByteArray[indexOfAnd] == ParseConstants.A &&
-                    filterStringAsByteArray[indexOfAnd+1] == ParseConstants.N &&
-                    filterStringAsByteArray[indexOfAnd+2] == ParseConstants.D &&
-                    (filterStringAsByteArray[indexOfAnd-1] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfAnd-1] == ParseConstants.RPAREN) &&
-                    (filterStringAsByteArray[indexOfAnd+3] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfAnd+3] == ParseConstants.LPAREN)) {
+            if (filterStringAsByteArray[indexOfAnd] == ByParseConstants.A &&
+                    filterStringAsByteArray[indexOfAnd+1] == ByParseConstants.N &&
+                    filterStringAsByteArray[indexOfAnd+2] == ByParseConstants.D &&
+                    (filterStringAsByteArray[indexOfAnd-1] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfAnd-1] == ByParseConstants.RPAREN) &&
+                    (filterStringAsByteArray[indexOfAnd+3] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfAnd+3] == ByParseConstants.LPAREN)) {
                 return true;
             } else {
                 return false;
@@ -558,16 +556,16 @@ public class ParseFilter {
             throws CharacterCodingException {
 
         try {
-            if (filterStringAsByteArray[indexOfSkip] == ParseConstants.S &&
-                    filterStringAsByteArray[indexOfSkip+1] == ParseConstants.K &&
-                    filterStringAsByteArray[indexOfSkip+2] == ParseConstants.I &&
-                    filterStringAsByteArray[indexOfSkip+3] == ParseConstants.P &&
+            if (filterStringAsByteArray[indexOfSkip] == ByParseConstants.S &&
+                    filterStringAsByteArray[indexOfSkip+1] == ByParseConstants.K &&
+                    filterStringAsByteArray[indexOfSkip+2] == ByParseConstants.I &&
+                    filterStringAsByteArray[indexOfSkip+3] == ByParseConstants.P &&
                     (indexOfSkip == 0 ||
-                            filterStringAsByteArray[indexOfSkip-1] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfSkip-1] == ParseConstants.RPAREN ||
-                            filterStringAsByteArray[indexOfSkip-1] == ParseConstants.LPAREN) &&
-                    (filterStringAsByteArray[indexOfSkip+4] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfSkip+4] == ParseConstants.LPAREN)) {
+                            filterStringAsByteArray[indexOfSkip-1] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfSkip-1] == ByParseConstants.RPAREN ||
+                            filterStringAsByteArray[indexOfSkip-1] == ByParseConstants.LPAREN) &&
+                    (filterStringAsByteArray[indexOfSkip+4] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfSkip+4] == ByParseConstants.LPAREN)) {
                 return true;
             } else {
                 return false;
@@ -588,16 +586,16 @@ public class ParseFilter {
             throws CharacterCodingException {
 
         try {
-            if (filterStringAsByteArray[indexOfWhile] == ParseConstants.W &&
-                    filterStringAsByteArray[indexOfWhile+1] == ParseConstants.H &&
-                    filterStringAsByteArray[indexOfWhile+2] == ParseConstants.I &&
-                    filterStringAsByteArray[indexOfWhile+3] == ParseConstants.L &&
-                    filterStringAsByteArray[indexOfWhile+4] == ParseConstants.E &&
-                    (indexOfWhile == 0 || filterStringAsByteArray[indexOfWhile-1] == ParseConstants.WHITESPACE
-                            || filterStringAsByteArray[indexOfWhile-1] == ParseConstants.RPAREN ||
-                            filterStringAsByteArray[indexOfWhile-1] == ParseConstants.LPAREN) &&
-                    (filterStringAsByteArray[indexOfWhile+5] == ParseConstants.WHITESPACE ||
-                            filterStringAsByteArray[indexOfWhile+5] == ParseConstants.LPAREN)) {
+            if (filterStringAsByteArray[indexOfWhile] == ByParseConstants.W &&
+                    filterStringAsByteArray[indexOfWhile+1] == ByParseConstants.H &&
+                    filterStringAsByteArray[indexOfWhile+2] == ByParseConstants.I &&
+                    filterStringAsByteArray[indexOfWhile+3] == ByParseConstants.L &&
+                    filterStringAsByteArray[indexOfWhile+4] == ByParseConstants.E &&
+                    (indexOfWhile == 0 || filterStringAsByteArray[indexOfWhile-1] == ByParseConstants.WHITESPACE
+                            || filterStringAsByteArray[indexOfWhile-1] == ByParseConstants.RPAREN ||
+                            filterStringAsByteArray[indexOfWhile-1] == ByParseConstants.LPAREN) &&
+                    (filterStringAsByteArray[indexOfWhile+5] == ByParseConstants.WHITESPACE ||
+                            filterStringAsByteArray[indexOfWhile+5] == ByParseConstants.LPAREN)) {
                 return true;
             } else {
                 return false;
@@ -619,7 +617,7 @@ public class ParseFilter {
             throw new IllegalArgumentException("isQuoteUnescaped called with a null array");
         }
 
-        if (quoteIndex == array.length - 1 || array[quoteIndex+1] != ParseConstants.SINGLE_QUOTE) {
+        if (quoteIndex == array.length - 1 || array[quoteIndex+1] != ByParseConstants.SINGLE_QUOTE) {
             return true;
         }
         else {
@@ -638,8 +636,8 @@ public class ParseFilter {
     public static byte [] removeQuotesFromByteArray (byte [] quotedByteArray) {
         if (quotedByteArray == null ||
                 quotedByteArray.length < 2 ||
-                quotedByteArray[0] != ParseConstants.SINGLE_QUOTE ||
-                quotedByteArray[quotedByteArray.length - 1] != ParseConstants.SINGLE_QUOTE) {
+                quotedByteArray[0] != ByParseConstants.SINGLE_QUOTE ||
+                quotedByteArray[quotedByteArray.length - 1] != ByParseConstants.SINGLE_QUOTE) {
             throw new IllegalArgumentException("removeQuotesFromByteArray needs a quoted byte array");
         } else {
             byte [] targetString = new byte [quotedByteArray.length - 2];
@@ -659,7 +657,7 @@ public class ParseFilter {
      */
     public static int convertByteArrayToInt (byte [] numberAsByteArray) {
 
-        long tempResult = ParseFilter.convertByteArrayToLong(numberAsByteArray);
+        long tempResult = ByParseFilter.convertByteArrayToLong(numberAsByteArray);
 
         if (tempResult > Integer.MAX_VALUE) {
             throw new IllegalArgumentException("Integer Argument too large");
@@ -689,17 +687,17 @@ public class ParseFilter {
         long result = 0;
         boolean isNegative = false;
 
-        if (numberAsByteArray[i] == ParseConstants.MINUS_SIGN) {
+        if (numberAsByteArray[i] == ByParseConstants.MINUS_SIGN) {
             i++;
             isNegative = true;
         }
 
         while (i != numberAsByteArray.length) {
-            if (numberAsByteArray[i] < ParseConstants.ZERO ||
-                    numberAsByteArray[i] > ParseConstants.NINE) {
+            if (numberAsByteArray[i] < ByParseConstants.ZERO ||
+                    numberAsByteArray[i] > ByParseConstants.NINE) {
                 throw new IllegalArgumentException("Byte Array should only contain digits");
             }
-            result = result*10 + (numberAsByteArray[i] - ParseConstants.ZERO);
+            result = result*10 + (numberAsByteArray[i] - ByParseConstants.ZERO);
             if (result < 0) {
                 throw new IllegalArgumentException("Long Argument too large");
             }
@@ -756,17 +754,17 @@ public class ParseFilter {
      */
     public static CompareFilter.CompareOp createCompareOp (byte [] compareOpAsByteArray) {
         ByteBuffer compareOp = ByteBuffer.wrap(compareOpAsByteArray);
-        if (compareOp.equals(ParseConstants.LESS_THAN_BUFFER))
+        if (compareOp.equals(ByParseConstants.LESS_THAN_BUFFER))
             return CompareFilter.CompareOp.LESS;
-        else if (compareOp.equals(ParseConstants.LESS_THAN_OR_EQUAL_TO_BUFFER))
+        else if (compareOp.equals(ByParseConstants.LESS_THAN_OR_EQUAL_TO_BUFFER))
             return CompareFilter.CompareOp.LESS_OR_EQUAL;
-        else if (compareOp.equals(ParseConstants.GREATER_THAN_BUFFER))
+        else if (compareOp.equals(ByParseConstants.GREATER_THAN_BUFFER))
             return CompareFilter.CompareOp.GREATER;
-        else if (compareOp.equals(ParseConstants.GREATER_THAN_OR_EQUAL_TO_BUFFER))
+        else if (compareOp.equals(ByParseConstants.GREATER_THAN_OR_EQUAL_TO_BUFFER))
             return CompareFilter.CompareOp.GREATER_OR_EQUAL;
-        else if (compareOp.equals(ParseConstants.NOT_EQUAL_TO_BUFFER))
+        else if (compareOp.equals(ByParseConstants.NOT_EQUAL_TO_BUFFER))
             return CompareFilter.CompareOp.NOT_EQUAL;
-        else if (compareOp.equals(ParseConstants.EQUAL_TO_BUFFER))
+        else if (compareOp.equals(ByParseConstants.EQUAL_TO_BUFFER))
             return CompareFilter.CompareOp.EQUAL;
         else
             throw new IllegalArgumentException("Invalid compare operator");
@@ -781,19 +779,21 @@ public class ParseFilter {
     public static ByteArrayComparable createComparator (byte [] comparator) {
         if (comparator == null)
             throw new IllegalArgumentException("Incorrect Comparator");
-        byte [][] parsedComparator = ParseFilter.parseComparator(comparator);
+        byte [][] parsedComparator = ByParseFilter.parseComparator(comparator);
         byte [] comparatorType = parsedComparator[0];
         byte [] comparatorValue = parsedComparator[1];
 
 
-        if (Bytes.equals(comparatorType, ParseConstants.binaryType))
+        if (Bytes.equals(comparatorType, ByParseConstants.binaryType))
             return new BinaryComparator(comparatorValue);
-        else if (Bytes.equals(comparatorType, ParseConstants.binaryPrefixType))
+        else if (Bytes.equals(comparatorType, ByParseConstants.binaryPrefixType))
             return new BinaryPrefixComparator(comparatorValue);
-        else if (Bytes.equals(comparatorType, ParseConstants.regexStringType))
+        else if (Bytes.equals(comparatorType, ByParseConstants.regexStringType))
             return new RegexStringComparator(new String(comparatorValue));
-        else if (Bytes.equals(comparatorType, ParseConstants.substringType))
+        else if (Bytes.equals(comparatorType, ByParseConstants.substringType))
             return new SubstringComparator(new String(comparatorValue));
+        else if (Bytes.equals(comparatorType, ByParseConstants.numberType))
+            return new NumberComparator(comparatorValue);
         else
             throw new IllegalArgumentException("Incorrect comparatorType");
     }
@@ -805,7 +805,7 @@ public class ParseFilter {
      * @return the parsed arguments of the comparator as a 2D byte array
      */
     public static byte [][] parseComparator (byte [] comparator) {
-        final int index = KeyValue.getDelimiter(comparator, 0, comparator.length, ParseConstants.COLON);
+        final int index = KeyValue.getDelimiter(comparator, 0, comparator.length, ByParseConstants.COLON);
         if (index == -1) {
             throw new IllegalArgumentException("Incorrect comparator");
         }

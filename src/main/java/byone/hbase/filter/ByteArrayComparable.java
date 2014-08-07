@@ -35,9 +35,9 @@ public abstract class ByteArrayComparable implements Comparable<byte[]> {
      */
     public abstract byte [] toByteArray();
 
-    ComparatorProtos.ByteArrayComparable convert() {
-        ComparatorProtos.ByteArrayComparable.Builder builder =
-                ComparatorProtos.ByteArrayComparable.newBuilder();
+    ByComparatorProtos.ByteArrayComparable convert() {
+        ByComparatorProtos.ByteArrayComparable.Builder builder =
+                ByComparatorProtos.ByteArrayComparable.newBuilder();
         if (value != null) builder.setValue(HBaseZeroCopyByteString.wrap(value));
         return builder.build();
     }

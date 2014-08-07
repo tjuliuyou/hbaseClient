@@ -57,7 +57,7 @@
 	{
 		"Range"		:["05/08/2014 15:15:17","05/08/2014 15:15:18"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
-		"Events"	:null,
+		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_PING_STAT"],
 		"Filter"	:"(SingleColumnValueFilter ('d', 'collectorId', =,'binary:103')) OR (SingleColumnValueFilter ('d', 'collectorId', <,'binary:20')) ",
 		"Groupby"	:null,
 		"Aggres" 	:null

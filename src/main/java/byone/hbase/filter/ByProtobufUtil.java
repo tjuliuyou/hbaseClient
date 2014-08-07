@@ -3,7 +3,6 @@ package byone.hbase.filter;
 import com.google.protobuf.HBaseZeroCopyByteString;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
 import org.apache.hadoop.hbase.util.DynamicClassLoader;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -13,9 +12,9 @@ import java.lang.reflect.Method;
 /**
  * Protobufs utility.
  */
-public final class ProtobufUtil {
+public final class ByProtobufUtil {
 
-    private ProtobufUtil() {
+    private ByProtobufUtil() {
     }
 
     /**
@@ -24,7 +23,7 @@ public final class ProtobufUtil {
     private final static ClassLoader CLASS_LOADER;
 
     static {
-        ClassLoader parent = ProtobufUtil.class.getClassLoader();
+        ClassLoader parent = ByProtobufUtil.class.getClassLoader();
         Configuration conf = HBaseConfiguration.create();
         CLASS_LOADER = new DynamicClassLoader(conf, parent);
 
@@ -36,8 +35,8 @@ public final class ProtobufUtil {
      * @param comparator the ByteArrayComparable to convert
      * @return the converted protocol buffer Comparator
      */
-    public static ComparatorProtos.Comparator toComparator(ByteArrayComparable comparator) {
-        ComparatorProtos.Comparator.Builder builder = ComparatorProtos.Comparator.newBuilder();
+    public static ByComparatorProtos.Comparator toComparator(ByteArrayComparable comparator) {
+        ByComparatorProtos.Comparator.Builder builder = ByComparatorProtos.Comparator.newBuilder();
         builder.setName(comparator.getClass().getName());
         builder.setSerializedComparator(HBaseZeroCopyByteString.wrap(comparator.toByteArray()));
         return builder.build();
@@ -50,7 +49,7 @@ public final class ProtobufUtil {
      * @return the converted ByteArrayComparable
      */
     @SuppressWarnings("unchecked")
-    public static ByteArrayComparable toComparator(ComparatorProtos.Comparator proto)
+    public static ByteArrayComparable toComparator(ByComparatorProtos.Comparator proto)
             throws IOException {
         String type = proto.getName();
         String funcName = "parseFrom";

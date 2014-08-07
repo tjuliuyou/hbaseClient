@@ -10,7 +10,6 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.nio.charset.Charset;
@@ -82,8 +81,8 @@ public class RegexStringComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.RegexStringComparator.Builder builder =
-                ComparatorProtos.RegexStringComparator.newBuilder();
+        ByComparatorProtos.RegexStringComparator.Builder builder =
+                ByComparatorProtos.RegexStringComparator.newBuilder();
         builder.setPattern(pattern.toString());
         builder.setPatternFlags(pattern.flags());
         builder.setCharset(charset.name());
@@ -98,9 +97,9 @@ public class RegexStringComparator extends ByteArrayComparable {
      */
     public static RegexStringComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ComparatorProtos.RegexStringComparator proto;
+        ByComparatorProtos.RegexStringComparator proto;
         try {
-            proto = ComparatorProtos.RegexStringComparator.parseFrom(pbBytes);
+            proto = ByComparatorProtos.RegexStringComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

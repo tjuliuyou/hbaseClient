@@ -1,45 +1,45 @@
 package byone.hbase.filter;
 
-/**
- * Created by dream on 8/5/14.
- */
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
- * A comparator which compares against a specified byte array, but only compares
- * up to the length of this byte array. For the rest it is similar to
- *
+ * Created by dream on 14-8-7.
+ * A binary comparator which lexicographically compares against the specified
+ * byte array using
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable
-public class EventListComparator extends ByteArrayComparable {
+public class NumberComparator extends ByteArrayComparable {
 
-    private int offset;
-    public EventListComparator(byte [] value){
+    /**
+     * Constructor
+     * @param value value
+     */
+    public NumberComparator(byte[] value) {
         super(value);
-        this.offset = 5;
     }
-    public EventListComparator(byte [] value,int offset){
-        super(value);
-        this.offset = offset;
-    }
+
 
     @Override
     public int compareTo(byte [] value, int offset, int length) {
-        return Bytes.compareTo(this.value, 0, this.value.length, value, this.offset, this.value.length);
+        if(length > this.value.length)
+            return 1;
+        else if (length < this.value.length)
+            return -1;
+        else
+        return Bytes.compareTo(this.value, 0, this.value.length, value, offset, this.value.length);
     }
 
     /**
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.BinaryComparator.Builder builder =
-                ComparatorProtos.BinaryComparator.newBuilder();
+        ByComparatorProtos.BinaryComparator.Builder builder =
+                ByComparatorProtos.BinaryComparator.newBuilder();
         builder.setComparable(super.convert());
         return builder.build().toByteArray();
     }
@@ -47,18 +47,18 @@ public class EventListComparator extends ByteArrayComparable {
     /**
      * @param pbBytes A pb serialized {@link BinaryComparator} instance
      * @return An instance of {@link BinaryComparator} made from <code>bytes</code>
-     * @throws DeserializationException
+     * @throws org.apache.hadoop.hbase.exceptions.DeserializationException
      * @see #toByteArray
      */
-    public static BinaryComparator parseFrom(final byte [] pbBytes)
+    public static NumberComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ComparatorProtos.BinaryComparator proto;
+        ByComparatorProtos.BinaryComparator proto;
         try {
-            proto = ComparatorProtos.BinaryComparator.parseFrom(pbBytes);
+            proto = ByComparatorProtos.BinaryComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
-        return new BinaryComparator(proto.getComparable().getValue().toByteArray());
+        return new NumberComparator(proto.getComparable().getValue().toByteArray());
     }
 
     /**
@@ -72,5 +72,4 @@ public class EventListComparator extends ByteArrayComparable {
 
         return super.areSerializedFieldsEqual(other);
     }
-
 }

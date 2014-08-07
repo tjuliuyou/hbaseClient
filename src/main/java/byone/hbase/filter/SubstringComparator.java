@@ -7,7 +7,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
 import org.apache.hadoop.hbase.util.Bytes;
 
 
@@ -56,8 +55,8 @@ public class SubstringComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.SubstringComparator.Builder builder =
-                ComparatorProtos.SubstringComparator.newBuilder();
+        ByComparatorProtos.SubstringComparator.Builder builder =
+                ByComparatorProtos.SubstringComparator.newBuilder();
         builder.setSubstr(this.substr);
         return builder.build().toByteArray();
     }
@@ -70,9 +69,9 @@ public class SubstringComparator extends ByteArrayComparable {
      */
     public static SubstringComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ComparatorProtos.SubstringComparator proto;
+        ByComparatorProtos.SubstringComparator proto;
         try {
-            proto = ComparatorProtos.SubstringComparator.parseFrom(pbBytes);
+            proto = ByComparatorProtos.SubstringComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

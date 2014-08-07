@@ -5,7 +5,6 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterBase;
-import org.apache.hadoop.hbase.protobuf.generated.FilterProtos;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos.CompareType;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -102,9 +101,9 @@ public abstract class CompareFilter extends FilterBase {
     public static ArrayList<Object> extractArguments(ArrayList<byte []> filterArguments) {
         Preconditions.checkArgument(filterArguments.size() == 2,
                 "Expected 2 but got: %s", filterArguments.size());
-        CompareOp compareOp = ParseFilter.createCompareOp(filterArguments.get(0));
-        ByteArrayComparable comparator = ParseFilter.createComparator(
-                ParseFilter.removeQuotesFromByteArray(filterArguments.get(1)));
+        CompareOp compareOp = ByParseFilter.createCompareOp(filterArguments.get(0));
+        ByteArrayComparable comparator = ByParseFilter.createComparator(
+                ByParseFilter.removeQuotesFromByteArray(filterArguments.get(1)));
 
         if (comparator instanceof RegexStringComparator ||
                 comparator instanceof SubstringComparator) {
@@ -123,12 +122,12 @@ public abstract class CompareFilter extends FilterBase {
     /**
      * @return A pb instance to represent this instance.
      */
-    FilterProtos.CompareFilter convert() {
-        FilterProtos.CompareFilter.Builder builder =
-                FilterProtos.CompareFilter.newBuilder();
+    ByFilterProtos.CompareFilter convert() {
+        ByFilterProtos.CompareFilter.Builder builder =
+                ByFilterProtos.CompareFilter.newBuilder();
         HBaseProtos.CompareType compareOp = CompareType.valueOf(this.compareOp.name());
         builder.setCompareOp(compareOp);
-        if (this.comparator != null) builder.setComparator(ProtobufUtil.toComparator(this.comparator));
+        if (this.comparator != null) builder.setComparator(ByProtobufUtil.toComparator(this.comparator));
         return builder.build();
     }
 
