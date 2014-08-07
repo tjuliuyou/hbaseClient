@@ -1,5 +1,6 @@
 package byone.hbase.filter;
 
+import byone.hbase.protobuf.FilterProtos;
 import com.google.common.base.Preconditions;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
@@ -122,9 +123,9 @@ public abstract class CompareFilter extends FilterBase {
     /**
      * @return A pb instance to represent this instance.
      */
-    ByFilterProtos.CompareFilter convert() {
-        ByFilterProtos.CompareFilter.Builder builder =
-                ByFilterProtos.CompareFilter.newBuilder();
+    FilterProtos.CompareFilter convert() {
+        FilterProtos.CompareFilter.Builder builder =
+                FilterProtos.CompareFilter.newBuilder();
         HBaseProtos.CompareType compareOp = CompareType.valueOf(this.compareOp.name());
         builder.setCompareOp(compareOp);
         if (this.comparator != null) builder.setComparator(ByProtobufUtil.toComparator(this.comparator));

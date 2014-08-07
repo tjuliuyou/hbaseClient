@@ -3,6 +3,7 @@ package byone.hbase.filter;
 /**
  * Created by dream on 8/5/14.
  */
+import byone.hbase.protobuf.ComparatorProtos;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
@@ -37,8 +38,8 @@ public class EventComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ByComparatorProtos.BinaryComparator.Builder builder =
-                ByComparatorProtos.BinaryComparator.newBuilder();
+        ComparatorProtos.BinaryComparator.Builder builder =
+                ComparatorProtos.BinaryComparator.newBuilder();
         builder.setComparable(super.convert());
         return builder.build().toByteArray();
     }
@@ -51,9 +52,9 @@ public class EventComparator extends ByteArrayComparable {
      */
     public static BinaryComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ByComparatorProtos.BinaryComparator proto;
+        ComparatorProtos.BinaryComparator proto;
         try {
-            proto = ByComparatorProtos.BinaryComparator.parseFrom(pbBytes);
+            proto = ComparatorProtos.BinaryComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

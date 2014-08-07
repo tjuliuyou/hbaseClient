@@ -3,11 +3,11 @@ package byone.hbase.filter;
 /**
  * Created by dream on 8/5/14.
  */
+import byone.hbase.protobuf.ComparatorProtos;
 import com.google.protobuf.HBaseZeroCopyByteString;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.exceptions.DeserializationException;
-import org.apache.hadoop.hbase.protobuf.generated.ComparatorProtos;
 import org.apache.hadoop.hbase.util.Bytes;
 
 
@@ -35,9 +35,9 @@ public abstract class ByteArrayComparable implements Comparable<byte[]> {
      */
     public abstract byte [] toByteArray();
 
-    ByComparatorProtos.ByteArrayComparable convert() {
-        ByComparatorProtos.ByteArrayComparable.Builder builder =
-                ByComparatorProtos.ByteArrayComparable.newBuilder();
+    ComparatorProtos.ByteArrayComparable convert() {
+        ComparatorProtos.ByteArrayComparable.Builder builder =
+                ComparatorProtos.ByteArrayComparable.newBuilder();
         if (value != null) builder.setValue(HBaseZeroCopyByteString.wrap(value));
         return builder.build();
     }

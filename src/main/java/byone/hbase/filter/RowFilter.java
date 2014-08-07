@@ -3,6 +3,7 @@ package byone.hbase.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import byone.hbase.protobuf.FilterProtos;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
 import org.apache.hadoop.hbase.Cell;
@@ -65,8 +66,8 @@ public class RowFilter extends CompareFilter {
      * @return The filter serialized using pb
      */
     public byte [] toByteArray() {
-        ByFilterProtos.RowFilter.Builder builder =
-                ByFilterProtos.RowFilter.newBuilder();
+        FilterProtos.RowFilter.Builder builder =
+                FilterProtos.RowFilter.newBuilder();
         builder.setCompareFilter(super.convert());
         return builder.build().toByteArray();
     }
@@ -79,9 +80,9 @@ public class RowFilter extends CompareFilter {
      */
     public static RowFilter parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ByFilterProtos.RowFilter proto;
+        FilterProtos.RowFilter proto;
         try {
-            proto = ByFilterProtos.RowFilter.parseFrom(pbBytes);
+            proto = FilterProtos.RowFilter.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

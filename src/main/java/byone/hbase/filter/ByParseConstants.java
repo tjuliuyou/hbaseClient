@@ -27,7 +27,7 @@ import java.nio.ByteBuffer;
 
 /**
  * ByParseConstants holds a bunch of constants related to parsing Filter Strings
- * Used by {@link byone.hbase.filter.ParseFilter}
+ * Used by {@link byone.hbase.filter//.protobuf.ParseFilter}
  */
 @InterfaceAudience.Public
 @InterfaceStability.Stable

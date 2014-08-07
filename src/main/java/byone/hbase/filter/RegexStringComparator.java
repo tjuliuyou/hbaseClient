@@ -3,6 +3,7 @@ package byone.hbase.filter;
 /**
  * Created by dream on 8/5/14.
  */
+import byone.hbase.protobuf.ComparatorProtos;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,8 +82,8 @@ public class RegexStringComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ByComparatorProtos.RegexStringComparator.Builder builder =
-                ByComparatorProtos.RegexStringComparator.newBuilder();
+        ComparatorProtos.RegexStringComparator.Builder builder =
+                ComparatorProtos.RegexStringComparator.newBuilder();
         builder.setPattern(pattern.toString());
         builder.setPatternFlags(pattern.flags());
         builder.setCharset(charset.name());
@@ -97,9 +98,9 @@ public class RegexStringComparator extends ByteArrayComparable {
      */
     public static RegexStringComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ByComparatorProtos.RegexStringComparator proto;
+        ComparatorProtos.RegexStringComparator proto;
         try {
-            proto = ByComparatorProtos.RegexStringComparator.parseFrom(pbBytes);
+            proto = ComparatorProtos.RegexStringComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }

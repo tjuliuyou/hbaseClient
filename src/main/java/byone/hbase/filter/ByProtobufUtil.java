@@ -1,5 +1,6 @@
 package byone.hbase.filter;
 
+import byone.hbase.protobuf.ComparatorProtos;
 import com.google.protobuf.HBaseZeroCopyByteString;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -35,8 +36,8 @@ public final class ByProtobufUtil {
      * @param comparator the ByteArrayComparable to convert
      * @return the converted protocol buffer Comparator
      */
-    public static ByComparatorProtos.Comparator toComparator(ByteArrayComparable comparator) {
-        ByComparatorProtos.Comparator.Builder builder = ByComparatorProtos.Comparator.newBuilder();
+    public static ComparatorProtos.Comparator toComparator(ByteArrayComparable comparator) {
+        ComparatorProtos.Comparator.Builder builder = ComparatorProtos.Comparator.newBuilder();
         builder.setName(comparator.getClass().getName());
         builder.setSerializedComparator(HBaseZeroCopyByteString.wrap(comparator.toByteArray()));
         return builder.build();
@@ -49,7 +50,7 @@ public final class ByProtobufUtil {
      * @return the converted ByteArrayComparable
      */
     @SuppressWarnings("unchecked")
-    public static ByteArrayComparable toComparator(ByComparatorProtos.Comparator proto)
+    public static ByteArrayComparable toComparator(ComparatorProtos.Comparator proto)
             throws IOException {
         String type = proto.getName();
         String funcName = "parseFrom";

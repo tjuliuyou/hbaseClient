@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import byone.hbase.filter.CompareFilter.CompareOp;
+import byone.hbase.protobuf.FilterProtos;
 import com.google.protobuf.HBaseZeroCopyByteString;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -306,9 +307,9 @@ public class SingleColumnValueFilter extends FilterBase {
         return filter;
     }
 
-    ByFilterProtos.SingleColumnValueFilter convert() {
-        ByFilterProtos.SingleColumnValueFilter.Builder builder =
-                ByFilterProtos.SingleColumnValueFilter.newBuilder();
+    FilterProtos.SingleColumnValueFilter convert() {
+        FilterProtos.SingleColumnValueFilter.Builder builder =
+                FilterProtos.SingleColumnValueFilter.newBuilder();
         if (this.columnFamily != null) {
             builder.setColumnFamily(HBaseZeroCopyByteString.wrap(this.columnFamily));
         }
@@ -339,9 +340,9 @@ public class SingleColumnValueFilter extends FilterBase {
      */
     public static tSingleColumnValueFilter parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ByFilterProtos.SingleColumnValueFilter proto;
+        FilterProtos.SingleColumnValueFilter proto;
         try {
-            proto = ByFilterProtos.SingleColumnValueFilter.parseFrom(pbBytes);
+            proto = FilterProtos.SingleColumnValueFilter.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
