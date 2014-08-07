@@ -65,6 +65,8 @@ public class ByParseFilter {
                 "TimestampsFilter");
         filterHashMap.put("RowFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "RowFilter");
+        filterHashMap.put("EventFilter", ByParseConstants.FILTER_PACKAGE + "." +
+                "EventFilter");
         filterHashMap.put("FamilyFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "FamilyFilter");
         filterHashMap.put("QualifierFilter", ByParseConstants.FILTER_PACKAGE + "." +
@@ -75,10 +77,13 @@ public class ByParseFilter {
                 "ColumnRangeFilter");
         filterHashMap.put("SingleColumnValueFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "SingleColumnValueFilter");
+        filterHashMap.put("SingleColumnNumberFilter", ByParseConstants.FILTER_PACKAGE + "." +
+                "SingleColumnNumberFilter");
         filterHashMap.put("SingleColumnValueExcludeFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "SingleColumnValueExcludeFilter");
         filterHashMap.put("DependentColumnFilter", ByParseConstants.FILTER_PACKAGE + "." +
                 "DependentColumnFilter");
+
 
         // Creates the operatorPrecedenceHashMap
         operatorPrecedenceHashMap = new HashMap<ByteBuffer, Integer>();

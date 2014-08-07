@@ -39,15 +39,15 @@ public class NumberComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.BinaryComparator.Builder builder =
-                ComparatorProtos.BinaryComparator.newBuilder();
+        ComparatorProtos.NumberComparator.Builder builder =
+                ComparatorProtos.NumberComparator.newBuilder();
         builder.setComparable(super.convert());
         return builder.build().toByteArray();
     }
 
     /**
-     * @param pbBytes A pb serialized {@link BinaryComparator} instance
-     * @return An instance of {@link BinaryComparator} made from <code>bytes</code>
+     * @param pbBytes A pb serialized {@link NumberComparator} instance
+     * @return An instance of {@link NumberComparator} made from <code>bytes</code>
      * @throws org.apache.hadoop.hbase.exceptions.DeserializationException
      * @see #toByteArray
      */
