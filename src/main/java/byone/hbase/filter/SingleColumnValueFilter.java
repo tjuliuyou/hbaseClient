@@ -76,7 +76,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 @InterfaceAudience.Public
 @InterfaceStability.Stable
 public class SingleColumnValueFilter extends FilterBase {
-    static final Log LOG = LogFactory.getLog(tSingleColumnValueFilter.class);
+    static final Log LOG = LogFactory.getLog(SingleColumnValueFilter.class);
 
     protected byte [] columnFamily;
     protected byte [] columnQualifier;
@@ -295,7 +295,7 @@ public class SingleColumnValueFilter extends FilterBase {
             }
         }
 
-        tSingleColumnValueFilter filter = new tSingleColumnValueFilter(family, qualifier,
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(family, qualifier,
                 compareOp, comparator);
 
         if (filterArguments.size() == 6) {
@@ -333,12 +333,12 @@ public class SingleColumnValueFilter extends FilterBase {
     }
 
     /**
-     * @param pbBytes A pb serialized {@link tSingleColumnValueFilter} instance
-     * @return An instance of {@link tSingleColumnValueFilter} made from <code>bytes</code>
+     * @param pbBytes A pb serialized {@link SingleColumnValueFilter} instance
+     * @return An instance of {@link SingleColumnValueFilter} made from <code>bytes</code>
      * @throws org.apache.hadoop.hbase.exceptions.DeserializationException
      * @see #toByteArray
      */
-    public static tSingleColumnValueFilter parseFrom(final byte [] pbBytes)
+    public static SingleColumnValueFilter parseFrom(final byte [] pbBytes)
             throws DeserializationException {
         FilterProtos.SingleColumnValueFilter proto;
         try {
@@ -356,7 +356,7 @@ public class SingleColumnValueFilter extends FilterBase {
             throw new DeserializationException(ioe);
         }
 
-        return new tSingleColumnValueFilter(proto.hasColumnFamily() ? proto.getColumnFamily()
+        return new SingleColumnValueFilter(proto.hasColumnFamily() ? proto.getColumnFamily()
                 .toByteArray() : null, proto.hasColumnQualifier() ? proto.getColumnQualifier()
                 .toByteArray() : null, compareOp, comparator, proto.getFilterIfMissing(), proto
                 .getLatestVersionOnly());
@@ -369,9 +369,9 @@ public class SingleColumnValueFilter extends FilterBase {
      */
     boolean areSerializedFieldsEqual(Filter o) {
         if (o == this) return true;
-        if (!(o instanceof tSingleColumnValueFilter)) return false;
+        if (!(o instanceof SingleColumnValueFilter)) return false;
 
-        tSingleColumnValueFilter other = (tSingleColumnValueFilter)o;
+        SingleColumnValueFilter other = (SingleColumnValueFilter)o;
         return Bytes.equals(this.getFamily(), other.getFamily())
                 && Bytes.equals(this.getQualifier(), other.getQualifier())
                 && this.compareOp.equals(other.compareOp)

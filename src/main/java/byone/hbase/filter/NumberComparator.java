@@ -1,5 +1,6 @@
 package byone.hbase.filter;
 
+import byone.hbase.protobuf.ComparatorProtos;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.classification.InterfaceStability;
@@ -38,8 +39,8 @@ public class NumberComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ByComparatorProtos.BinaryComparator.Builder builder =
-                ByComparatorProtos.BinaryComparator.newBuilder();
+        ComparatorProtos.BinaryComparator.Builder builder =
+                ComparatorProtos.BinaryComparator.newBuilder();
         builder.setComparable(super.convert());
         return builder.build().toByteArray();
     }
@@ -52,9 +53,9 @@ public class NumberComparator extends ByteArrayComparable {
      */
     public static NumberComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ByComparatorProtos.BinaryComparator proto;
+        ComparatorProtos.NumberComparator proto;
         try {
-            proto = ByComparatorProtos.BinaryComparator.parseFrom(pbBytes);
+            proto = ComparatorProtos.NumberComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
@@ -68,7 +69,7 @@ public class NumberComparator extends ByteArrayComparable {
      */
     boolean areSerializedFieldsEqual(ByteArrayComparable other) {
         if (other == this) return true;
-        if (!(other instanceof BinaryComparator)) return false;
+        if (!(other instanceof NumberComparator)) return false;
 
         return super.areSerializedFieldsEqual(other);
     }

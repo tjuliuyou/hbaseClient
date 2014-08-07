@@ -24,19 +24,16 @@ public class BinaryPrefixComparator extends ByteArrayComparable {
      * Constructor
      * @param value value
      */
-    private int offset;
     public BinaryPrefixComparator(byte[] value) {
         super(value);
-        this.offset = 0;
     }
 
     public BinaryPrefixComparator(byte[] value, int offset) {
         super(value);
-        this.offset = offset;
     }
     @Override
     public int compareTo(byte [] value, int offset, int length) {
-        return Bytes.compareTo(this.value, 0, this.value.length, value, offset + this.offset,
+        return Bytes.compareTo(this.value, 0, this.value.length, value, offset,
                 this.value.length <= length ? this.value.length : length);
     }
 

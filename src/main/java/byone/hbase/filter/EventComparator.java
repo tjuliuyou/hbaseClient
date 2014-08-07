@@ -38,27 +38,29 @@ public class EventComparator extends ByteArrayComparable {
      * @return The comparator serialized using pb
      */
     public byte [] toByteArray() {
-        ComparatorProtos.BinaryComparator.Builder builder =
-                ComparatorProtos.BinaryComparator.newBuilder();
+        ComparatorProtos.EventComparator.Builder builder =
+                ComparatorProtos.EventComparator.newBuilder();
         builder.setComparable(super.convert());
+        builder.setOffset(this.offset);
         return builder.build().toByteArray();
     }
 
     /**
-     * @param pbBytes A pb serialized {@link BinaryComparator} instance
-     * @return An instance of {@link BinaryComparator} made from <code>bytes</code>
+     * @param pbBytes A pb serialized {@link EventComparator} instance
+     * @return An instance of {@link EventComparator} made from <code>bytes</code>
      * @throws DeserializationException
      * @see #toByteArray
      */
-    public static BinaryComparator parseFrom(final byte [] pbBytes)
+    public static EventComparator parseFrom(final byte [] pbBytes)
             throws DeserializationException {
-        ComparatorProtos.BinaryComparator proto;
+        ComparatorProtos.EventComparator proto;
         try {
-            proto = ComparatorProtos.BinaryComparator.parseFrom(pbBytes);
+            proto = ComparatorProtos.EventComparator.parseFrom(pbBytes);
         } catch (InvalidProtocolBufferException e) {
             throw new DeserializationException(e);
         }
-        return new BinaryComparator(proto.getComparable().getValue().toByteArray());
+
+        return new EventComparator(proto.getComparable().getValue().toByteArray(),proto.getOffset());
     }
 
 
@@ -66,7 +68,9 @@ public class EventComparator extends ByteArrayComparable {
     boolean areSerializedFieldsEqual(ByteArrayComparable other) {
         if (other == this) return true;
         if (!(other instanceof EventComparator)) return false;
-        return super.areSerializedFieldsEqual(other);
+        EventComparator comparator = (EventComparator)other;
+        return super.areSerializedFieldsEqual(other)
+                && this.offset ==comparator.offset;
     }
 
 }
