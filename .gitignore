@@ -11,6 +11,7 @@ out
 .history
 .cache
 .idea/workspace.xml
+.idea/*
 conf/
 #src/main/resources/protobuf/
 # Scala-IDE specific
