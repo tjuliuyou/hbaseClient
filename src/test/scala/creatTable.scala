@@ -44,7 +44,7 @@ object creatTable {
             ret.toArray
           }
 
-    admin.createTable(desc,getSplits(1,16,16))
+    admin.createTable(desc,getSplits(16,256,16))
 
     println("create table: '" +tablename + "' successfully.")
 

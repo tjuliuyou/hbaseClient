@@ -7,7 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2119cbf-6bb9-47e4-a173-9b7f3fe713f2" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" afterPath="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/creatTable.scala" afterPath="$PROJECT_DIR$/src/test/scala/creatTable.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/hbaseclient.iml" afterPath="$PROJECT_DIR$/.idea/modules/hbaseclient.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/test.json" afterPath="$PROJECT_DIR$/src/main/resources/test.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/scala/tests4.scala" afterPath="$PROJECT_DIR$/src/test/scala/tests4.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hbaseClient.iws" />
@@ -62,8 +68,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties converted="true" />
     <breakpoint_rules converted="true" />
+    <ui_properties converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -74,11 +80,9 @@
       <file leaf-file-name="FilterTest.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/scala/FilterTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1157" max-vertical-offset="2060">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1110" max-vertical-offset="1880">
               <caret line="72" column="4" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#49#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -86,44 +90,49 @@
       <file leaf-file-name="RwRDD.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="280" max-vertical-offset="4320">
+            <state vertical-scroll-proportion="0.0" vertical-offset="3557" max-vertical-offset="4320">
               <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test5.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/scala/test5.scala">
+      <file leaf-file-name="ComparatorProtos.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/protobuf/ComparatorProtos.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="418" max-vertical-offset="1100">
-              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#79#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ByParseConstants.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/ByParseConstants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3398" max-vertical-offset="5480">
-              <caret line="270" column="1" selection-start-line="270" selection-start-column="1" selection-end-line="270" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="102517" max-vertical-offset="109940">
+              <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ByParseFilter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/ByParseFilter.java">
+      <file leaf-file-name="tests4.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/tests4.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1380" max-vertical-offset="16800">
-              <caret line="237" column="0" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
-              <folding>
-                <element signature="e#4938#4939#0" expanded="true" />
-                <element signature="e#5007#5008#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="2280" max-vertical-offset="5420">
+              <caret line="136" column="78" selection-start-line="136" selection-start-column="35" selection-end-line="136" selection-end-column="78" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="puttest.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/puttest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="780">
+              <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Query.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="524" max-vertical-offset="1300">
+              <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -131,8 +140,38 @@
       <file leaf-file-name="test.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/test.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7556054" vertical-offset="903" max-vertical-offset="1960">
-              <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.82125604" vertical-offset="0" max-vertical-offset="1960">
+              <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Client.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1120">
+              <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RandEvent.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="9110" max-vertical-offset="9820">
+              <caret line="483" column="7" selection-start-line="483" selection-start-column="7" selection-end-line="483" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="creatTable.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/creatTable.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1040">
+              <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -165,16 +204,12 @@
         <option value="$PROJECT_DIR$/src/main/java/byone/hbase/utils/ScanCovert.java" />
         <option value="$PROJECT_DIR$/src/main/resources/test/test.json" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Aggre.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/test.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/test3.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala" />
         <option value="$PROJECT_DIR$/build.sbt" />
-        <option value="$PROJECT_DIR$/src/test/scala/tests4.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
-        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
         <option value="$PROJECT_DIR$/src/test/scala/test2.scala" />
         <option value="$PROJECT_DIR$/src/main/java/byone/hbase/filter/FilterProtos.java" />
         <option value="$PROJECT_DIR$/src/main/java/byone/hbase/filter/ByRowFilter.java" />
@@ -202,6 +237,11 @@
         <option value="$PROJECT_DIR$/src/main/resources/protobuf/Filter.proto" />
         <option value="$PROJECT_DIR$/src/test/scala/FilterTest.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/creatTable.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/tests4.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/test.json" />
       </list>
     </option>
@@ -240,6 +280,77 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseclient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseclient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="byone.hbase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseclient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="byone.hbase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseclient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="byone.hbase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -350,8 +461,42 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
+              <option name="myItemId" value="uid" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbase" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uid" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RandEvent.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -402,6 +547,40 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="scala" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbase" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Query.scala" />
+              <option name="myItemType" value="org.jetbrains.plugins.scala.components.ScalaDefsProjectViewProvider$ScalaFileTreeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hbaseClient" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -421,130 +600,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protobuf" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protobuf" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="filter" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbaseClient" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hbase" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -564,10 +619,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -583,18 +634,18 @@
     <property name="options.searchVisible" value="true" />
     <property name="recentsLimit" value="5" />
     <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="dynamic.classpath" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FullScreen" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="byone.hbase.utils" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/byone/hbase" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="byone.hbase.utils" />
     </key>
   </component>
   <component name="RunManager" selected="Application.client">
@@ -606,6 +657,23 @@
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="hbaseclient" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="puttest" type="Application" factoryName="Application" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="puttest" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -838,21 +906,6 @@
       <setting name="showProgressMessages" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -873,9 +926,24 @@
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="test" type="Application" factoryName="Application">
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="test" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CreateTable" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="creatTable" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -884,7 +952,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="hbaseClient" />
+      <module name="hbaseclient" />
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -964,23 +1032,25 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="hbaseClient" />
+      <module name="hbaseclient" />
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="6">
-      <item index="0" class="java.lang.String" itemvalue="Application.test" />
+    <list size="7">
+      <item index="0" class="java.lang.String" itemvalue="Application.CreateTable" />
       <item index="1" class="java.lang.String" itemvalue="Application.client" />
       <item index="2" class="java.lang.String" itemvalue="Application.FilterTest" />
       <item index="3" class="java.lang.String" itemvalue="Application.test3" />
       <item index="4" class="java.lang.String" itemvalue="Application.test4" />
       <item index="5" class="java.lang.String" itemvalue="Application.test5" />
+      <item index="6" class="java.lang.String" itemvalue="Application.puttest" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.test5" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Application.puttest" />
+        <item index="1" class="java.lang.String" itemvalue="Application.test5" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1045,6 +1115,7 @@
       <workItem from="1407406826308" duration="2091000" />
       <workItem from="1407459957823" duration="2425000" />
       <workItem from="1407462417526" duration="6499000" />
+      <workItem from="1407469015002" duration="9092000" />
     </task>
     <task id="LOCAL-00001" summary="mess&#10;multi-thread">
       <created>1406888738376</created>
@@ -1070,7 +1141,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27222000" />
+    <option name="totallyTimeSpent" value="36314000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="24" width="1440" height="876" extended-state="6" />
@@ -1099,7 +1170,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29027778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34815755" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3468869" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1154,30 +1225,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#26#82#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/Conf.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
@@ -1237,38 +1284,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Aggre.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/utils/DatePoint.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4032258" vertical-offset="9180" max-vertical-offset="10040">
-          <caret line="476" column="4" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="363" max-vertical-offset="1440">
-          <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1460" max-vertical-offset="3120">
-          <caret line="73" column="64" selection-start-line="73" selection-start-column="64" selection-end-line="73" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -1284,13 +1303,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.53571427" vertical-offset="0" max-vertical-offset="302160">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="131" max-vertical-offset="1120">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1375,13 +1387,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.sbt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6334842" vertical-offset="0" max-vertical-offset="442">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/UniqueId.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3831579" vertical-offset="898" max-vertical-offset="1580">
@@ -1393,7 +1398,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3126" max-vertical-offset="14260">
           <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1402,371 +1406,6 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1204" max-vertical-offset="1920">
           <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/protobuf/ComparatorProtos.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="109940">
-          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-          <folding>
-            <element signature="e#1650#1651#0" expanded="false" />
-            <element signature="e#1686#1687#0" expanded="false" />
-            <element signature="e#1739#1740#0" expanded="false" />
-            <element signature="e#1775#1776#0" expanded="false" />
-            <element signature="e#1951#1952#0" expanded="false" />
-            <element signature="e#1990#1991#0" expanded="false" />
-            <element signature="e#3614#3615#0" expanded="false" />
-            <element signature="e#3710#3711#0" expanded="false" />
-            <element signature="e#4182#4544#0" expanded="false" />
-            <element signature="e#4537#4538#0" expanded="false" />
-            <element signature="e#4640#4641#0" expanded="false" />
-            <element signature="e#4667#4668#0" expanded="false" />
-            <element signature="e#4909#4910#0" expanded="false" />
-            <element signature="e#4971#4972#0" expanded="false" />
-            <element signature="e#6226#6227#0" expanded="false" />
-            <element signature="e#6288#6289#0" expanded="false" />
-            <element signature="e#6436#6437#0" expanded="false" />
-            <element signature="e#6478#6479#0" expanded="false" />
-            <element signature="e#8171#8172#0" expanded="false" />
-            <element signature="e#8212#8213#0" expanded="false" />
-            <element signature="e#10003#10004#0" expanded="false" />
-            <element signature="e#10046#10047#0" expanded="false" />
-            <element signature="e#12004#12005#0" expanded="false" />
-            <element signature="e#12048#12049#0" expanded="false" />
-            <element signature="e#13240#13241#0" expanded="false" />
-            <element signature="e#13340#13341#0" expanded="false" />
-            <element signature="e#13861#13862#0" expanded="false" />
-            <element signature="e#13912#13913#0" expanded="false" />
-            <element signature="e#14269#14270#0" expanded="false" />
-            <element signature="e#14307#14308#0" expanded="false" />
-            <element signature="e#14611#14612#0" expanded="false" />
-            <element signature="e#14670#14671#0" expanded="false" />
-            <element signature="e#14762#14763#0" expanded="false" />
-            <element signature="e#14862#14863#0" expanded="false" />
-            <element signature="e#17960#17961#0" expanded="false" />
-            <element signature="e#18026#18027#0" expanded="false" />
-            <element signature="e#20108#20109#0" expanded="false" />
-            <element signature="e#20174#20175#0" expanded="false" />
-            <element signature="e#20330#20331#0" expanded="false" />
-            <element signature="e#20376#20377#0" expanded="false" />
-            <element signature="e#22305#22306#0" expanded="false" />
-            <element signature="e#22341#22342#0" expanded="false" />
-            <element signature="e#22403#22404#0" expanded="false" />
-            <element signature="e#22439#22440#0" expanded="false" />
-            <element signature="e#22615#22616#0" expanded="false" />
-            <element signature="e#22654#22655#0" expanded="false" />
-            <element signature="e#24133#24134#0" expanded="false" />
-            <element signature="e#24238#24239#0" expanded="false" />
-            <element signature="e#24746#25135#0" expanded="false" />
-            <element signature="e#25128#25129#0" expanded="false" />
-            <element signature="e#25240#25241#0" expanded="false" />
-            <element signature="e#25267#25268#0" expanded="false" />
-            <element signature="e#25526#25527#0" expanded="false" />
-            <element signature="e#25588#25589#0" expanded="false" />
-            <element signature="e#25705#25706#0" expanded="false" />
-            <element signature="e#25732#25733#0" expanded="false" />
-            <element signature="e#25765#25766#0" expanded="false" />
-            <element signature="e#25824#25825#0" expanded="false" />
-            <element signature="e#26999#27000#0" expanded="false" />
-            <element signature="e#27040#27041#0" expanded="false" />
-            <element signature="e#28453#28454#0" expanded="false" />
-            <element signature="e#28496#28497#0" expanded="false" />
-            <element signature="e#30526#30527#0" expanded="false" />
-            <element signature="e#30570#30571#0" expanded="false" />
-            <element signature="e#32464#32465#0" expanded="false" />
-            <element signature="e#32515#32516#0" expanded="false" />
-            <element signature="e#32872#32873#0" expanded="false" />
-            <element signature="e#32910#32911#0" expanded="false" />
-            <element signature="e#33130#33131#0" expanded="false" />
-            <element signature="e#33189#33190#0" expanded="false" />
-            <element signature="e#35220#35221#0" expanded="false" />
-            <element signature="e#35249#35250#0" expanded="false" />
-            <element signature="e#36237#36238#0" expanded="false" />
-            <element signature="e#36303#36304#0" expanded="false" />
-            <element signature="e#36428#36429#0" expanded="false" />
-            <element signature="e#36459#36460#0" expanded="false" />
-            <element signature="e#38557#38558#0" expanded="false" />
-            <element signature="e#38593#38594#0" expanded="false" />
-            <element signature="e#38652#38653#0" expanded="false" />
-            <element signature="e#38688#38689#0" expanded="false" />
-            <element signature="e#38864#38865#0" expanded="false" />
-            <element signature="e#38903#38904#0" expanded="false" />
-            <element signature="e#40865#40866#0" expanded="false" />
-            <element signature="e#40967#40968#0" expanded="false" />
-            <element signature="e#41463#41843#0" expanded="false" />
-            <element signature="e#41836#41837#0" expanded="false" />
-            <element signature="e#41945#41946#0" expanded="false" />
-            <element signature="e#41972#41973#0" expanded="false" />
-            <element signature="e#42313#42314#0" expanded="false" />
-            <element signature="e#42375#42376#0" expanded="false" />
-            <element signature="e#42544#42545#0" expanded="false" />
-            <element signature="e#42576#42577#0" expanded="false" />
-            <element signature="e#44218#44219#0" expanded="false" />
-            <element signature="e#44259#44260#0" expanded="false" />
-            <element signature="e#45700#45701#0" expanded="false" />
-            <element signature="e#45743#45744#0" expanded="false" />
-            <element signature="e#47749#47750#0" expanded="false" />
-            <element signature="e#47793#47794#0" expanded="false" />
-            <element signature="e#49009#49010#0" expanded="false" />
-            <element signature="e#49115#49116#0" expanded="false" />
-            <element signature="e#49660#49661#0" expanded="false" />
-            <element signature="e#49711#49712#0" expanded="false" />
-            <element signature="e#50107#50108#0" expanded="false" />
-            <element signature="e#50145#50146#0" expanded="false" />
-            <element signature="e#50521#50522#0" expanded="false" />
-            <element signature="e#50580#50581#0" expanded="false" />
-            <element signature="e#54217#54218#0" expanded="false" />
-            <element signature="e#54283#54284#0" expanded="false" />
-            <element signature="e#59994#59995#0" expanded="false" />
-            <element signature="e#60030#60031#0" expanded="false" />
-            <element signature="e#60095#60096#0" expanded="false" />
-            <element signature="e#60131#60132#0" expanded="false" />
-            <element signature="e#60307#60308#0" expanded="false" />
-            <element signature="e#60346#60347#0" expanded="false" />
-            <element signature="e#62942#63340#0" expanded="false" />
-            <element signature="e#63333#63334#0" expanded="false" />
-            <element signature="e#63448#63449#0" expanded="false" />
-            <element signature="e#63475#63476#0" expanded="false" />
-            <element signature="e#63816#63817#0" expanded="false" />
-            <element signature="e#63878#63879#0" expanded="false" />
-            <element signature="e#64047#64048#0" expanded="false" />
-            <element signature="e#64079#64080#0" expanded="false" />
-            <element signature="e#65721#65722#0" expanded="false" />
-            <element signature="e#65762#65763#0" expanded="false" />
-            <element signature="e#67227#67228#0" expanded="false" />
-            <element signature="e#67270#67271#0" expanded="false" />
-            <element signature="e#69324#69325#0" expanded="false" />
-            <element signature="e#69368#69369#0" expanded="false" />
-            <element signature="e#71289#71290#0" expanded="false" />
-            <element signature="e#71340#71341#0" expanded="false" />
-            <element signature="e#71736#71737#0" expanded="false" />
-            <element signature="e#71774#71775#0" expanded="false" />
-            <element signature="e#72150#72151#0" expanded="false" />
-            <element signature="e#72209#72210#0" expanded="false" />
-            <element signature="e#75930#75931#0" expanded="false" />
-            <element signature="e#75996#75997#0" expanded="false" />
-            <element signature="e#81869#81870#0" expanded="false" />
-            <element signature="e#81905#81906#0" expanded="false" />
-            <element signature="e#81963#81964#0" expanded="false" />
-            <element signature="e#81999#82000#0" expanded="false" />
-            <element signature="e#82175#82176#0" expanded="false" />
-            <element signature="e#82214#82215#0" expanded="false" />
-            <element signature="e#84316#84317#0" expanded="false" />
-            <element signature="e#84417#84418#0" expanded="false" />
-            <element signature="e#84909#85286#0" expanded="false" />
-            <element signature="e#85279#85280#0" expanded="false" />
-            <element signature="e#85387#85388#0" expanded="false" />
-            <element signature="e#85414#85415#0" expanded="false" />
-            <element signature="e#85755#85756#0" expanded="false" />
-            <element signature="e#85817#85818#0" expanded="false" />
-            <element signature="e#85986#85987#0" expanded="false" />
-            <element signature="e#86018#86019#0" expanded="false" />
-            <element signature="e#86446#86447#0" expanded="false" />
-            <element signature="e#86508#86509#0" expanded="false" />
-            <element signature="e#86600#86601#0" expanded="false" />
-            <element signature="e#86628#86629#0" expanded="false" />
-            <element signature="e#88421#88422#0" expanded="false" />
-            <element signature="e#88462#88463#0" expanded="false" />
-            <element signature="e#90193#90194#0" expanded="false" />
-            <element signature="e#90236#90237#0" expanded="false" />
-            <element signature="e#92234#92235#0" expanded="false" />
-            <element signature="e#92278#92279#0" expanded="false" />
-            <element signature="e#93490#93491#0" expanded="false" />
-            <element signature="e#93595#93596#0" expanded="false" />
-            <element signature="e#94136#94137#0" expanded="false" />
-            <element signature="e#94187#94188#0" expanded="false" />
-            <element signature="e#94583#94584#0" expanded="false" />
-            <element signature="e#94621#94622#0" expanded="false" />
-            <element signature="e#95067#95068#0" expanded="false" />
-            <element signature="e#95126#95127#0" expanded="false" />
-            <element signature="e#99050#99051#0" expanded="false" />
-            <element signature="e#99116#99117#0" expanded="false" />
-            <element signature="e#103417#103418#0" expanded="false" />
-            <element signature="e#103483#103484#0" expanded="false" />
-            <element signature="e#103583#103584#0" expanded="false" />
-            <element signature="e#103615#103616#0" expanded="false" />
-            <element signature="e#105898#105899#0" expanded="false" />
-            <element signature="e#105934#105935#0" expanded="false" />
-            <element signature="e#105990#105991#0" expanded="false" />
-            <element signature="e#106026#106027#0" expanded="false" />
-            <element signature="e#106202#106203#0" expanded="false" />
-            <element signature="e#106241#106242#0" expanded="false" />
-            <element signature="e#108683#108684#0" expanded="false" />
-            <element signature="e#108782#108783#0" expanded="false" />
-            <element signature="e#109266#109637#0" expanded="false" />
-            <element signature="e#109630#109631#0" expanded="false" />
-            <element signature="e#109736#109737#0" expanded="false" />
-            <element signature="e#109763#109764#0" expanded="false" />
-            <element signature="e#110795#110796#0" expanded="false" />
-            <element signature="e#110836#110837#0" expanded="false" />
-            <element signature="e#110952#111154#0" expanded="false" />
-            <element signature="e#111139#111140#0" expanded="false" />
-            <element signature="e#111259#111260#0" expanded="false" />
-            <element signature="e#111322#111323#0" expanded="false" />
-            <element signature="e#111423#111424#0" expanded="false" />
-            <element signature="e#111463#111464#0" expanded="false" />
-            <element signature="e#112662#112663#0" expanded="false" />
-            <element signature="e#112724#112725#0" expanded="false" />
-            <element signature="e#112893#112894#0" expanded="false" />
-            <element signature="e#112925#112926#0" expanded="false" />
-            <element signature="e#113467#113468#0" expanded="false" />
-            <element signature="e#113529#113530#0" expanded="false" />
-            <element signature="e#113705#113706#0" expanded="false" />
-            <element signature="e#113736#113737#0" expanded="false" />
-            <element signature="e#115627#115628#0" expanded="false" />
-            <element signature="e#115668#115669#0" expanded="false" />
-            <element signature="e#117426#117427#0" expanded="false" />
-            <element signature="e#117469#117470#0" expanded="false" />
-            <element signature="e#119451#119452#0" expanded="false" />
-            <element signature="e#119495#119496#0" expanded="false" />
-            <element signature="e#120699#120700#0" expanded="false" />
-            <element signature="e#120802#120803#0" expanded="false" />
-            <element signature="e#121335#121336#0" expanded="false" />
-            <element signature="e#121386#121387#0" expanded="false" />
-            <element signature="e#121782#121783#0" expanded="false" />
-            <element signature="e#121820#121821#0" expanded="false" />
-            <element signature="e#122333#122334#0" expanded="false" />
-            <element signature="e#122392#122393#0" expanded="false" />
-            <element signature="e#126306#126307#0" expanded="false" />
-            <element signature="e#126372#126373#0" expanded="false" />
-            <element signature="e#130850#130851#0" expanded="false" />
-            <element signature="e#130916#130917#0" expanded="false" />
-            <element signature="e#131100#131101#0" expanded="false" />
-            <element signature="e#131135#131136#0" expanded="false" />
-            <element signature="e#132839#132840#0" expanded="false" />
-            <element signature="e#132875#132876#0" expanded="false" />
-            <element signature="e#132932#132933#0" expanded="false" />
-            <element signature="e#132968#132969#0" expanded="false" />
-            <element signature="e#133144#133145#0" expanded="false" />
-            <element signature="e#133183#133184#0" expanded="false" />
-            <element signature="e#134483#134484#0" expanded="false" />
-            <element signature="e#134583#134584#0" expanded="false" />
-            <element signature="e#135071#135445#0" expanded="false" />
-            <element signature="e#135438#135439#0" expanded="false" />
-            <element signature="e#135545#135546#0" expanded="false" />
-            <element signature="e#135572#135573#0" expanded="false" />
-            <element signature="e#136528#136529#0" expanded="false" />
-            <element signature="e#136569#136570#0" expanded="false" />
-            <element signature="e#137661#137662#0" expanded="false" />
-            <element signature="e#137704#137705#0" expanded="false" />
-            <element signature="e#139694#139695#0" expanded="false" />
-            <element signature="e#139738#139739#0" expanded="false" />
-            <element signature="e#140946#140947#0" expanded="false" />
-            <element signature="e#141050#141051#0" expanded="false" />
-            <element signature="e#141587#141588#0" expanded="false" />
-            <element signature="e#141638#141639#0" expanded="false" />
-            <element signature="e#141995#141996#0" expanded="false" />
-            <element signature="e#142033#142034#0" expanded="false" />
-            <element signature="e#142149#142150#0" expanded="false" />
-            <element signature="e#142208#142209#0" expanded="false" />
-            <element signature="e#143840#143841#0" expanded="false" />
-            <element signature="e#143869#143870#0" expanded="false" />
-            <element signature="e#146596#146597#0" expanded="false" />
-            <element signature="e#146632#146633#0" expanded="false" />
-            <element signature="e#146696#146697#0" expanded="false" />
-            <element signature="e#146732#146733#0" expanded="false" />
-            <element signature="e#146908#146909#0" expanded="false" />
-            <element signature="e#146947#146948#0" expanded="false" />
-            <element signature="e#149342#149737#0" expanded="false" />
-            <element signature="e#149730#149731#0" expanded="false" />
-            <element signature="e#149844#149845#0" expanded="false" />
-            <element signature="e#149871#149872#0" expanded="false" />
-            <element signature="e#150128#150129#0" expanded="false" />
-            <element signature="e#150190#150191#0" expanded="false" />
-            <element signature="e#151402#151403#0" expanded="false" />
-            <element signature="e#151464#151465#0" expanded="false" />
-            <element signature="e#151569#151570#0" expanded="false" />
-            <element signature="e#151603#151604#0" expanded="false" />
-            <element signature="e#151832#151833#0" expanded="false" />
-            <element signature="e#151894#151895#0" expanded="false" />
-            <element signature="e#155000#155001#0" expanded="false" />
-            <element signature="e#155041#155042#0" expanded="false" />
-            <element signature="e#157138#157139#0" expanded="false" />
-            <element signature="e#157181#157182#0" expanded="false" />
-            <element signature="e#159227#159228#0" expanded="false" />
-            <element signature="e#159271#159272#0" expanded="false" />
-            <element signature="e#161183#161184#0" expanded="false" />
-            <element signature="e#161234#161235#0" expanded="false" />
-            <element signature="e#161591#161592#0" expanded="false" />
-            <element signature="e#161629#161630#0" expanded="false" />
-            <element signature="e#161965#161966#0" expanded="false" />
-            <element signature="e#162024#162025#0" expanded="false" />
-            <element signature="e#165898#165899#0" expanded="false" />
-            <element signature="e#165964#165965#0" expanded="false" />
-            <element signature="e#168003#168004#0" expanded="false" />
-            <element signature="e#168069#168070#0" expanded="false" />
-            <element signature="e#168182#168183#0" expanded="false" />
-            <element signature="e#168220#168221#0" expanded="false" />
-            <element signature="e#168898#168899#0" expanded="false" />
-            <element signature="e#168964#168965#0" expanded="false" />
-            <element signature="e#172348#172349#0" expanded="false" />
-            <element signature="e#172384#172385#0" expanded="false" />
-            <element signature="e#172443#172444#0" expanded="false" />
-            <element signature="e#172479#172480#0" expanded="false" />
-            <element signature="e#172655#172656#0" expanded="false" />
-            <element signature="e#172694#172695#0" expanded="false" />
-            <element signature="e#174656#174657#0" expanded="false" />
-            <element signature="e#174758#174759#0" expanded="false" />
-            <element signature="e#175254#175634#0" expanded="false" />
-            <element signature="e#175627#175628#0" expanded="false" />
-            <element signature="e#175736#175737#0" expanded="false" />
-            <element signature="e#175763#175764#0" expanded="false" />
-            <element signature="e#176104#176105#0" expanded="false" />
-            <element signature="e#176166#176167#0" expanded="false" />
-            <element signature="e#176335#176336#0" expanded="false" />
-            <element signature="e#176367#176368#0" expanded="false" />
-            <element signature="e#178009#178010#0" expanded="false" />
-            <element signature="e#178050#178051#0" expanded="false" />
-            <element signature="e#179491#179492#0" expanded="false" />
-            <element signature="e#179534#179535#0" expanded="false" />
-            <element signature="e#181540#181541#0" expanded="false" />
-            <element signature="e#181584#181585#0" expanded="false" />
-            <element signature="e#182800#182801#0" expanded="false" />
-            <element signature="e#182906#182907#0" expanded="false" />
-            <element signature="e#183451#183452#0" expanded="false" />
-            <element signature="e#183502#183503#0" expanded="false" />
-            <element signature="e#183898#183899#0" expanded="false" />
-            <element signature="e#183936#183937#0" expanded="false" />
-            <element signature="e#184312#184313#0" expanded="false" />
-            <element signature="e#184371#184372#0" expanded="false" />
-            <element signature="e#188008#188009#0" expanded="false" />
-            <element signature="e#188074#188075#0" expanded="false" />
-            <element signature="e#193601#193602#0" expanded="false" />
-            <element signature="e#193637#193638#0" expanded="false" />
-            <element signature="e#193699#193700#0" expanded="false" />
-            <element signature="e#193735#193736#0" expanded="false" />
-            <element signature="e#193911#193912#0" expanded="false" />
-            <element signature="e#193950#193951#0" expanded="false" />
-            <element signature="e#195430#195431#0" expanded="false" />
-            <element signature="e#195535#195536#0" expanded="false" />
-            <element signature="e#196043#196432#0" expanded="false" />
-            <element signature="e#196425#196426#0" expanded="false" />
-            <element signature="e#196537#196538#0" expanded="false" />
-            <element signature="e#196564#196565#0" expanded="false" />
-            <element signature="e#196816#196817#0" expanded="false" />
-            <element signature="e#196878#196879#0" expanded="false" />
-            <element signature="e#197873#197874#0" expanded="false" />
-            <element signature="e#197899#197900#0" expanded="false" />
-            <element signature="e#199185#199186#0" expanded="false" />
-            <element signature="e#199226#199227#0" expanded="false" />
-            <element signature="e#200647#200648#0" expanded="false" />
-            <element signature="e#200690#200691#0" expanded="false" />
-            <element signature="e#202720#202721#0" expanded="false" />
-            <element signature="e#202764#202765#0" expanded="false" />
-            <element signature="e#204658#204659#0" expanded="false" />
-            <element signature="e#204709#204710#0" expanded="false" />
-            <element signature="e#205066#205067#0" expanded="false" />
-            <element signature="e#205104#205105#0" expanded="false" />
-            <element signature="e#205291#205292#0" expanded="false" />
-            <element signature="e#205350#205351#0" expanded="false" />
-            <element signature="e#208488#208489#0" expanded="false" />
-            <element signature="e#208554#208555#0" expanded="false" />
-            <element signature="e#213186#213187#0" expanded="false" />
-            <element signature="e#213213#213214#0" expanded="false" />
-            <element signature="e#214787#218764#0" expanded="false" />
-            <element signature="e#218755#218756#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1780,19 +1419,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/EventComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="597" max-vertical-offset="1540">
-          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar!/java/lang/reflect/Method.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="1077" max-vertical-offset="1860">
           <caret line="62" column="28" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1808,7 +1438,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="3237" max-vertical-offset="6680">
           <caret line="170" column="36" selection-start-line="170" selection-start-column="36" selection-end-line="170" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1820,45 +1449,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/scala/tests4.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0419581" vertical-offset="627" max-vertical-offset="5460">
-          <caret line="20" column="27" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/ByParseConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5078" max-vertical-offset="5480">
-          <caret line="270" column="1" selection-start-line="270" selection-start-column="1" selection-end-line="270" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/SingleColumnValueFilter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5172" max-vertical-offset="7700">
           <caret line="286" column="61" selection-start-line="286" selection-start-column="61" selection-end-line="286" selection-end-column="61" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/protobuf/Comparator.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4117647" vertical-offset="238" max-vertical-offset="1640">
-          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/protobuf/Filter.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5633484" vertical-offset="2511" max-vertical-offset="3340">
-          <caret line="138" column="40" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1867,9 +1464,9 @@
         <state vertical-scroll-proportion="0.32126698" vertical-offset="318" max-vertical-offset="1660">
           <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#719#720#0" expanded="true" />
-            <element signature="e#747#748#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#719#720#0" expanded="false" />
+            <element signature="e#747#748#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1878,45 +1475,160 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4666" max-vertical-offset="16800">
           <caret line="237" column="0" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/ByParseConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8882682" vertical-offset="4704" max-vertical-offset="5480">
+          <caret line="270" column="1" selection-start-line="270" selection-start-column="1" selection-end-line="270" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="716">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37383178" vertical-offset="0" max-vertical-offset="749">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/filter/EventComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="824" max-vertical-offset="1540">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Aggre.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16759777" vertical-offset="0" max-vertical-offset="1780">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Table.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.7356476" vertical-offset="1980" max-vertical-offset="3120">
+          <caret line="34" column="30" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="30" />
           <folding>
-            <element signature="e#4938#4939#0" expanded="true" />
-            <element signature="e#5007#5008#0" expanded="true" />
+            <element signature="e#26#100#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/protobuf/Comparator.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6168224" vertical-offset="478" max-vertical-offset="1640">
+          <caret line="47" column="25" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/protobuf/Filter.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.9465955" vertical-offset="2051" max-vertical-offset="3340">
+          <caret line="138" column="40" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/test5.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="418" max-vertical-offset="1100">
+        <state vertical-scroll-proportion="1.7607224" vertical-offset="0" max-vertical-offset="1060">
           <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#79#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/creatTable.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="280" max-vertical-offset="4320">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1040">
+          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/puttest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="780">
+          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/tests4.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2280" max-vertical-offset="5420">
+          <caret line="136" column="78" selection-start-line="136" selection-start-column="35" selection-end-line="136" selection-end-column="78" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/scala/FilterTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1157" max-vertical-offset="2060">
+        <state vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="1880">
           <caret line="72" column="4" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/RwRDD.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3077" max-vertical-offset="4320">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/byone/hbase/protobuf/ComparatorProtos.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="102517" max-vertical-offset="109940">
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/core/Query.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="524" max-vertical-offset="1300">
+          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/uid/RandEvent.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6230" max-vertical-offset="9820">
+          <caret line="483" column="7" selection-start-line="483" selection-start-column="7" selection-end-line="483" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/byone/hbase/Client.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1120">
+          <caret line="21" column="29" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/test.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7556054" vertical-offset="903" max-vertical-offset="1960">
-          <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.82125604" vertical-offset="0" max-vertical-offset="1960">
+          <caret line="17" column="25" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
           <folding />
         </state>
       </provider>

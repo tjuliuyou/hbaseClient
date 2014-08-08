@@ -32,7 +32,7 @@ class Query(startKey: Int,filter: Filter, range: List[Array[Byte]],items: List[S
       val sn = new Scan(startRow, stopRow)
       sn.setFilter(filter)
       sn.setCacheBlocks(true)
-      sn.setCaching(10000)
+      //sn.setCaching(10000)
       sn.setReversed(true)
       if(items.nonEmpty){
         items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
@@ -46,6 +46,7 @@ class Query(startKey: Int,filter: Filter, range: List[Array[Byte]],items: List[S
       ret = ret ++ r
     }
     pool.shutdown()
+    //println("each region ret rdd count:" + ret.count())
     ret
 
   }

@@ -19,13 +19,13 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(6)
+    val thistest = testlist(0)
     val rw = new RwRDD(Conf.tablename)
     val hbaseRDD =rw.get(thistest,true)
     // if group args is empty print raw rdd using  group 'd'
     if(thistest.Groupby.isEmpty){
 
-      hbaseRDD.collect().foreach(x =>println(x._2))
+     // hbaseRDD.collect().foreach(x =>println(x._2))
       println("hbaseRDD count: " + hbaseRDD.count())
     }
     else

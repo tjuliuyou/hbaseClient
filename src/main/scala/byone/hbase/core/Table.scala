@@ -16,7 +16,7 @@ class Table extends java.io.Serializable {
   private val tablename = Conf.tablename
 
   // create usual table
-  def create(familys : Array[String],tab : String) {
+  def create(tab : String, familys : Array[String]) {
     val admin = new HBaseAdmin(Conf.conf)
     if(admin.tableExists(tab))
       println("table '" + tab + "' already exists")

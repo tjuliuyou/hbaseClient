@@ -18,7 +18,7 @@ import scala.collection.mutable.Map
 object tests4 {
 
   def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
-  val tablename ="log_data1"
+  val tablename ="log_data"
   def createtable = {
 
     val admin = new HBaseAdmin(Conf.conf)
@@ -134,7 +134,7 @@ object tests4 {
 
   def danCount = {
 
-    val range: List[String] = List("01/08/2014 09:00:00","01/08/2014 17:39:10")
+    val range: List[String] = List("08/08/2014 14:44:57","08/08/2014 14:46:14")
 
     val startTs =  DatePoint.toTs(range(0))
     val stopTs = DatePoint.toTs(range(1))
@@ -180,38 +180,36 @@ object tests4 {
 //    createtable
     //watchtable
     //putdata
-  // totolCount
 
 
-    //danCount
 
-   val list = startList
+//    danCount
+    totolCount
+  //val list = startList
+    //list.foreach(x=>println( x +","))
+////
+////
+////     //val pool:ExecutorService = Executors.newFixedThreadPool(16)
 //
+//    val range: List[String] = List("04/08/2014 10:15:17","05/08/2014 19:15:18")
 //
-//     //val pool:ExecutorService = Executors.newFixedThreadPool(16)
-
-    val range: List[String] = List("01/08/2014 09:00:00","01/08/2014 17:39:10")
-
-    val startTs =  DatePoint.toTs(range(0))
-    val stopTs = DatePoint.toTs(range(1))
-
-    val threads = new Array[Thread](list.length)
-    var i = 0
-    for(startkey <- list){
-
-      threads(i) = new Thread(new Query(startTs, stopTs, startkey.toByte, 16, ""))
-
-      threads(i).start()
-      i += 1
-    }
-
-    threads.foreach(_.join())
+//    val startTs =  DatePoint.toTs(range(0))
+//    val stopTs = DatePoint.toTs(range(1))
 //
-//   val threads = new Thread(new Query(startTs, stopTs, 0.toByte, 16, ""))
-//    threads.start()
-//    threads.join()
+//    val threads = new Array[Thread](list.length)
+//    var i = 0
+//    for(startkey <- list){
+//
+//      threads(i) = new Thread(new Query(startTs, stopTs, startkey.toByte, 16, ""))
+//
+//      threads(i).start()
+//      i += 1
+//    }
+//
+//    threads.foreach(_.join())
+//
     println("thread end")
-// //   ghconn.close()
+
   }
 
 
