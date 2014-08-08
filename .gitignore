@@ -10,6 +10,7 @@ project/plugins/project/
 out
 .history
 .cache
+.idea/workspace.xml
 conf/
 src/main/resources/protobuf/
 # Scala-IDE specific
