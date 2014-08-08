@@ -12,6 +12,6 @@ out
 .cache
 .idea/workspace.xml
 conf/
-src/main/resources/protobuf/
+#src/main/resources/protobuf/
 # Scala-IDE specific
 .scala_dependencies
