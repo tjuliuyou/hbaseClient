@@ -14,7 +14,6 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import scala.collection.JavaConverters._
 import byone.hbase.utils.Args
-import byone.hbase.filter.CompareFilter.CompareOp
 
 /**
  * Created by dream on 7/7/14.
@@ -32,7 +31,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     if(events.nonEmpty){
       val ents = for(event <- events) yield {
         val rowfilter: Filter = new RowFilter(
-          byone.hbase.filter.CompareFilter.CompareOp.EQUAL,new EventComparator(uid.id(event)))
+         CompareFilter.CompareOp.EQUAL,new EventComparator(uid.id(event)))
         rowfilter
       }
       println("row filter")
@@ -41,12 +40,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     }
 
     if(!in.equals("null")){
-      //test code
-      val fil: Filter = new tSingleColumnValueFilter("d".getBytes,"collector".getBytes,CompareOp.LESS,"20".getBytes)
-      flist.addFilter(fil)
-      //////////////////////
-
-      //flist.addFilter(new org.apache.hadoop.hbase.filter.ParseFilter().parseFilterString(in))
+      flist.addFilter(new ByParseFilter().parseFilterString(in))
 
     }
 

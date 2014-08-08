@@ -1,4 +1,4 @@
-import byone.hbase.filter.{BinaryComparator, EventComparator}
+import byone.hbase.filter.{NumberComparator, BinaryComparator, EventComparator}
 import byone.hbase.uid.UniqueId
 import scala.util.Random
 
@@ -30,35 +30,19 @@ object test5 {
   }
 
   def main(args: Array[String]) {
+    val comp = new NumberComparator("20".getBytes)
+    val comp2 = new BinaryComparator("20".getBytes)
+    for(i <- 0 to 50) {
+      val c = Random.nextInt(200).toString
+      print("current number: " + c)
+      val b = c.getBytes
+      val x = comp.compareTo(b,0,b.length)
+      print(" number result: " + x)
+      comp.compareTo(b,0,b.length)
+      print(" -----------binary result: " + comp2.compareTo(b,0,b.length))
+      println()
+    }
 
-//    val uid = new UniqueId
-//    uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
-//    val uids = uid.getCached
-//    uids.foreach(x =>{ x.foreach(sub => print(sub+","));println})
-//    println()
-//
-//    val value = uids(0)
-//    print("value: ")
-//    value.foreach(sub => print(sub+","))
-//    println()
-//
-//    val comp = new BinaryComparator(value)
-//
-//
-//    alist.foreach(x =>{
-//      x.foreach(sub => print(sub+","))
-//      print(" ******** " + comp.compareTo(x,0,x.length))
-//      println
-//
-//    })
-//    println()
-//      val a = 0.toByte
-//      val b = 0.toByte
-//      val c = 5.toByte
-//    val x = Array(a,b,c)
-//    val y =for(sub <- x) yield {
-//      sub.toChar
-//    }
 
 
   }

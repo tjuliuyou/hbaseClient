@@ -1,5 +1,5 @@
 import byone.hbase.filter.CompareFilter.CompareOp
-import byone.hbase.filter.{BinaryComparator, RowFilter}
+import byone.hbase.filter.{ByParseFilter, EventComparator, BinaryComparator, RowFilter}
 import byone.hbase.uid.UniqueId
 import byone.hbase.utils.{Conf, DatePoint, ScanCovert}
 import org.apache.hadoop.hbase.Cell
@@ -56,19 +56,20 @@ object FilterTest {
     items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
     val ents = uid.getCached
 
-    ents(0).foreach(x=>print(x+","))
+    ents(2).foreach(x=>print(x+","))
     println()
 
     //val rowfilter = new RowFilter(CompareOp.EQUAL,new BinaryPrefixComparator(pre ++ ts,1))
-    val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(0)))
-    val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(1)))
-    val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new BinaryComparator(ents(2)))
-    val rowfl = List(rowfilter1,rowfilter2,rowfilter3)
+    val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(0)))
+    val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(1)))
+    val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(2)))
+    val rowfilter4: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(4)))
+    val rowfl = List(rowfilter1,rowfilter2,rowfilter3,rowfilter4)
     val jrowfl = rowfl.asJava
 
     val fl:Filter  =new FilterList(FilterList.Operator.MUST_PASS_ONE,jrowfl)
     val flist  =new FilterList(FilterList.Operator.MUST_PASS_ALL)
-    val colfilter = new ParseFilter().parseFilterString("SingleColumnValueFilter ('d','collectorId',=,'binary:114')")
+    val colfilter = new ByParseFilter().parseFilterString("SingleColumnValueFilter ('d','collectorId',<,'number:89')")
     flist.addFilter(fl)
     flist.addFilter(colfilter)
     sn.setFilter(flist)

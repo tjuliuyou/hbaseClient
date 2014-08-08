@@ -12873,567 +12873,6 @@ public final class FilterProtos {
     // @@protoc_insertion_point(class_scope:SingleColumnValueExcludeFilter)
   }
 
-  public interface SingleColumnNumberFilterOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required .SingleColumnValueFilter single_column_value_filter = 1;
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    boolean hasSingleColumnValueFilter();
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter getSingleColumnValueFilter();
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder getSingleColumnValueFilterOrBuilder();
-  }
-  /**
-   * Protobuf type {@code SingleColumnNumberFilter}
-   */
-  public static final class SingleColumnNumberFilter extends
-      com.google.protobuf.GeneratedMessage
-      implements SingleColumnNumberFilterOrBuilder {
-    // Use SingleColumnNumberFilter.newBuilder() to construct.
-    private SingleColumnNumberFilter(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private SingleColumnNumberFilter(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final SingleColumnNumberFilter defaultInstance;
-    public static SingleColumnNumberFilter getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public SingleColumnNumberFilter getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SingleColumnNumberFilter(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = singleColumnValueFilter_.toBuilder();
-              }
-              singleColumnValueFilter_ = input.readMessage(byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(singleColumnValueFilter_);
-                singleColumnValueFilter_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return byone.hbase.protobuf.FilterProtos.internal_static_SingleColumnNumberFilter_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return byone.hbase.protobuf.FilterProtos.internal_static_SingleColumnNumberFilter_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.class, byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<SingleColumnNumberFilter> PARSER =
-        new com.google.protobuf.AbstractParser<SingleColumnNumberFilter>() {
-      public SingleColumnNumberFilter parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SingleColumnNumberFilter(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<SingleColumnNumberFilter> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required .SingleColumnValueFilter single_column_value_filter = 1;
-    public static final int SINGLE_COLUMN_VALUE_FILTER_FIELD_NUMBER = 1;
-    private byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter singleColumnValueFilter_;
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    public boolean hasSingleColumnValueFilter() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    public byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter getSingleColumnValueFilter() {
-      return singleColumnValueFilter_;
-    }
-    /**
-     * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-     */
-    public byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder getSingleColumnValueFilterOrBuilder() {
-      return singleColumnValueFilter_;
-    }
-
-    private void initFields() {
-      singleColumnValueFilter_ = byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasSingleColumnValueFilter()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getSingleColumnValueFilter().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, singleColumnValueFilter_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, singleColumnValueFilter_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter)) {
-        return super.equals(obj);
-      }
-      byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter other = (byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter) obj;
-
-      boolean result = true;
-      result = result && (hasSingleColumnValueFilter() == other.hasSingleColumnValueFilter());
-      if (hasSingleColumnValueFilter()) {
-        result = result && getSingleColumnValueFilter()
-            .equals(other.getSingleColumnValueFilter());
-      }
-      result = result &&
-          getUnknownFields().equals(other.getUnknownFields());
-      return result;
-    }
-
-    private int memoizedHashCode = 0;
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasSingleColumnValueFilter()) {
-        hash = (37 * hash) + SINGLE_COLUMN_VALUE_FILTER_FIELD_NUMBER;
-        hash = (53 * hash) + getSingleColumnValueFilter().hashCode();
-      }
-      hash = (29 * hash) + getUnknownFields().hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code SingleColumnNumberFilter}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilterOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return byone.hbase.protobuf.FilterProtos.internal_static_SingleColumnNumberFilter_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return byone.hbase.protobuf.FilterProtos.internal_static_SingleColumnNumberFilter_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.class, byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.Builder.class);
-      }
-
-      // Construct using byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getSingleColumnValueFilterFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (singleColumnValueFilterBuilder_ == null) {
-          singleColumnValueFilter_ = byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.getDefaultInstance();
-        } else {
-          singleColumnValueFilterBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return byone.hbase.protobuf.FilterProtos.internal_static_SingleColumnNumberFilter_descriptor;
-      }
-
-      public byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter getDefaultInstanceForType() {
-        return byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.getDefaultInstance();
-      }
-
-      public byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter build() {
-        byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter buildPartial() {
-        byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter result = new byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (singleColumnValueFilterBuilder_ == null) {
-          result.singleColumnValueFilter_ = singleColumnValueFilter_;
-        } else {
-          result.singleColumnValueFilter_ = singleColumnValueFilterBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter) {
-          return mergeFrom((byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter other) {
-        if (other == byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter.getDefaultInstance()) return this;
-        if (other.hasSingleColumnValueFilter()) {
-          mergeSingleColumnValueFilter(other.getSingleColumnValueFilter());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasSingleColumnValueFilter()) {
-          
-          return false;
-        }
-        if (!getSingleColumnValueFilter().isInitialized()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (byone.hbase.protobuf.FilterProtos.SingleColumnNumberFilter) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .SingleColumnValueFilter single_column_value_filter = 1;
-      private byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter singleColumnValueFilter_ = byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder> singleColumnValueFilterBuilder_;
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public boolean hasSingleColumnValueFilter() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter getSingleColumnValueFilter() {
-        if (singleColumnValueFilterBuilder_ == null) {
-          return singleColumnValueFilter_;
-        } else {
-          return singleColumnValueFilterBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public Builder setSingleColumnValueFilter(byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter value) {
-        if (singleColumnValueFilterBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          singleColumnValueFilter_ = value;
-          onChanged();
-        } else {
-          singleColumnValueFilterBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public Builder setSingleColumnValueFilter(
-          byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder builderForValue) {
-        if (singleColumnValueFilterBuilder_ == null) {
-          singleColumnValueFilter_ = builderForValue.build();
-          onChanged();
-        } else {
-          singleColumnValueFilterBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public Builder mergeSingleColumnValueFilter(byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter value) {
-        if (singleColumnValueFilterBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              singleColumnValueFilter_ != byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.getDefaultInstance()) {
-            singleColumnValueFilter_ =
-              byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.newBuilder(singleColumnValueFilter_).mergeFrom(value).buildPartial();
-          } else {
-            singleColumnValueFilter_ = value;
-          }
-          onChanged();
-        } else {
-          singleColumnValueFilterBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public Builder clearSingleColumnValueFilter() {
-        if (singleColumnValueFilterBuilder_ == null) {
-          singleColumnValueFilter_ = byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.getDefaultInstance();
-          onChanged();
-        } else {
-          singleColumnValueFilterBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder getSingleColumnValueFilterBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getSingleColumnValueFilterFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      public byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder getSingleColumnValueFilterOrBuilder() {
-        if (singleColumnValueFilterBuilder_ != null) {
-          return singleColumnValueFilterBuilder_.getMessageOrBuilder();
-        } else {
-          return singleColumnValueFilter_;
-        }
-      }
-      /**
-       * <code>required .SingleColumnValueFilter single_column_value_filter = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder> 
-          getSingleColumnValueFilterFieldBuilder() {
-        if (singleColumnValueFilterBuilder_ == null) {
-          singleColumnValueFilterBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilter.Builder, byone.hbase.protobuf.FilterProtos.SingleColumnValueFilterOrBuilder>(
-                  singleColumnValueFilter_,
-                  getParentForChildren(),
-                  isClean());
-          singleColumnValueFilter_ = null;
-        }
-        return singleColumnValueFilterBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:SingleColumnNumberFilter)
-    }
-
-    static {
-      defaultInstance = new SingleColumnNumberFilter(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:SingleColumnNumberFilter)
-  }
-
   public interface SingleColumnValueFilterOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -17119,11 +16558,6 @@ public final class FilterProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_SingleColumnValueExcludeFilter_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_SingleColumnNumberFilter_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_SingleColumnNumberFilter_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_SingleColumnValueFilter_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -17198,21 +16632,19 @@ public final class FilterProtos {
       "ilter\"5\n\013EventFilter\022&\n\016compare_filter\030\001" +
       " \002(\0132\016.CompareFilter\"^\n\036SingleColumnValu" +
       "eExcludeFilter\022<\n\032single_column_value_fi" +
-      "lter\030\001 \002(\0132\030.SingleColumnValueFilter\"X\n\030" +
-      "SingleColumnNumberFilter\022<\n\032single_colum" +
-      "n_value_filter\030\001 \002(\0132\030.SingleColumnValue" +
-      "Filter\"\305\001\n\027SingleColumnValueFilter\022\025\n\rco",
-      "lumn_family\030\001 \001(\014\022\030\n\020column_qualifier\030\002 " +
-      "\001(\014\022 \n\ncompare_op\030\003 \002(\0162\014.CompareType\022\037\n" +
-      "\ncomparator\030\004 \002(\0132\013.Comparator\022\031\n\021filter" +
-      "_if_missing\030\005 \001(\010\022\033\n\023latest_version_only" +
-      "\030\006 \001(\010\"%\n\nSkipFilter\022\027\n\006filter\030\001 \002(\0132\007.F" +
-      "ilter\"*\n\020TimestampsFilter\022\026\n\ntimestamps\030" +
-      "\001 \003(\003B\002\020\001\"5\n\013ValueFilter\022&\n\016compare_filt" +
-      "er\030\001 \002(\0132\016.CompareFilter\"+\n\020WhileMatchFi" +
-      "lter\022\027\n\006filter\030\001 \002(\0132\007.Filter\"\021\n\017FilterA" +
-      "llFilterB,\n\024byone.hbase.protobufB\014Filter",
-      "ProtosH\001\210\001\001\240\001\001"
+      "lter\030\001 \002(\0132\030.SingleColumnValueFilter\"\305\001\n" +
+      "\027SingleColumnValueFilter\022\025\n\rcolumn_famil" +
+      "y\030\001 \001(\014\022\030\n\020column_qualifier\030\002 \001(\014\022 \n\ncom" +
+      "pare_op\030\003 \002(\0162\014.CompareType\022\037\n\ncomparato",
+      "r\030\004 \002(\0132\013.Comparator\022\031\n\021filter_if_missin" +
+      "g\030\005 \001(\010\022\033\n\023latest_version_only\030\006 \001(\010\"%\n\n" +
+      "SkipFilter\022\027\n\006filter\030\001 \002(\0132\007.Filter\"*\n\020T" +
+      "imestampsFilter\022\026\n\ntimestamps\030\001 \003(\003B\002\020\001\"" +
+      "5\n\013ValueFilter\022&\n\016compare_filter\030\001 \002(\0132\016" +
+      ".CompareFilter\"+\n\020WhileMatchFilter\022\027\n\006fi" +
+      "lter\030\001 \002(\0132\007.Filter\"\021\n\017FilterAllFilterB," +
+      "\n\024byone.hbase.protobufB\014FilterProtosH\001\210\001" +
+      "\001\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -17357,44 +16789,38 @@ public final class FilterProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SingleColumnValueExcludeFilter_descriptor,
               new java.lang.String[] { "SingleColumnValueFilter", });
-          internal_static_SingleColumnNumberFilter_descriptor =
-            getDescriptor().getMessageTypes().get(23);
-          internal_static_SingleColumnNumberFilter_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_SingleColumnNumberFilter_descriptor,
-              new java.lang.String[] { "SingleColumnValueFilter", });
           internal_static_SingleColumnValueFilter_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_SingleColumnValueFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SingleColumnValueFilter_descriptor,
               new java.lang.String[] { "ColumnFamily", "ColumnQualifier", "CompareOp", "Comparator", "FilterIfMissing", "LatestVersionOnly", });
           internal_static_SkipFilter_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_SkipFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SkipFilter_descriptor,
               new java.lang.String[] { "Filter", });
           internal_static_TimestampsFilter_descriptor =
-            getDescriptor().getMessageTypes().get(26);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_TimestampsFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TimestampsFilter_descriptor,
               new java.lang.String[] { "Timestamps", });
           internal_static_ValueFilter_descriptor =
-            getDescriptor().getMessageTypes().get(27);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_ValueFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ValueFilter_descriptor,
               new java.lang.String[] { "CompareFilter", });
           internal_static_WhileMatchFilter_descriptor =
-            getDescriptor().getMessageTypes().get(28);
+            getDescriptor().getMessageTypes().get(27);
           internal_static_WhileMatchFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WhileMatchFilter_descriptor,
               new java.lang.String[] { "Filter", });
           internal_static_FilterAllFilter_descriptor =
-            getDescriptor().getMessageTypes().get(29);
+            getDescriptor().getMessageTypes().get(28);
           internal_static_FilterAllFilter_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FilterAllFilter_descriptor,

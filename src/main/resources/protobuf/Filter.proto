@@ -134,10 +134,6 @@ message SingleColumnValueExcludeFilter {
     required SingleColumnValueFilter single_column_value_filter = 1;
 }
 
-message SingleColumnNumberFilter {
-    required SingleColumnValueFilter single_column_value_filter = 1;
-}
-
 message SingleColumnValueFilter {
     optional bytes column_family = 1;
     optional bytes column_qualifier = 2;

@@ -27,12 +27,14 @@ public class NumberComparator extends ByteArrayComparable {
 
     @Override
     public int compareTo(byte [] value, int offset, int length) {
-        if(length > this.value.length)
-            return 1;
-        else if (length < this.value.length)
+        if(length > this.value.length){
             return -1;
+        }
+        else if (length < this.value.length){
+            return 1;
+        }
         else
-        return Bytes.compareTo(this.value, 0, this.value.length, value, offset, this.value.length);
+            return Bytes.compareTo(this.value, 0, this.value.length, value, offset, this.value.length);
     }
 
     /**

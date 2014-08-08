@@ -791,14 +791,15 @@ public class ByParseFilter {
 
         if (Bytes.equals(comparatorType, ByParseConstants.binaryType))
             return new BinaryComparator(comparatorValue);
+        else if (Bytes.equals(comparatorType, ByParseConstants.numberType))
+            return new NumberComparator(comparatorValue);
         else if (Bytes.equals(comparatorType, ByParseConstants.binaryPrefixType))
             return new BinaryPrefixComparator(comparatorValue);
         else if (Bytes.equals(comparatorType, ByParseConstants.regexStringType))
             return new RegexStringComparator(new String(comparatorValue));
         else if (Bytes.equals(comparatorType, ByParseConstants.substringType))
             return new SubstringComparator(new String(comparatorValue));
-        else if (Bytes.equals(comparatorType, ByParseConstants.numberType))
-            return new NumberComparator(comparatorValue);
+
         else
             throw new IllegalArgumentException("Incorrect comparatorType");
     }

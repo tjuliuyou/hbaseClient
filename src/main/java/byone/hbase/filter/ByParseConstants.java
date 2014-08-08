@@ -266,6 +266,6 @@ public final class ByParseConstants {
     /**
      * Package containing filters
      */
-    public static final String FILTER_PACKAGE = "org.apache.hadoop.hbase.filter";
-    //public static final String FILTER_PACKAGE = "byone.hbase.filter";
+    //public static final String FILTER_PACKAGE = "org.apache.hadoop.hbase.filter";
+    public static final String FILTER_PACKAGE = "byone.hbase.filter";
 }
