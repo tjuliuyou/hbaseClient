@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.{HTable, Put, Row}
 import java.lang.String
 import scala.collection.mutable.Map
 import scala.xml.{Node, Elem, XML}
-import byone.hbase.utils.Conf
+import byone.hbase.utils.Constants
 import scala.collection.JavaConverters._
 import scala.util.Random
 import byone.hbase.core.Table
@@ -475,7 +475,7 @@ object RandEvent {
       case 13 => data13
     }
     val ts = System.currentTimeMillis()
-    val pre = Random.nextInt(256)
+    val pre = Random.nextInt(Constants.REGIONRANGE)
     val row =  Int2Byte(pre,1) ++ num2Byte(ts/1000,4) ++ Int2Byte(event) ++ num2Byte(ts%1000,3) ++ Int2Byte(u)
     toPut(data,row)
   }

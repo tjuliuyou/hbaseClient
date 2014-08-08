@@ -2,7 +2,7 @@ package byone.hbase.uid
 
 import scala.collection.JavaConverters._
 import byone.hbase.core.Table
-import byone.hbase.utils.{Conf,DatePoint}
+import byone.hbase.utils.{Constants,DatePoint}
 import java.lang.String
 import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
@@ -37,7 +37,7 @@ class UniqueId extends java.io.Serializable {
 
   def ids : List[String] = {
     var ret: List[String] = List.empty
-    val tb = new HTable(Conf.conf,"uid")
+    val tb = new HTable(Constants.conf,"uid")
     val scan = new Scan()
     val fl = new KeyOnlyFilter ()
     scan.setFilter(fl)
@@ -45,7 +45,7 @@ class UniqueId extends java.io.Serializable {
     for(res:Result <- ss.asScala)
       for(kv:Cell <- res.rawCells()) {
         val id = new String(kv.getRow)
-        if(id.length.equals(Conf.UIDLENGTH))
+        if(id.length.equals(Constants.UIDLENGTH))
         ret = ret :+ id
       }
     ss.close()
@@ -62,7 +62,7 @@ class UniqueId extends java.io.Serializable {
 
 
   def readToCache (file : String) {
-    val txtFile =Conf.sc.textFile(file)
+    val txtFile =Constants.sc.textFile(file)
     val txtFileMap = txtFile.map({lines =>
       val ev = lines.split(",")
       (ev(0),ev(1))

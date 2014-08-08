@@ -1,5 +1,5 @@
 import byone.hbase.uid.{EventFactory, RandEvent}
-import byone.hbase.utils.{DatePoint, Conf, ScanCovert}
+import byone.hbase.utils.{DatePoint, Constants, ScanCovert}
 import java.util.concurrent.{Future, Callable, Executors, ExecutorService}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
@@ -21,7 +21,7 @@ object tests4 {
   val tablename ="log_data"
   def createtable = {
 
-    val admin = new HBaseAdmin(Conf.conf)
+    val admin = new HBaseAdmin(Constants.conf)
     if(admin.tableExists(tablename)){
       admin.disableTable(tablename)
       admin.deleteTable(tablename)
@@ -56,7 +56,7 @@ object tests4 {
 
   def watchtable = {
 
-    val tb = new HTable(Conf.conf,tablename)
+    val tb = new HTable(Constants.conf,tablename)
     val keys = tb.getRegionLocations.navigableKeySet()
 
 
@@ -70,7 +70,7 @@ object tests4 {
   }
 
   def putdata = {
-    val tb = new HTable(Conf.conf,tablename)
+    val tb = new HTable(Constants.conf,tablename)
     //val tbutil = new HTableUtil()
 
     tb.setAutoFlush(false)
@@ -89,7 +89,7 @@ object tests4 {
 
   def startList: Array[Int] = {  //: List[Scan]
 
-    val tb = new HTable(Conf.conf,tablename)
+    val tb = new HTable(Constants.conf,tablename)
     val keys = tb.getRegionLocations.navigableKeySet()
 
     val keysseq = for(k: HRegionInfo <- keys.asScala) yield {
@@ -120,16 +120,16 @@ object tests4 {
     sn.setCacheBlocks(false)
     sn.setCaching(10000)
     sn.setReversed(true)
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, Conf.tablename)
-    Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
-    val hbaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+    Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.tablename)
+    Constants.conf.set(TableInputFormat.SCAN,ScanToString(sn))
+    val hbaseRDD = Constants.sc.newAPIHadoopRDD(Constants.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
     val tmp = hbaseRDD.count()
     println("hbaseRDD count: " + tmp)
   }
 
-  val ghconn = HConnectionManager.createConnection(Conf.conf)
+  val ghconn = HConnectionManager.createConnection(Constants.conf)
 
 
   def danCount = {
@@ -143,7 +143,7 @@ object tests4 {
     var counts: Long = 0
     for(startkey <- list) {
       println(" -------------")
-      var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
+      var ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
       for(i <- startkey to (startkey +15)) {
         val pre = DatePoint.Int2Byte(i,1)
         val starrow = pre ++ startTs
@@ -156,9 +156,9 @@ object tests4 {
         sn.setCacheBlocks(false)
         sn.setCaching(10000)
         sn.setReversed(true)
-        Conf.conf.set(TableInputFormat.INPUT_TABLE, tablename)
-        Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
-        val hbaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+        Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+        Constants.conf.set(TableInputFormat.SCAN,ScanToString(sn))
+        val hbaseRDD = Constants.sc.newAPIHadoopRDD(Constants.conf, classOf[TableInputFormat],
           classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
           classOf[org.apache.hadoop.hbase.client.Result])
         val tmp = hbaseRDD.count()
@@ -224,7 +224,7 @@ object tests4 {
     {
       try{
           val futures = new Array[Future[RDD[(ImmutableBytesWritable,Result)]]](range)
-          var ret: RDD[(ImmutableBytesWritable,Result)] = Conf.sc.emptyRDD
+          var ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
           for (i <- 0 until range)
           {
             val pre = DatePoint.Int2Byte(startKey+i,1)
@@ -260,11 +260,11 @@ object tests4 {
       sn.setCaching(10000)
       sn.setReversed(true)
 
-      Conf.conf.set(TableInputFormat.INPUT_TABLE,tablename)
+      Constants.conf.set(TableInputFormat.INPUT_TABLE,tablename)
      // val conf = new HBaseConfiguration(Conf.conf)
-      val conf = HBaseConfiguration.create(Conf.conf)
+      val conf = HBaseConfiguration.create(Constants.conf)
       conf.set(TableInputFormat.SCAN,ScanToString(sn))
-      val singlerdd = Conf.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+      val singlerdd = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
         classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
         classOf[org.apache.hadoop.hbase.client.Result])
       //print("startpre:  "+(startRow(0)).toInt+"   ")

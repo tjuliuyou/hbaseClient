@@ -1,7 +1,7 @@
 import byone.hbase.filter.CompareFilter.CompareOp
 import byone.hbase.filter.{ByParseFilter, EventComparator, BinaryComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.utils.{Conf, DatePoint, ScanCovert}
+import byone.hbase.utils.{Constants, DatePoint, ScanCovert}
 import org.apache.hadoop.hbase.Cell
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{ParseFilter, Filter, FilterList}
@@ -21,9 +21,9 @@ object FilterTest {
     sn.setCacheBlocks(false)
     sn.setCaching(10000)
     sn.setReversed(true)
-    Conf.conf.set(TableInputFormat.INPUT_TABLE, Conf.tablename)
-    Conf.conf.set(TableInputFormat.SCAN,ScanToString(sn))
-    val hbaseRDD = Conf.sc.newAPIHadoopRDD(Conf.conf, classOf[TableInputFormat],
+    Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.tablename)
+    Constants.conf.set(TableInputFormat.SCAN,ScanToString(sn))
+    val hbaseRDD = Constants.sc.newAPIHadoopRDD(Constants.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
     val tmp = hbaseRDD.count()
@@ -32,7 +32,7 @@ object FilterTest {
 
   def main(args: Array[String]) {
     val tablename ="log_data"
-    val tb = new HTable(Conf.conf,tablename)
+    val tb = new HTable(Constants.conf,tablename)
     //val keys = tb.getRegionLocations.navigableKeySet()
 
     val uid = new UniqueId

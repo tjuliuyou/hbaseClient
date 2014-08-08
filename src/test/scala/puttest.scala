@@ -1,5 +1,5 @@
 import byone.hbase.uid.{RandEvent, EventFactory, UniqueId}
-import byone.hbase.utils.{ScanCovert, Conf}
+import byone.hbase.utils.{ScanCovert, Constants}
 import java.lang.String
 import net.liftweb.json.Formats
 import net.liftweb.json.JsonParser.parse
@@ -16,11 +16,11 @@ object puttest {
   //implicit formats = DefaultFormats
   def main(args: Array[String]) {
 
-    val tablename = Conf.tablename
+    val tablename = Constants.tablename
 
 
 
-    val tb = new HTable(Conf.conf,tablename)
+    val tb = new HTable(Constants.conf,tablename)
     //val tbutil = new HTableUtil()
 
     tb.setAutoFlush(false)
@@ -36,7 +36,7 @@ object puttest {
 
 
 
-    Conf.sc.stop()
+    Constants.sc.stop()
 
   }
 

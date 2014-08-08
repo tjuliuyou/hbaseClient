@@ -10,7 +10,7 @@ import org.apache.spark.SparkContext
 /**
  * Created by dream on 7/11/14.
  */
-object Conf {
+object Constants {
   // glable conf
   val tablename = "log_data"
 
@@ -29,10 +29,11 @@ object Conf {
     .setJars(Seq("out/artifacts/byonehbasecore/byonehbasecore.jar"))
   val sc = new SparkContext(sparkConf)
 
-  val UIDLENGTH = 4
-  val PRELENGTH = 1
-  val TSLENGTH = 4
-  val REGIONRANGE = 16
+  val UIDLENGTH     = 4
+  val PRELENGTH     = 1
+  val TSLENGTH      = 4
+  val REGIONRANGE   = 256
+  val REGIONNUM     = 16
 
 }
 

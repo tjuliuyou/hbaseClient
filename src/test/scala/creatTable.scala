@@ -1,14 +1,9 @@
-import byone.hbase.uid.{RandEvent, EventFactory, UniqueId}
-import byone.hbase.utils.{DatePoint, ScanCovert, Conf}
-import java.lang.String
-import net.liftweb.json.Formats
-import net.liftweb.json.JsonParser.parse
+import byone.hbase.uid.RandEvent
+import byone.hbase.utils.{Constants, ScanCovert}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
-import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import org.apache.hadoop.hbase.regionserver.BloomType
-import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
-import scala.collection.JavaConverters._
+import org.apache.hadoop.hbase.{HColumnDescriptor, HTableDescriptor}
 /**
  * Created by dream on 7/11/14.
  */
@@ -19,7 +14,7 @@ object creatTable {
 
 
     val tablename ="log_data"
-        val admin = new HBaseAdmin(Conf.conf)
+        val admin = new HBaseAdmin(Constants.conf)
         if(admin.tableExists(tablename)){
           admin.disableTable(tablename)
           admin.deleteTable(tablename)
@@ -44,7 +39,7 @@ object creatTable {
             ret.toArray
           }
 
-    admin.createTable(desc,getSplits(16,256,16))
+    admin.createTable(desc,getSplits(16,Constants.REGIONRANGE,Constants.REGIONNUM))
 
     println("create table: '" +tablename + "' successfully.")
 

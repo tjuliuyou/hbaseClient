@@ -1,7 +1,7 @@
 package byone.hbase
 
 import byone.hbase.core.{RwRDD, Aggre}
-import byone.hbase.utils.{Args, Conf}
+import byone.hbase.utils.{Args, Constants}
 import net.liftweb.json.JsonParser._
 
 /**
@@ -19,9 +19,9 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(0)
-    val rw = new RwRDD(Conf.tablename)
-    val hbaseRDD =rw.get(thistest,true)
+    val thistest = testlist(9)
+    val rw = new RwRDD(Constants.tablename)
+    val hbaseRDD =rw.get(thistest)
     // if group args is empty print raw rdd using  group 'd'
     if(thistest.Groupby.isEmpty){
 
@@ -47,6 +47,6 @@ object Client {
       }
     }
 
-    Conf.sc.stop()
+    Constants.sc.stop()
   }
 }
