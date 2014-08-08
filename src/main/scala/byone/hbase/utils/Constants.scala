@@ -1,11 +1,8 @@
 package byone.hbase.utils
 
-import org.apache.spark.{SparkContext, SparkConf}
-import org.apache.hadoop.hbase.HBaseConfiguration
-import scala.Predef.String
 import org.apache.hadoop.fs.Path
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
+import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
  * Created by dream on 7/11/14.
@@ -37,9 +34,15 @@ object Constants {
 
 }
 
-case class Args(Range: List[String]
-            ,Items: List[String]
-            ,Events: List[String]
-            ,Filter:  String
-            ,Groupby: List[String]
-            ,Aggres: List[List[String]])
+/**
+ *  parse Args from test file (json)
+ * @param Range time range list should be start time and stop time {@link DatePoint.toTs}
+ * @param Items items list that needed to display
+ * @param Events event type list should be use
+ * @param Filter filter String will be set for scan
+ * @param Groupby group by lists
+ * @param Aggres aggreagte args
+ */
+case class Args(Range: List[String], Items: List[String]
+     ,Events: List[String], Filter: String
+     ,Groupby: List[String], Aggres: List[List[String]])
