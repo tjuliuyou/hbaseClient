@@ -105,7 +105,7 @@ class Table extends java.io.Serializable {
     val rangeIncrement = range/(num-1)
     val ret =for(i <- 0 until (num-1)) yield {
       val key = startkey + rangeIncrement*i
-      DatePoint.Int2Byte(key,1) //++ RandEvent.Int2Byte(Int.MaxValue, 4)
+      DatePoint.Int2Byte(key,Constants.PRELENGTH)
     }
     ret.toArray
   }

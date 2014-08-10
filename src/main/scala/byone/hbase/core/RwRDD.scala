@@ -29,15 +29,22 @@ class RwRDD(table : String) extends java.io.Serializable {
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
-
+  /**
+   * Get merged rdd using multi threads
+   * @param args args to get rdd {@see byone.hbase.utils.Args}
+   * @return a raw rdd
+   */
   def get(args:Args): RDD[(String,Map[String,String])] = {
     get(args, true)
   }
+
   /**
-   * get and merge hbase RDD
-   * @return
+   * Get merged rdd using multi threads or single thread
+   * @param args args to get rdd {@see byone.hbase.utils.Args}
+   * @param rsyc true: multi thread false: single thread
+   * @return a raw rdd
    */
-  def get = (args: Args, rsyc: Boolean) =>{
+  def get(args: Args, rsyc: Boolean): RDD[(String,Map[String,String])] = {
 
     require(args.Range.nonEmpty)
     val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
@@ -69,9 +76,9 @@ class RwRDD(table : String) extends java.io.Serializable {
    * parser filter args and events to filter
    * @param args   : filter args
    * @param events : list of events
-   * @return FilterList
+   * @return Parsered filter list
    */
-  private def hbaseFilter(args:String,events: List[String]) = {
+  private def hbaseFilter(args:String,events: List[String]): FilterList = {
     val flist =new FilterList(FilterList.Operator.MUST_PASS_ALL)
     if(events.nonEmpty){
       val ents = for(event <- events) yield {
@@ -120,7 +127,9 @@ class RwRDD(table : String) extends java.io.Serializable {
   }
 
   /**
-   *  map raw hbase date to (string,string) by grouplist
+   *  map raw hbase data(ImmutableBytesWritable, Result) to (key,value) by group list
+   *
+   *
    */
   def gpBy = (raw: (ImmutableBytesWritable, Result), gp: List[String]) => {
     val retmap = Map[String, String]()

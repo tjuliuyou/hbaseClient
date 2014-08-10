@@ -9,6 +9,13 @@ import org.apache.spark.SparkContext._
 class Aggre(rdd : RDD[(String, Map[String,String])]) extends java.io.Serializable {
 
   private val raw = rdd
+
+  /**
+   * pre covert each event: (String, Map[String,String]) to (String,Map[String, (Double, Int)]) by args
+   * @param event raw event data
+   * @param args
+   * @return
+   */
   def pre(event: (String, Map[String,String]), args: List[String]): (String,Map[String, (Double, Int)]) ={
     val retmap = Map[String, (Double,Int)]()
     args.foreach(ar => {

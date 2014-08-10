@@ -1,12 +1,12 @@
 package byone.hbase.uid
 
-import scala.collection.JavaConverters._
 import byone.hbase.core.Table
-import byone.hbase.utils.{Constants,DatePoint}
-import java.lang.String
-import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
-import org.apache.hadoop.hbase.filter.KeyOnlyFilter
+import byone.hbase.utils.{Constants, DatePoint}
 import org.apache.hadoop.hbase.Cell
+import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
+import org.apache.hadoop.hbase.filter.KeyOnlyFilter
+
+import scala.collection.JavaConverters._
 
 /**
  * Created by dream on 7/7/14.

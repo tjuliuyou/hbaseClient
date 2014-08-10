@@ -6,9 +6,14 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 /**
  * Created by dream on 7/11/14.
+ *
+ * Constants holds a bunch of constants related to global variables
+ *
  */
 object Constants {
-  // glable conf
+  /**
+   * Default table name
+   */
   val tablename = "log_data"
 
   private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
@@ -26,17 +31,32 @@ object Constants {
     .setJars(Seq("out/artifacts/byonehbasecore/byonehbasecore.jar"))
   val sc = new SparkContext(sparkConf)
 
+  /**
+   * Default event uid length store in rowkey (Bytes)
+   */
   val UIDLENGTH     = 4
+  /**
+   * Default random prefix length store in rowkey (Bytes)
+   */
   val PRELENGTH     = 1
+  /**
+   * Default timestamps length store in rowkey (Bytes)
+   */
   val TSLENGTH      = 4
+  /**
+   * Possible pre values for all regions
+   */
   val REGIONRANGE   = 256
+  /**
+   * Default pre-spilt regions numbers
+   */
   val REGIONNUM     = 16
 
 }
 
 /**
- *  parse Args from test file (json)
- * @param Range time range list should be start time and stop time {@link DatePoint.toTs}
+ * Args holds a bunch of args parsed from test file (json)
+ * @param Range time range list should be start time and stop time, to see the format {@see DatePoint#toTs}
  * @param Items items list that needed to display
  * @param Events event type list should be use
  * @param Filter filter String will be set for scan
