@@ -1,5 +1,5 @@
-import byone.hbase.filter.{NumberComparator, BinaryComparator, EventComparator}
-import byone.hbase.uid.UniqueId
+import byone.hbase.filter.{BinaryComparator, NumberComparator}
+
 import scala.util.Random
 
 /**

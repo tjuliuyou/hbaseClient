@@ -28,7 +28,7 @@ object Constants {
     .setAppName("HBase Client")
     //.setMaster("local")
     .setMaster("spark://master3.dream:7077")
-    .setJars(Seq("out/artifacts/byonehbasecore/byonehbasecore.jar"))
+    .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"))
   val sc = new SparkContext(sparkConf)
 
   /**

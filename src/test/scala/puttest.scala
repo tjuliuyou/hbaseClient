@@ -1,13 +1,7 @@
-import byone.hbase.uid.{RandEvent, EventFactory, UniqueId}
-import byone.hbase.utils.{ScanCovert, Constants}
-import java.lang.String
-import net.liftweb.json.Formats
-import net.liftweb.json.JsonParser.parse
+import byone.hbase.uid.EventFactory
+import byone.hbase.utils.Constants
 import org.apache.hadoop.hbase.client._
-import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
-import org.apache.hadoop.hbase.mapreduce.TableInputFormat
-import org.apache.hadoop.hbase.regionserver.BloomType
-import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
+
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.

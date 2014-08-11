@@ -3,6 +3,7 @@ package byone.hbase
 import byone.hbase.core.{RwRDD, Aggre}
 import byone.hbase.utils.{Args, Constants}
 import net.liftweb.json.JsonParser._
+import org.apache.spark.SparkContext
 
 /**
  * Created by dream on 7/7/14.
@@ -19,7 +20,7 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(9)
+    val thistest = testlist(8)
     val rw = new RwRDD(Constants.tablename)
     val hbaseRDD =rw.get(thistest)
     // if group args is empty print raw rdd using  group 'd'
@@ -37,13 +38,16 @@ object Client {
       }
       else
       {  //using aggregate args to aggre RDD then sort it
-        val ag = new Aggre(hbaseRDD)
-        val cond = thistest.Aggres(0)
-        val ar = cond.drop(1)
-        val tm = ag.exec(cond.head)(ar)
-        val sortrdd =tm.collect().sortBy(r => r._2.values.map{case x=> -x})
+        val ag = new Aggre(hbaseRDD,thistest.Aggres)
+        val tm = ag.doAggre()
+//        val cond = thistest.Aggres(0)
+//        val ar = cond.drop(1)
+//        val tm = ag.exec(cond.head)(ar)
+//        //val sortrdd =tm.collect().sortBy(r => r._2.values.map{case x=> -x})
+        val sortrdd =tm.collect().sortBy(x=>x._1)
         sortrdd.foreach(println)
         println("sorted count: " + tm.count())
+
       }
     }
 

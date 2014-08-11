@@ -12,7 +12,7 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable.Map
+//import scala.collection.mutable.Map
 import org.apache.spark.rdd.RDD
 import java.util.concurrent.{Executors, ExecutorService}
 /**
@@ -132,7 +132,7 @@ class RwRDD(table : String) extends java.io.Serializable {
    *
    */
   def gpBy = (raw: (ImmutableBytesWritable, Result), gp: List[String]) => {
-    val retmap = Map[String, String]()
+    val retmap = scala.collection.mutable.Map[String, String]()
     var ky = ""
     for(kv:Cell<- raw._2.rawCells())
     {
@@ -144,7 +144,7 @@ class RwRDD(table : String) extends java.io.Serializable {
       else
         retmap += (key->value)
     }
-    (ky,retmap)
+    (ky,retmap.toMap)
   }
 
   /**
