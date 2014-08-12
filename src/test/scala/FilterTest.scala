@@ -37,7 +37,7 @@ object FilterTest {
 
     val uid = new UniqueId
     uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
-    val range: List[String] = List("05/08/2014 15:15:17","05/08/2014 15:15:22")
+    val range: List[String] = List("08/08/2014 14:45:53","08/08/2014 14:45:54")
     val startTs =  DatePoint.toTs(range(0))
     val stopTs = DatePoint.toTs(range(1))
     val pre = DatePoint.Int2Byte(16,1)

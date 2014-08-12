@@ -21,7 +21,7 @@ object Client {
 
     val thistest = testlist(9)
     val rw = new RwRDD(Constants.tablename)
-    val hbaseRDD =rw.get(thistest)
+    val hbaseRDD =rw.futureGet(thistest)
     // if group args is empty print raw rdd using  group 'd'
     if(thistest.Groupby.isEmpty){
 

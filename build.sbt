@@ -11,5 +11,6 @@ libraryDependencies ++= Seq(
   "org.apache.hbase" % "hbase-common" % "0.98.2-hadoop2",
   "org.apache.hbase" % "hbase-client" % "0.98.2-hadoop2",
   "org.apache.hbase" % "hbase-server" % "0.98.2-hadoop2",
-  "net.liftweb" %% "lift-json" % "2.6-M4"
+  "net.liftweb" %% "lift-json" % "2.6-M4",
+  "com.twitter" %% "util-collection" % "6.12.1"
 )
