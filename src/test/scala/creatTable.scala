@@ -13,7 +13,7 @@ object creatTable {
   def main(args: Array[String]) {
 
 
-    val tablename ="log_data"
+    val tablename ="log_data1"
         val admin = new HBaseAdmin(Constants.conf)
         if(admin.tableExists(tablename)){
           admin.disableTable(tablename)

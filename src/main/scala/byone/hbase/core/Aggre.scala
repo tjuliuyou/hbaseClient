@@ -1,8 +1,8 @@
 package byone.hbase.core
 
-import scala.collection.immutable.Map
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext._
+import scala.collection.immutable.Map
 /**
  * Created by dream on 7/10/14.
  */
@@ -115,7 +115,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])], agargs: List[List[String]])
 
   /**
    * Aggregate rdd using defult args by defult constuctions
-   * @param ar
+   * @param ar aggregate args
    * @return
    */
   def doAggre(ar: List[(String,List[String])] = aggargs):RDD[(String,Map[String,Double])] = {
@@ -168,16 +168,22 @@ class Aggre(rdd : RDD[(String, Map[String,String])], agargs: List[List[String]])
 
     val ret = for (args <- ar) yield {
       for(item <- args._2) yield {
-        item->calc(args._1)(orig(item))
+        item->doCalc(args._1)(orig(item))
       }
     }
     ret.flatten.toMap
   }
 
-  private def calc(method: String)(tp: (Double,Int)):Double ={
+  /**
+   * Calc one record value and it count
+   * @param method What method will be used (avg, min, max ...)
+   * @param tuple input Tuple(value, count)
+   * @return value
+   */
+  private def doCalc(method: String)(tuple: (Double,Int)):Double ={
     method match {
-      case "avg" => if(tp._2 == 0) 0.0 else tp._1/tp._2
-      case _ => tp._1
+      case "avg" => if(tuple._2 == 0) 0.0 else tuple._1/tuple._2
+      case _ => tuple._1
     }
   }
 }

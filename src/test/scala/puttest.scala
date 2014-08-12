@@ -20,7 +20,7 @@ object puttest {
     tb.setAutoFlush(false)
     tb.setWriteBufferSize(10*1024*1024)
     var a: Int = 0
-    while (a < 1000){
+    while (a < 20000){
       a += 1
       val plist = EventFactory.rand(1000)
       if(a%10 == 0) println(a*1000)

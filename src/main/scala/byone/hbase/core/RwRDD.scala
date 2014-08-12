@@ -12,7 +12,6 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 
 import scala.collection.JavaConverters._
-//import scala.collection.mutable.Map
 import org.apache.spark.rdd.RDD
 import java.util.concurrent.{Executors, ExecutorService}
 /**

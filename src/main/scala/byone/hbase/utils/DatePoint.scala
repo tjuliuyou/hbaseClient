@@ -1,15 +1,11 @@
 package byone.hbase.utils
 
 import java.text.SimpleDateFormat
-import scala.collection.mutable.Map
-import byone.hbase.uid.UniqueId
 import org.apache.hadoop.hbase.client.Scan
 
 /**
  * Created by dream on 7/7/14.
- */
-
-/**
+ *
  * DataPoint holds a bunch of method used to covert value to other type
  */
 object DatePoint {
@@ -53,8 +49,8 @@ object DatePoint {
   }
 
   /**
-   * covert Scan to  Base64 encoded String {@see org.apache.hadoop.hbase.mapreduce.
-   * TableMapReduceUtil#convertScanToString}
+   * covert Scan to  Base64 encoded String {@see org.apache.hadoop.hbase.mapreduce
+   * .TableMapReduceUtil#convertScanToString }
    * @return The scan saved in a Base64 encoded string.
    */
   def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)

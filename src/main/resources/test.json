@@ -1,7 +1,7 @@
 {
 	"test0":
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+		"Range"		:["08/08/2014 14:44:53","08/08/2014 14:46:14"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
         "Events"	:null,
         "Filter"	:"null",
@@ -10,7 +10,7 @@
 	},
 	"test1":
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+		"Range"		:["12/08/2014 09:30:48","12/08/2014 11:55:01"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
 		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
 		"Filter"	:"null",
@@ -19,43 +19,43 @@
 	},
 	"test2":
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+		"Range"		:["12/08/2014 09:30:48","12/08/2014 11:55:01"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
 		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
-		"Filter"	:"SingleColumnValueFilter ('d','collectorId',<,'number:80')",
+		"Filter"	:"SingleColumnValueFilter ('d','collectorId',<,'number:50')",
 		"Groupby"	:null,
         "Aggres" 	:null
 	},
 	"test3":	
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+		"Range"		:["12/08/2014 09:30:48","12/08/2014 11:55:01"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
 		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
-		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:80'))",
+		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:50'))",
 		"Groupby"	:["relayDevIpAddr"],
 		"Aggres" 	:null
 	},
 	"test4":	
 	{
-        "Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+        "Range"		:["12/08/2014 09:30:48","12/08/2014 11:55:01"],
         "Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
         "Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
         "Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:50'))",
         "Groupby"	:["relayDevIpAddr"],
-        "Aggres" 	:[["max","cpuUtil","envTempOffHighDegC"]]
+        "Aggres" 	:[["max","cpuUtil"]]
 	},
 	"test5":	
 	{
-        "Range"		:["08/08/2014 14:45:00","08/08/2014 14:46:01"],
+        "Range"		:["12/08/2014 09:30:48","12/08/2014 11:55:01"],
         "Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
         "Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
-        "Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:80'))",
+        "Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:50'))",
         "Groupby"	:["relayDevIpAddr"],
-        "Aggres" 	:[["avg","cpuUtil"]]
+        "Aggres" 	:[["max","cpuUtil"],["avg","envTempOffHighDegC"]]
 	},
 	"test6":	
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:46:01"],
+		"Range"		:["11/08/2014 17:40:48","11/08/2014 18:50:01"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
 		"Events"	:null,
 		"Filter"	:"SingleColumnValueFilter ('d', 'collectorId', <,'number:80') ",
@@ -64,7 +64,7 @@
 	},
 	"test7":
 	{
-		"Range"		:["08/08/2014 14:45:00","08/08/2014 14:46:01"],
+		"Range"		:["11/08/2014 17:40:48","11/08/2014 18:50:01"],
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","pollIntv","cpuUtil","envTempOffHighDegC"],
 		"Events"	:null,
 		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:80'))",
@@ -73,12 +73,12 @@
 	},
 	"test8":
     {
-    	"Range"		:["08/08/2014 14:45:00","08/08/2014 14:45:01"],
+    	"Range"		:["11/08/2014 17:40:48","11/08/2014 18:55:01"],
     	"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
     	"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
     	"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:50'))",
     	"Groupby"	:["relayDevIpAddr"],
-    	"Aggres" 	:[["min","cpuUtil"],["max","envTempOffHighDegC"]]
+    	"Aggres" 	:[["max","cpuUtil"],["avg","envTempOffHighDegC"]]
     },
 
     "test9":

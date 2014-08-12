@@ -12,9 +12,7 @@ import org.apache.spark.rdd.RDD
 
 /**
  * Created by liuyou on 2014/8/2.
- */
-
-/**
+ *
  * Query all needed data for a region
  * @param startKey :startkey for regions
  * @param filter   :scan filter list

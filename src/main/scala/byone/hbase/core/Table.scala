@@ -129,7 +129,7 @@ class Table extends java.io.Serializable {
     val ss = tb.getScanner(scan)
     for(res:Result <- ss.asScala)
       for(kv:Cell <- res.rawCells())
-        ret += (new String(kv.getRow))
+        ret += new String(kv.getRow)
     ss.close()
     ret
   }
