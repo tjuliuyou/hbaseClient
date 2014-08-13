@@ -1,7 +1,7 @@
 import byone.hbase.filter.CompareFilter.CompareOp
 import byone.hbase.filter.{ByParseFilter, EventComparator, BinaryComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.utils.{Constants, DatePoint, ScanCovert}
+import byone.hbase.util.{Constants, DatePoint, ScanCovert}
 import org.apache.hadoop.hbase.Cell
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{ParseFilter, Filter, FilterList}

@@ -1,6 +1,6 @@
 package byone.hbase.core
 
-import byone.hbase.utils.{Constants, DatePoint}
+import byone.hbase.util.{Constants, DatePoint}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType

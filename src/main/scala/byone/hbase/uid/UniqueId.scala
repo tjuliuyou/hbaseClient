@@ -1,7 +1,7 @@
 package byone.hbase.uid
 
 import byone.hbase.core.Table
-import byone.hbase.utils.{Constants, DatePoint}
+import byone.hbase.util.{Constants, DatePoint}
 import org.apache.hadoop.hbase.Cell
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter

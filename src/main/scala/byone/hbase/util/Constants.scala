@@ -1,4 +1,4 @@
-package byone.hbase.utils
+package byone.hbase.util
 
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
@@ -11,10 +11,6 @@ import org.apache.spark.{SparkConf, SparkContext}
  *
  */
 object Constants {
-  /**
-   * Default table name
-   */
-  val tablename = "log_data"
 
   // Default global Hbase Configurations
   private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
@@ -30,9 +26,18 @@ object Constants {
     .setAppName("hbase test")
     //.setMaster("local")
     .setMaster("spark://master3.dream:7077")
-    .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"))
+    .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"
+            ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"))
   val sc = new SparkContext(sparkConf)
 
+  /**
+   * Default table name
+   */
+  val tablename = "log_data"
+  /**
+   * Default family name
+   */
+  val FAMILY = "d"
   /**
    * Default event uid length store in rowkey (Bytes)
    */
@@ -62,9 +67,9 @@ object Constants {
  * @param Items   Items list that needed to take back for display
  * @param Events  Event type list explicit should be take back
  * @param Filter  Filter String will be used for Scans
- * @param Groupby Group by lists
+ * @param Groups Group by lists
  * @param Aggres  Aggreagte args
  */
 case class Args(Range: List[String], Items: List[String]
      ,Events: List[String], Filter: String
-     ,Groupby: List[String], Aggres: List[List[String]])
+     ,Groups: List[String], Aggres: List[List[String]])

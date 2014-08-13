@@ -1,5 +1,5 @@
 import byone.hbase.uid.RandEvent
-import byone.hbase.utils.{Constants, ScanCovert}
+import byone.hbase.util.{Constants, ScanCovert}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType

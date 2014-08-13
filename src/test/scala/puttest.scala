@@ -1,5 +1,5 @@
 import byone.hbase.uid.EventFactory
-import byone.hbase.utils.Constants
+import byone.hbase.util.Constants
 import org.apache.hadoop.hbase.client._
 
 import scala.collection.JavaConverters._

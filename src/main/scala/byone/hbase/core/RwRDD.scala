@@ -1,9 +1,9 @@
 package byone.hbase.core
 
-import byone.hbase.utils.Args
+import byone.hbase.util.Args
 import byone.hbase.uid.UniqueId
 import byone.hbase.filter._
-import byone.hbase.utils.{Constants, DatePoint}
+import byone.hbase.util.{Constants, DatePoint}
 import com.twitter.util.Future
 
 import org.apache.hadoop.hbase.client._
@@ -31,7 +31,7 @@ class RwRDD(table : String) extends java.io.Serializable {
 
   /**
    * Get merged rdd using multi threads
-   * @param args args to get rdd {@see byone.hbase.utils.Args}
+   * @param args args to get rdd {@see byone.hbase.util.Args}
    * @return a raw rdd
    */
   def get(args:Args): RDD[(String,Map[String,String])] = {
@@ -40,35 +40,39 @@ class RwRDD(table : String) extends java.io.Serializable {
 
   /**
    * Get merged rdd using multi threads or single thread
-   * @param args args to get rdd {@see byone.hbase.utils.Args}
-   * @param rsyc true: multi thread false: single thread
+   * @param args args to get rdd {@see byone.hbase.util.Args}
+   * @param flag true: multi thread false: single thread
    * @return a raw rdd
    */
-  def get(args: Args, rsyc: Boolean): RDD[(String,Map[String,String])] = {
-
+  def get(args: Args, flag: Boolean): RDD[(String,Map[String,String])] = {
+    // require time range
     require(args.Range.nonEmpty)
     val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
-    val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
+
+    // parser event&condition filter String to filter
     val filter = {
       if(args.Filter.equals("null") && args.Events.isEmpty)
         null
       else
         hbaseFilter(args.Filter,args.Events)
     }
-    val retRdd = if(rsyc){
+
+    //get rdd use different method
+    val retRdd = if(flag){
       Constants.conf.set(TableInputFormat.INPUT_TABLE,tablename)
       multiGet(filter,range,args.Items)
 
     } else {
       val sl = scanList(filter,range,args.Items)
-      var ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
-      for (scan <- sl) yield {
-        val rdd =gethbaseRDD(scan)
-        rdd.count()
-        ret = ret ++ rdd
-      }
-      ret
+      val ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
+      val futureList = for(sn <- sl) yield Future(hbaseRDD(sn))
+      val mergelist = Future.collect(futureList)
+      val temp = mergelist.get()
+      temp.foldLeft(ret)((rhs:RDD[(ImmutableBytesWritable,Result)]
+                         ,left:RDD[(ImmutableBytesWritable,Result)]) => rhs ++ left)
     }
+
+    val gp = if(args.Groups.isEmpty) List("d") else args.Groups
     retRdd.map(x => gpBy(x, gp))
   }
 
@@ -102,8 +106,9 @@ class RwRDD(table : String) extends java.io.Serializable {
    * @return : map(startkey and stopkey)
    */
   private def rowArea = (range: List[Array[Byte]]) => {
+    val length = Constants.PRELENGTH
     for(num <- 0 until regionRange) yield {
-       val pre = DatePoint.Int2Byte(num,Constants.PRELENGTH)
+       val pre = DatePoint.Int2Byte(num,length)
        ( pre ++ range(0)) -> (pre ++ range(1))
     }
   }
@@ -114,14 +119,16 @@ class RwRDD(table : String) extends java.io.Serializable {
    */
   def scanList = (filter: Filter,range: List[Array[Byte]],items:List[String]) => {
     val area = rowArea(range)
+    val family = Constants.FAMILY.getBytes
     area.map{rows =>
-      val sn = new Scan(rows._1,rows._2)
-      sn.setCacheBlocks(false)
-      sn.setCaching(10000)
-      sn.setReversed(true)
+      val scan = new Scan(rows._1,rows._2)
+      scan.setCacheBlocks(false)
+      scan.setCaching(10000)
+      scan.setReversed(true)
+      scan.setFilter(filter)
       if(items.nonEmpty)
-        items.foreach(item =>sn.addColumn("d".getBytes,item.getBytes))
-        sn
+        items.foreach(item =>scan.addColumn(family,item.getBytes))
+      scan
     }
   }
 
@@ -149,7 +156,7 @@ class RwRDD(table : String) extends java.io.Serializable {
   /**
    *  get base hbase RDD with one Scan
    */
-  def gethbaseRDD(scan: Scan) = {
+  def hbaseRDD(scan: Scan) = {
     Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
@@ -158,6 +165,7 @@ class RwRDD(table : String) extends java.io.Serializable {
       classOf[org.apache.hadoop.hbase.client.Result])
     hBaseRDD
   }
+
 
   /**
    * get each region start keys
@@ -189,7 +197,7 @@ class RwRDD(table : String) extends java.io.Serializable {
     val keyRange = startList.size
     val pool: ExecutorService = Executors.newFixedThreadPool(keyRange)
     val futures = for(key <- startList) yield {
-        pool.submit(new Query(key,filter,range,items))
+        pool.submit(new RegionQuery(key,filter,range,items))
     }
     for(future <- futures ){
       val r = future.get()
@@ -197,30 +205,6 @@ class RwRDD(table : String) extends java.io.Serializable {
     }
     pool.shutdown()
     ret
-  }
-
-  def futureGet(args:Args): RDD[(String,Map[String,String])] = {
-    require(args.Range.nonEmpty)
-    val range = List(DatePoint.toTs(args.Range(0)),DatePoint.toTs(args.Range(1)))
-    val gp = if(args.Groupby.isEmpty) List("d") else args.Groupby
-    val filter = {
-      if(args.Filter.equals("null") && args.Events.isEmpty)
-        null
-      else
-        hbaseFilter(args.Filter,args.Events)
-    }
-    val sl = scanList(filter,range,args.Items)
-    val ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
-
-    val futureList = for(sn <- sl) yield Future(gethbaseRDD(sn))
-    val mergelist = Future.collect(futureList)
-//    mergelist.onSuccess(x =>{
-//      x.foldLeft(ret)((rhs:RDD[(ImmutableBytesWritable,Result)], left:RDD[(ImmutableBytesWritable,Result)]) => rhs ++ left)
-//    })
-    val temp = mergelist.get()
-    val xxry =temp.foldLeft(ret)((rhs:RDD[(ImmutableBytesWritable,Result)], left:RDD[(ImmutableBytesWritable,Result)]) => rhs ++ left)
-
-    xxry.map(x => gpBy(x, gp))
   }
 
 }

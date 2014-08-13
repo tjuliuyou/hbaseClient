@@ -1,5 +1,5 @@
 import byone.hbase.uid.UniqueId
-import byone.hbase.utils.{DatePoint, Constants}
+import byone.hbase.util.{DatePoint, Constants}
 import com.twitter.util.{Future, Promise}
 import com.twitter.conversions.time._
 import org.apache.hadoop.hbase.Cell

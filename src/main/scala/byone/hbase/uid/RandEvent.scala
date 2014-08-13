@@ -4,7 +4,7 @@ import org.apache.hadoop.hbase.client.{HTable, Put, Row}
 import java.lang.String
 import scala.collection.mutable.Map
 import scala.xml.{Node, Elem, XML}
-import byone.hbase.utils.Constants
+import byone.hbase.util.Constants
 import scala.collection.JavaConverters._
 import scala.util.Random
 import byone.hbase.core.Table

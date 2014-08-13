@@ -1,4 +1,4 @@
-package byone.hbase.utils
+package byone.hbase.util
 
 import java.text.SimpleDateFormat
 import org.apache.hadoop.hbase.client.Scan
@@ -39,13 +39,12 @@ object DatePoint {
   /**
    * toTs covert date to timestamps
    * @param date format must be "dd/MM/yyyy HH:mm:ss"
-   * @param delay reserved
    * @return timestamps Array[Byte]
    */
-  def toTs(date : String, delay: Int = 0) : Array[Byte] = {
+  def toTs(date : String) : Array[Byte] = {
     val df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
     val time =df.parse(date).getTime/1000
-    num2Byte(time+delay,4)
+    num2Byte(time,4)
   }
 
   /**

@@ -1,5 +1,5 @@
 import byone.hbase.uid.{EventFactory, RandEvent}
-import byone.hbase.utils.{DatePoint, Constants, ScanCovert}
+import byone.hbase.util.{DatePoint, Constants, ScanCovert}
 import java.util.concurrent.{Future, Callable, Executors, ExecutorService}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm

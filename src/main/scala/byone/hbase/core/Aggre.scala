@@ -118,7 +118,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])], agargs: List[List[String]])
    * @param ar aggregate args
    * @return
    */
-  def doAggre(ar: List[(String,List[String])] = aggargs):RDD[(String,Map[String,Double])] = {
+  def doAggre(ar: List[(String,List[String])] = aggargs):RDD[(String,Map[String,String])] = {
     val prerdd = raw.map(x =>preMap(x,aggitems))
     prerdd.reduceByKey(Merge(ar))
       .mapValues(CalcValue(ar))
@@ -164,7 +164,7 @@ class Aggre(rdd : RDD[(String, Map[String,String])], agargs: List[List[String]])
    * @return
    */
   def CalcValue(ar: List[(String,List[String])])(orig: Map[String,(Double,Int)])
-      : Map[String,Double] ={
+      : Map[String,String] ={
 
     val ret = for (args <- ar) yield {
       for(item <- args._2) yield {
@@ -180,10 +180,36 @@ class Aggre(rdd : RDD[(String, Map[String,String])], agargs: List[List[String]])
    * @param tuple input Tuple(value, count)
    * @return value
    */
-  private def doCalc(method: String)(tuple: (Double,Int)):Double ={
+  private def doCalc(method: String)(tuple: (Double,Int)):String ={
     method match {
-      case "avg" => if(tuple._2 == 0) 0.0 else tuple._1/tuple._2
-      case _ => tuple._1
+      case "avg" => if(tuple._2 == 0) "0.0" else (tuple._1/tuple._2).toString
+      case _ => tuple._1.toString
     }
   }
+}
+
+object Aggre {
+  /**
+   * pre covert each event: (String, Map[String,String]) to (String,Map[String, (Double, Int)]) by args
+   * @param event raw event data
+   * @param args
+   * @return
+   */
+  def preMap(event: (String, Map[String,String]), args: List[String])
+  : (String,Map[String, (Double, Int)]) ={
+    val retmap = scala.collection.mutable.Map[String, (Double,Int)]()
+    args.foreach(ar => {
+      retmap += (ar->{
+        if(event._2.contains(ar))
+          (event._2(ar).toDouble,1)
+        else
+          (0.0,0)
+      })
+    })
+    val line = (event._1,retmap.toMap)
+    line
+  }
+
+
+
 }
