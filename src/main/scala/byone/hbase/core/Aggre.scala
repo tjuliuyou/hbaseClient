@@ -197,17 +197,15 @@ object Aggre {
    */
   def preMap(event: (String, Map[String,String]), args: Seq[String])
   : (String,Map[String, (Double, Int)]) ={
-    val retmap = scala.collection.mutable.Map[String, (Double,Int)]()
-    args.foreach(ar => {
-      retmap += (ar->{
-        if(event._2.contains(ar))
-          (event._2(ar).toDouble,1)
+    //val retmap = scala.collection.mutable.Map[String, (Double,Int)]()
+    val ret = args.map(ar => {
+        if(event._2(ar).equals("null"))
+          ar -> (0.0,0)
         else
-          (0.0,0)
+          ar -> (event._2(ar).toDouble,1)
       })
-    })
-    val line = (event._1,retmap.toMap)
-    line
+
+    (event._1,ret.toMap)
   }
 
 

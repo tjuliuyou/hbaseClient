@@ -98,7 +98,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     val ky = keys.foldLeft("")((x,y)=>x+y)
     val key = if(ky.isEmpty) family else ky
     val filterdmap = items.map(x=>{
-      x -> raw._2.getOrElse(x,"")
+      x -> raw._2.getOrElse(x,"null")
     })
 
 
