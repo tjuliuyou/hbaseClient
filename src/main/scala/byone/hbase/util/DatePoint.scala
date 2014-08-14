@@ -1,7 +1,8 @@
 package byone.hbase.util
 
 import java.text.SimpleDateFormat
-import org.apache.hadoop.hbase.client.Scan
+import org.apache.hadoop.hbase.client.{Result, Scan}
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 
 /**
  * Created by dream on 7/7/14.
@@ -53,4 +54,15 @@ object DatePoint {
    * @return The scan saved in a Base64 encoded string.
    */
   def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
+
+  def gpBy = (raw: (ImmutableBytesWritable, Result)) => {
+    val items = List("collectorId", "eventType")
+    val ma = raw._2.getNoVersionMap.firstEntry().getValue
+   val yyy = items.map(x =>{
+      x -> ma.ceilingEntry(x.getBytes).getValue.mkString
+    })
+
+    var ky = raw._1.get()
+    (ky,yyy.toMap)
+  }
 }

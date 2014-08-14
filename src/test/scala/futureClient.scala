@@ -1,5 +1,5 @@
 import byone.hbase.core.{Query, Aggre, RwRDD}
-import byone.hbase.util.{Constants, Args}
+import byone.hbase.util.{QueryArgs, Constants, Args}
 import net.liftweb.json.JsonParser._
 
 /**
@@ -13,17 +13,19 @@ object futureClient {
     implicit val formats = net.liftweb.json.DefaultFormats
     val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
     val m = parse(source)
-    val testlist: List[Args] = m.children.map(_.extract[Args])
+
+    val testlist: Seq[QueryArgs] = m.children.map(_.extract[QueryArgs])
 
     // using one of testlist
 
-    val thistest = testlist(1)
+    val thistest = testlist(3)
     val rw = new Query(thistest)
     val futureRDD =rw.get()
 
 
     // hbaseRDD.collect().foreach(x =>println(x._2))
     futureRDD onSuccess (hbaseRDD => {
+        hbaseRDD.collect().foreach(println)
         println("hbaseRDD count: " + hbaseRDD.count())
     })
 

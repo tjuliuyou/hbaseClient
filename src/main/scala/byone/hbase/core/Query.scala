@@ -3,7 +3,7 @@ package byone.hbase.core
 import java.io.IOException
 import byone.hbase.filter.{ByParseFilter, EventComparator, CompareFilter, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, DatePoint, Args}
+import byone.hbase.util.{QueryArgs, Constants, DatePoint, Args}
 import com.twitter.util.Future
 import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
 import org.apache.hadoop.hbase.client.{Result, Scan}
@@ -19,10 +19,11 @@ import scala.collection.JavaConverters._
  * Created by dream on 14-8-13.
  */
 
-class Query(args: Args) extends java.io.Serializable {
+class Query(args: QueryArgs) extends java.io.Serializable {
+
 
   private val logger = LoggerFactory.getLogger(classOf[Query])
-
+  private val family = Constants.FAMILY
   private var range = args.Range
   private var items = args.Items
   private var events = args.Events
@@ -34,7 +35,8 @@ class Query(args: Args) extends java.io.Serializable {
 //    for(ar <- aggres) yield ar.drop(1)
 //    .flatten
 //  }
-
+  println(filters)
+  println(groups)
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
@@ -63,23 +65,46 @@ class Query(args: Args) extends java.io.Serializable {
     groups = gp
   }
 
-  def setAggres(ag: List[List[String]]){
+  def setAggres(ag: Seq[Seq[String]]){
     aggres = ag
   }
 
 
 
   def get(): Future[RDD[(String,Map[String,String])]] = {
-    //val raw = rawRDD()
+
+    val rdd = rawRdd().flatMap(raw => Future(raw.map(grouBy)))
     if(aggres.nonEmpty) {
-//      val aggitems =
-//        (for (ar <- aggres) yield ar.drop(1)).flatten
-      val prerdd  = rawRDD().flatMap(raw =>{
-        val ag = new Aggre(raw,aggres)
-        Future(ag.doAggre()) })
+         val aggargs = for(ar <- aggres) yield {
+        val cond = ar.head
+        val item = ar.drop(1)
+        (cond,item)
+        }
+      val prerdd  = rdd.flatMap(raw =>{
+        //val ag = new Aggre(raw,aggres)
+        Future(Aggre.doAggre(raw,aggargs)) })
     prerdd
     } else
-      rawRDD()
+      rdd
+
+  }
+
+
+  def grouBy(raw: (Array[Byte],Map[String,String]))
+  : (String,Map[String,String]) = {
+    val keys = for(g <- groups) yield {
+      raw._2.getOrElse(g,"")
+    }
+    val ky = keys.foldLeft("")((x,y)=>x+y)
+    val key = if(ky.isEmpty) family else ky
+    val filterdmap = items.map(x=>{
+      x -> raw._2.getOrElse(x,"")
+    })
+
+
+    (key,filterdmap.toMap)
+
+
 
   }
 
@@ -87,7 +112,7 @@ class Query(args: Args) extends java.io.Serializable {
    * raw Future rdd
    * @return Future[RDD[(String,Map[String,String])]
    */
-  def rawRDD(): Future[RDD[(String,Map[String,String])]] = {
+  def rawRdd(): Future[RDD[(Array[Byte],Map[String,String])]] = {
     logger.info("get future rdds")
 
     val timeRange = range.map(DatePoint.toTs)
@@ -101,10 +126,22 @@ class Query(args: Args) extends java.io.Serializable {
 
     val futureList = for(scan <- scans) yield Future(hbaseRDD(scan))
 
-    val futurerdd = Future.collect(futureList)
-                          .flatMap(accRDD)
-    futurerdd.flatMap(raw =>Future(raw.map(x => gpBy(x, groups))))
+    Future.collect(futureList)
+          .flatMap(accRDD)
+          .flatMap(raw =>Future(raw.map(normalize)))
+
   }
+
+  def normalize(raw: (ImmutableBytesWritable, Result))
+  : (Array[Byte],Map[String,String]) = {
+    val navkey = raw._2.getNoVersionMap.firstEntry().getValue
+    val retmap = navkey.asScala.map{case (x,y) => {
+        new String(x) -> new String(y)
+    }}
+    raw._1.get -> retmap.toMap
+  }
+
+
 
   /**
    * parser filter args and events to filter
@@ -112,7 +149,7 @@ class Query(args: Args) extends java.io.Serializable {
    * @param events : list of events
    * @return Parsered filter list
    */
-  private def hbaseFilter(args:String,events: List[String]): FilterList = {
+  private def hbaseFilter(args:String,events: Seq[String]): FilterList = {
     val flist =new FilterList(FilterList.Operator.MUST_PASS_ALL)
     if(events.nonEmpty){
       val ents = for(event <- events) yield {
@@ -135,17 +172,14 @@ class Query(args: Args) extends java.io.Serializable {
    * get Scan list for scan
    * @return
    */
-  private def scanList = (scanfilter: Filter,timerange: List[Array[Byte]],items:List[String]) => {
+  private def scanList = (scanfilter: Filter,timerange: Seq[Array[Byte]],items:Seq[String]) => {
     val area = rowArea(timerange)
-    val family = Constants.FAMILY.getBytes
     area.map{rows =>
       val scan = new Scan(rows._1,rows._2)
       scan.setCacheBlocks(false)
       scan.setCaching(10000)
       scan.setReversed(true)
       scan.setFilter(scanfilter)
-      if(items.nonEmpty)
-        items.foreach(item =>scan.addColumn(family,item.getBytes))
       scan
     }
   }
@@ -154,34 +188,13 @@ class Query(args: Args) extends java.io.Serializable {
    * get all row area ( every region area)
    * @return : map(startkey and stopkey)
    */
-  private def rowArea = (range: List[Array[Byte]]) => {
+  private def rowArea = (range: Seq[Array[Byte]]) => {
     val length = Constants.PRELENGTH
     val regionRange = Constants.REGIONRANGE
     for(num <- 0 until regionRange) yield {
       val pre = DatePoint.Int2Byte(num,length)
       ( pre ++ range(0)) -> (pre ++ range(1))
     }
-  }
-
-  /**
-   *  map raw hbase data(ImmutableBytesWritable, Result) to (key,value) by group list
-   *
-   *
-   */
-  def gpBy = (raw: (ImmutableBytesWritable, Result), gp: List[String]) => {
-    val retmap = scala.collection.mutable.Map[String, String]()
-    var ky = ""
-    for(kv:Cell<- raw._2.rawCells())
-    {
-      val key = new String(kv.getQualifier)
-      val value = new String(kv.getValue)
-      if(gp.contains(key)) {
-        ky = value
-      }
-      else
-        retmap += (key->value)
-    }
-    (ky,retmap.toMap)
   }
 
   /**

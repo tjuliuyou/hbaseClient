@@ -73,3 +73,7 @@ object Constants {
 case class Args(Range: List[String], Items: List[String]
      ,Events: List[String], Filter: String
      ,Groups: List[String], Aggres: List[List[String]])
+
+case class QueryArgs(Range: Seq[String], Items: Seq[String]
+                ,Events: Seq[String], Filter: String
+                ,Groups: Seq[String], Aggres: Seq[Seq[String]])
