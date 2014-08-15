@@ -19,7 +19,7 @@ package byone.hbase.core
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Constants, DatePoint, QueryArgs}
-import com.twitter.util.{Promise, Future}
+import com.twitter.util.{LruMap, Promise, Future}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
@@ -41,7 +41,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   private val logger = LoggerFactory.getLogger(classOf[Query])
   private val family = Constants.FAMILY
 
-  private var range = args.Range.map(DatePoint.toTs)
+  private var range = args.Range
   private var items = args.Items
   private var events = args.Events
   private var filters = args.Filter
@@ -54,7 +54,12 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     }
   } else Seq[(String,Seq[String])]()
 
- // val rdd = new Promise[RDD[(String,Map[String,String])]]
+  case class readArgs(Range: Seq[String], Events: Seq[String])
+  val cached = new LruMap[readArgs,RDD[(String,Map[String,String])]](10)
+  //val rdd = new Promise[RDD[(String,Map[String,String])]]
+
+  var rdd: RDD[(String,Map[String,String])] = Constants.sc.emptyRDD
+
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
@@ -67,7 +72,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     if(rg(0)>rg(1)) {
       logger.error("start time bigger than stop time")
     }
-    range = rg.map(DatePoint.toTs)
+    range = rg
   }
 
   def setItems(it: Seq[String]) {
@@ -96,8 +101,23 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
 
-  def get()={
+  def localCache: Boolean = {
+    if(cached.isEmpty)
+      false
+    else
+      true
+  }
 
+  def get()={
+    if(localCache) {
+      rdd = cached(new readArgs(range,events))
+    }else {
+      getFromHbase() onSuccess { raw =>
+        cached(new readArgs(range,events)) = raw
+        rdd = raw
+      }
+    }
+   rdd
   }
 
 
@@ -148,7 +168,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
       else
         hbaseFilter(filters,events)
     }
-    val scans = scanList(scanFilter,range)
+    val scans = scanList(scanFilter,range.map(DatePoint.toTs))
 
     val futureList = for(scan <- scans) yield Future(hbaseRdd(scan))
 

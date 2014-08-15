@@ -27,7 +27,8 @@ object Constants {
     //.setMaster("local")
     .setMaster("spark://master3.dream:7077")
     .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"
-            ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"))
+            ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
+            ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
   val sc = new SparkContext(sparkConf)
 
   /**
