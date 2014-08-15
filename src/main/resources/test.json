@@ -32,7 +32,7 @@
 		"Items"		:["collectorId", "eventType", "relayDevIpAddr","cpuUtil","envTempOffHighDegC"],
 		"Events"	:["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_HW_TEMP"],
 		"Filter"	:"(SingleColumnValueFilter ('d','collectorId',<,'number:30'))",
-		"Groups"	:["collectorId"],
+		"Groups"	:["relayDevIpAddr"],
 		"Aggres" 	:null
 	},
 	"test4":	

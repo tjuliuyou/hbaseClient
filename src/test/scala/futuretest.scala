@@ -66,9 +66,7 @@ object futuretest {
 
     val rdd = hbaseRDD(scanList(0))
 
-   val xx = rdd.map(DatePoint.gpBy)
 
-    xx.collect().foreach(println)
   }
 
 

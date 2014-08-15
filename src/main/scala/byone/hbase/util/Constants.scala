@@ -70,10 +70,20 @@ object Constants {
  * @param Groups Group by lists
  * @param Aggres  Aggreagte args
  */
+@deprecated
 case class Args(Range: List[String], Items: List[String]
      ,Events: List[String], Filter: String
      ,Groups: List[String], Aggres: List[List[String]])
 
+/**
+ * Args holds a bunch of args parsed from test file (json)
+ * @param Range   Time range Seq should be start time and stop time, to see the format {@see DatePoint#toTs}
+ * @param Items   Items Seq that needed to take back for display
+ * @param Events  Event type Seq explicit should be take back
+ * @param Filter  Filter String will be used for Scans
+ * @param Groups Group by Seq
+ * @param Aggres  Aggreagte args
+ */
 case class QueryArgs(Range: Seq[String], Items: Seq[String]
                 ,Events: Seq[String], Filter: String
                 ,Groups: Seq[String], Aggres: Seq[Seq[String]])

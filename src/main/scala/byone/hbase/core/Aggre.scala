@@ -208,9 +208,6 @@ object Aggre {
     (event._1,ret.toMap)
   }
 
-
-
-
   /**
    * calc avg for a map
    * @param sum Map
@@ -236,9 +233,10 @@ object Aggre {
   def doAggre(raw:RDD[(String,Map[String,String])],ar: Seq[(String,Seq[String])])
     :RDD[(String,Map[String,String])] = {
     val aggitems = {
-      val ilist = for(agg <- ar) yield agg._2.drop(1)
+      val ilist = for(agg <- ar) yield agg._2
       ilist.flatten
     }
+    println("aggitmes" + aggitems)
     val prerdd = raw.map(x =>preMap(x,aggitems))
     prerdd.reduceByKey(Merge(ar))
       .mapValues(CalcValue(ar))
@@ -306,5 +304,4 @@ object Aggre {
       case _ => tuple._1.toString
     }
   }
-
 }

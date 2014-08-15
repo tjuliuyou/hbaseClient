@@ -1,11 +1,26 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package byone.hbase.core
 
-import java.io.IOException
-import byone.hbase.filter.{ByParseFilter, EventComparator, CompareFilter, RowFilter}
+import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{QueryArgs, Constants, DatePoint, Args}
-import com.twitter.util.Future
-import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
+import byone.hbase.util.{Constants, DatePoint, QueryArgs}
+import com.twitter.util.{Promise, Future}
+import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
@@ -16,95 +31,106 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 /**
- * Created by dream on 14-8-13.
+ * Created by liuyou on 14-8-13.
+ *
+ * Core Query class read hbase/cached to local RDD
+ * @param args args to retrieve data {@see QueryArgs}
  */
-
 class Query(args: QueryArgs) extends java.io.Serializable {
-
 
   private val logger = LoggerFactory.getLogger(classOf[Query])
   private val family = Constants.FAMILY
-  private var range = args.Range
+
+  private var range = args.Range.map(DatePoint.toTs)
   private var items = args.Items
   private var events = args.Events
   private var filters = args.Filter
-  private var groups = if(args.Groups.isEmpty) List("d") else args.Groups
-  private var aggres = args.Aggres
+  private var groups =  args.Groups
+  private var aggres = if(args.Aggres.nonEmpty) {
+    for (ar <- args.Aggres) yield {
+      val cond = ar.head
+      val item = ar.drop(1)
+      (cond, item)
+    }
+  } else Seq[(String,Seq[String])]()
 
-//  private val aggitems = {
-//    for(ar <- aggres) yield ar.drop(1)
-//    .flatten
-//  }
-  println(filters)
-  println(groups)
+ // val rdd = new Promise[RDD[(String,Map[String,String])]]
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
-  def setRange(rg: List[String]) {
+  Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.tablename)
+
+  def setRange(rg: Seq[String]) {
     if(rg.size != 2)
       logger.error("range list size must be 2!")
     if(rg(0)>rg(1)) {
       logger.error("start time bigger than stop time")
     }
-    range = rg
+    range = rg.map(DatePoint.toTs)
   }
 
-  def setItems(it: List[String]) {
+  def setItems(it: Seq[String]) {
     items = it
   }
 
-  def setEvents(et: List[String]) {
+  def setEvents(et: Seq[String]) {
     events = et
   }
   def setFilter(fr: String) {
     filters = fr
   }
 
-  def setGroups(gp: List[String]) {
+  def setGroups(gp: Seq[String]) {
     groups = gp
   }
 
   def setAggres(ag: Seq[Seq[String]]){
-    aggres = ag
-  }
-
-
-
-  def get(): Future[RDD[(String,Map[String,String])]] = {
-
-    val rdd = rawRdd().flatMap(raw => Future(raw.map(grouBy)))
-    if(aggres.nonEmpty) {
-         val aggargs = for(ar <- aggres) yield {
+    aggres = if(ag.nonEmpty) {
+      for (ar <- ag) yield {
         val cond = ar.head
         val item = ar.drop(1)
-        (cond,item)
-        }
-      val prerdd  = rdd.flatMap(raw =>{
-        //val ag = new Aggre(raw,aggres)
-        Future(Aggre.doAggre(raw,aggargs)) })
-    prerdd
-    } else
-      rdd
+        (cond, item)
+      }
+    } else Seq[(String,Seq[String])]()
+  }
+
+
+  def get()={
 
   }
 
+
+  def getFromHbase(): Future[RDD[(String,Map[String,String])]] = {
+
+    val retrdd = {
+    if(groups.isEmpty)
+      rawRdd().flatMap(raw => Future(raw.map(x => family->itemFilter(x._2))))
+    else
+      rawRdd().flatMap(raw => Future(raw.map(grouBy)))
+    }
+    if(aggres.nonEmpty) {
+      val prerdd  = retrdd.flatMap(raw =>{
+        Future(Aggre.doAggre(raw,aggres))})
+    prerdd
+    } else
+      retrdd
+
+  }
+
+  private def itemFilter=(raw: Map[String, String]) => {
+    items.map(x=> x -> raw.getOrElse(x,"null")).toMap
+  }
 
   def grouBy(raw: (Array[Byte],Map[String,String]))
   : (String,Map[String,String]) = {
+
     val keys = for(g <- groups) yield {
-      raw._2.getOrElse(g,"")
+      if(raw._2.contains(g)) "key"->raw._2(g)
+      else "nul"->""
     }
-    val ky = keys.foldLeft("")((x,y)=>x+y)
-    val key = if(ky.isEmpty) family else ky
-    val filterdmap = items.map(x=>{
-      x -> raw._2.getOrElse(x,"null")
-    })
-
-
-    (key,filterdmap.toMap)
-
-
+    val key = keys.toMap
+    (key("key"),itemFilter(raw._2))
 
   }
 
@@ -113,32 +139,38 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return Future[RDD[(String,Map[String,String])]
    */
   def rawRdd(): Future[RDD[(Array[Byte],Map[String,String])]] = {
+
     logger.info("get future rdds")
 
-    val timeRange = range.map(DatePoint.toTs)
     val scanFilter = {
       if(filters.equals("null") && events.isEmpty)
         null
       else
         hbaseFilter(filters,events)
     }
-    val scans = scanList(scanFilter,timeRange,items)
+    val scans = scanList(scanFilter,range)
 
-    val futureList = for(scan <- scans) yield Future(hbaseRDD(scan))
+    val futureList = for(scan <- scans) yield Future(hbaseRdd(scan))
 
     Future.collect(futureList)
-          .flatMap(accRDD)
+          .flatMap(accumulator)
           .flatMap(raw =>Future(raw.map(normalize)))
 
   }
 
-  def normalize(raw: (ImmutableBytesWritable, Result))
+  /**
+   * Normailzie raw date from Hbase to (rowkey,valuePairs)
+   * @param raw get from hbase {@see newAPIHadoopRDD}
+   * @return (rowkey array[byte], value map)
+   */
+  private def normalize(raw: (ImmutableBytesWritable, Result))
   : (Array[Byte],Map[String,String]) = {
-    val navkey = raw._2.getNoVersionMap.firstEntry().getValue
-    val retmap = navkey.asScala.map{case (x,y) => {
-        new String(x) -> new String(y)
-    }}
+    val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
+    val retmap = eventPairs.map{case (x,y) =>
+      new String(x) -> new String(y)
+    }
     raw._1.get -> retmap.toMap
+
   }
 
 
@@ -169,40 +201,44 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
   /**
-   * get Scan list for scan
-   * @return
+   * Get a list of Scan for scan hbase
+   * @param scanFilter parsered scan filters {@see Query#hbaseFilter}
+   * @param timeRange  time range area
+   * @return scan list
    */
-  private def scanList = (scanfilter: Filter,timerange: Seq[Array[Byte]],items:Seq[String]) => {
-    val area = rowArea(timerange)
-    area.map{rows =>
+  private def scanList(scanFilter: Filter,timeRange: Seq[Array[Byte]]) = {
+
+    rowArea(timeRange).map{rows =>
       val scan = new Scan(rows._1,rows._2)
       scan.setCacheBlocks(false)
       scan.setCaching(10000)
       scan.setReversed(true)
-      scan.setFilter(scanfilter)
+      scan.setFilter(scanFilter)
       scan
     }
   }
 
   /**
-   * get all row area ( every region area)
+   * Get all row area ( every region area)
+   * @param timeRange starkey and stopkey
    * @return : map(startkey and stopkey)
    */
-  private def rowArea = (range: Seq[Array[Byte]]) => {
+  private def rowArea(timeRange: Seq[Array[Byte]]) = {
     val length = Constants.PRELENGTH
     val regionRange = Constants.REGIONRANGE
     for(num <- 0 until regionRange) yield {
       val pre = DatePoint.Int2Byte(num,length)
-      ( pre ++ range(0)) -> (pre ++ range(1))
+      ( pre ++ timeRange(0)) -> (pre ++ timeRange(1))
     }
   }
 
+
   /**
-   *  get base hbase RDD with one Scan
+   * Get single Hbase RDD with one Scan
+   * @param scan {@see org.apache.hadoop.hbase.client.Scan}
+   * @return table out rdd
    */
-  def hbaseRDD(scan: Scan) = {
-    val tablename = Constants.tablename
-    Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+  def hbaseRdd(scan: Scan) = {
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
     val hBaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
@@ -211,9 +247,14 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     hBaseRDD
   }
 
-  def accRDD(rawrdd: Seq[RDD[(ImmutableBytesWritable,Result)]]) ={
+  /**
+   * Accumulator used to sum a Seq of RDDs
+   * @param rddSeq a Seq of rdd
+   * @return RDD
+   */
+  private def accumulator(rddSeq: Seq[RDD[(ImmutableBytesWritable,Result)]]) ={
     val ret: RDD[(ImmutableBytesWritable,Result)] = Constants.sc.emptyRDD
-    val rdd = rawrdd.foldLeft(ret)((rhs,left) => rhs ++ left)
+    val rdd = rddSeq.foldLeft(ret)((rhs,left) => rhs ++ left)
     Future.value(rdd)
   }
 }

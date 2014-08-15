@@ -55,14 +55,4 @@ object DatePoint {
    */
   def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
 
-  def gpBy = (raw: (ImmutableBytesWritable, Result)) => {
-    val items = List("collectorId", "eventType")
-    val ma = raw._2.getNoVersionMap.firstEntry().getValue
-   val yyy = items.map(x =>{
-      x -> ma.ceilingEntry(x.getBytes).getValue.mkString
-    })
-
-    var ky = raw._1.get()
-    (ky,yyy.toMap)
-  }
 }
