@@ -45,7 +45,7 @@ object Aggre {
 
 
   /**
-   * Aggregate rdd using defult args by defult constuctions
+   * Aggregate rdd using default args by default constructions
    * @param ar aggregate args
    * @return
    */
@@ -55,7 +55,6 @@ object Aggre {
       val ilist = for(agg <- ar) yield agg._2
       ilist.flatten
     }
-    println("aggitmes" + aggitems)
     val prerdd = raw.map(x =>preMap(x,aggitems))
     prerdd.reduceByKey(Merge(ar))
       .mapValues(CalcValue(ar))

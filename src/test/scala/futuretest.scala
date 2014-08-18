@@ -71,7 +71,7 @@ object futuretest {
 
 
   def hbaseRDD(scan: Scan) = {
-    val tablename = Constants.tablename
+    val tablename = Constants.dataTable
     Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))

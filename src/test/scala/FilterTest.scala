@@ -21,7 +21,7 @@ object FilterTest {
     sn.setCacheBlocks(false)
     sn.setCaching(10000)
     sn.setReversed(true)
-    Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.tablename)
+    Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.dataTable)
     Constants.conf.set(TableInputFormat.SCAN,ScanToString(sn))
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(Constants.conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],

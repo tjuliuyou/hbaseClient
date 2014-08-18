@@ -1,12 +1,13 @@
-
+import byone.hbase.core.Insert
+import byone.hbase.uid.UniqueId
+import byone.hbase.util.{DatePoint, Constants}
 
 /**
  * Created by dream on 8/1/14.
  */
 object test4 {
 
-  def main(args: Array[String]) {
-
+  def test{
     val event = Map("aaa"->"111","bbb"->"222","ccc"->"333","ddd"->"444","fff"->"666")
 
     val groups = Seq("fff","eee")
@@ -30,6 +31,23 @@ object test4 {
 
     val ret = (key,display)
     println("ret: " +ret)
+  }
+
+
+  def main(args: Array[String]) {
+
+    val uid = new UniqueId
+
+    for(x <- 1 to 13) {
+      val temp = uid.toName(DatePoint.Int2Byte(x))
+      println(new String(temp))
+    }
+    println("--------------------------")
+    uid.getCached.foreach(x=>println(new String(x)))
+  //  uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
+  // uid.create
+  // uid.insert("x")
+
   }
 
 }
