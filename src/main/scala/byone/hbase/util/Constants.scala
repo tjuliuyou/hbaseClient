@@ -12,25 +12,6 @@ import org.apache.spark.{SparkConf, SparkContext}
  */
 object Constants {
 
-  // Default global Hbase Configurations
-  private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
-  private val YARN_CONF_PATH = "src/conf/yarn-site.xml"
-  private val MAPR_CONF_PATH = "src/conf/mapred-site.xml"
-  val conf = HBaseConfiguration.create
-  conf.addResource(new Path(HBASE_CONF_PATH))
-  conf.addResource(new Path(YARN_CONF_PATH))
-  conf.addResource(new Path(MAPR_CONF_PATH))
-
-  //Default spark Configurations
-  val sparkConf = new SparkConf()
-    .setAppName("hbase test")
-    //.setMaster("local")
-    .setMaster("spark://master3.dream:7077")
-    .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"
-            ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
-            ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
-  val sc = new SparkContext(sparkConf)
-
   /**
    * Default table name
    */
@@ -60,6 +41,26 @@ object Constants {
    */
   val REGIONNUM     =  16
 
+
+  // Default global Hbase Configurations
+  private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
+  private val YARN_CONF_PATH = "src/conf/yarn-site.xml"
+  private val MAPR_CONF_PATH = "src/conf/mapred-site.xml"
+  val conf = HBaseConfiguration.create
+  conf.addResource(new Path(HBASE_CONF_PATH))
+  conf.addResource(new Path(YARN_CONF_PATH))
+  conf.addResource(new Path(MAPR_CONF_PATH))
+
+  //Default spark Configurations
+  private val sparkConf = new SparkConf()
+    .setAppName("hbase test")
+    //.setMaster("local")
+    .setMaster("spark://master3.dream:7077")
+    .setJars(Seq("classes/artifacts/ByoneHbaseCore/ByoneHbaseCore.jar"
+    ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
+    ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
+
+  val sc = new SparkContext(sparkConf)
 }
 
 /**
@@ -76,15 +77,3 @@ case class Args(Range: List[String], Items: List[String]
      ,Events: List[String], Filter: String
      ,Groups: List[String], Aggres: List[List[String]])
 
-/**
- * Args holds a bunch of args parsed from test file (json)
- * @param Range   Time range Seq should be start time and stop time, to see the format {@see DatePoint#toTs}
- * @param Items   Items Seq that needed to take back for display
- * @param Events  Event type Seq explicit should be take back
- * @param Filter  Filter String will be used for Scans
- * @param Groups Group by Seq
- * @param Aggres  Aggreagte args
- */
-case class QueryArgs(Range: Seq[String], Items: Seq[String]
-                ,Events: Seq[String], Filter: String
-                ,Groups: Seq[String], Aggres: Seq[Seq[String]])

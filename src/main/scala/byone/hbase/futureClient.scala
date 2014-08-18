@@ -1,5 +1,7 @@
-import byone.hbase.core.{Query, Aggre, RwRDD}
-import byone.hbase.util.{QueryArgs, Constants, Args}
+package byone.hbase
+
+import byone.hbase.core.{QueryArgs, Query}
+import byone.hbase.util.Constants
 import net.liftweb.json.JsonParser._
 
 /**

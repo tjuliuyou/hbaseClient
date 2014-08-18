@@ -18,8 +18,8 @@ package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, DatePoint, QueryArgs}
-import com.twitter.util.{LruMap, Promise, Future}
+import byone.hbase.util.{Constants, DatePoint}
+import com.twitter.util.{LruMap, Future}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
@@ -278,3 +278,17 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     Future.value(rdd)
   }
 }
+
+
+/**
+ * Args holds a bunch of args parsed from test file (json)
+ * @param Range   Time range Seq should be start time and stop time, to see the format {@see DatePoint#toTs}
+ * @param Items   Items Seq that needed to take back for display
+ * @param Events  Event type Seq explicit should be take back
+ * @param Filter  Filter String will be used for Scans
+ * @param Groups Group by Seq
+ * @param Aggres  Aggreagte args
+ */
+case class QueryArgs(Range: Seq[String], Items: Seq[String]
+                     ,Events: Seq[String], Filter: String
+                     ,Groups: Seq[String], Aggres: Seq[Seq[String]])
