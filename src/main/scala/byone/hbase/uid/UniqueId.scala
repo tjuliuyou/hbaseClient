@@ -60,7 +60,6 @@ class UniqueId extends java.io.Serializable {
   }
 
 
-
   def readToCache (file : String) {
     val txtFile =Constants.sc.textFile(file)
     val txtFileMap = txtFile.map({lines =>

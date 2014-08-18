@@ -12,24 +12,6 @@ import org.apache.spark.{SparkConf, SparkContext}
  */
 object Constants {
 
-  // Default global Hbase Configurations
-  private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
-  private val YARN_CONF_PATH = "src/conf/yarn-site.xml"
-  private val MAPR_CONF_PATH = "src/conf/mapred-site.xml"
-  val conf = HBaseConfiguration.create
-  conf.addResource(new Path(HBASE_CONF_PATH))
-  conf.addResource(new Path(YARN_CONF_PATH))
-  conf.addResource(new Path(MAPR_CONF_PATH))
-
-  //Default spark Configurations
-  val sparkConf = new SparkConf()
-    .setAppName("hbase test")
-    //.setMaster("local")
-    .setMaster("spark://master3.dream:7077")
-    .setJars(Seq("out/artifacts/ByoneCore/ByoneCore.jar"
-            ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"))
-  val sc = new SparkContext(sparkConf)
-
   /**
    * Default table name
    */
@@ -59,6 +41,26 @@ object Constants {
    */
   val REGIONNUM     =  16
 
+
+  // Default global Hbase Configurations
+  private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
+  private val YARN_CONF_PATH = "src/conf/yarn-site.xml"
+  private val MAPR_CONF_PATH = "src/conf/mapred-site.xml"
+  val conf = HBaseConfiguration.create
+  conf.addResource(new Path(HBASE_CONF_PATH))
+  conf.addResource(new Path(YARN_CONF_PATH))
+  conf.addResource(new Path(MAPR_CONF_PATH))
+
+  //Default spark Configurations
+  private val sparkConf = new SparkConf()
+    .setAppName("hbase test")
+    //.setMaster("local")
+    .setMaster("spark://master3.dream:7077")
+    .setJars(Seq("classes/artifacts/ByoneHbaseCore/ByoneHbaseCore.jar"
+    ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
+    ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
+
+  val sc = new SparkContext(sparkConf)
 }
 
 /**
@@ -70,6 +72,8 @@ object Constants {
  * @param Groups Group by lists
  * @param Aggres  Aggreagte args
  */
+@deprecated
 case class Args(Range: List[String], Items: List[String]
      ,Events: List[String], Filter: String
      ,Groups: List[String], Aggres: List[List[String]])
+

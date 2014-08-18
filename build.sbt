@@ -1,6 +1,6 @@
 name := "hbaseClient"
 
-version := "0.1.2"
+version := "0.2.2"
 
 scalaVersion := "2.10.4"
 
@@ -14,3 +14,4 @@ libraryDependencies ++= Seq(
   "net.liftweb" %% "lift-json" % "2.6-M4",
   "com.twitter" %% "util-collection" % "6.12.1"
 )
+    

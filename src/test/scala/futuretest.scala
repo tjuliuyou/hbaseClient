@@ -2,8 +2,10 @@ import byone.hbase.uid.UniqueId
 import byone.hbase.util.{DatePoint, Constants}
 import com.twitter.util.{Future, Promise}
 import com.twitter.conversions.time._
-import org.apache.hadoop.hbase.Cell
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable
+import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
 import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
+import org.apache.hadoop.hbase.mapreduce.TableInputFormat
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 14-8-12.
@@ -50,31 +52,32 @@ object futuretest {
   }
 
   def main(args: Array[String]) {
-    val f = new Promise[Int]
-    val g = f map{res => res +10}
-    f.setValue(1)
-    g.get(1.second)
-    g respond( res => println(res))
 
-    val xFuture = Future(1)
-    val yFuture = Future(4)
+//    val flist = for(sn <- scanList) yield {
+//      Future(get(sn))
+//    }
+//
+//    val Mer = Future.collect(flist)
+//    for(f <- flist) {
+//      printEvent(f.get())
+//    }
+//    Mer.onSuccess(println)
 
-    for (
-      x <- xFuture;
-      y <- yFuture
-    ){
-      print(x + y)
-    }
-    val flist = for(sn <- scanList) yield {
-      Future(get(sn))
-    }
 
-    val Mer = Future.collect(flist)
-    for(f <- flist) {
-      printEvent(f.get())
-    }
-    //Me
-    Mer.onSuccess(println)
+    val rdd = hbaseRDD(scanList(0))
 
+
+  }
+
+
+  def hbaseRDD(scan: Scan) = {
+    val tablename = Constants.tablename
+    Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+    val conf = HBaseConfiguration.create(Constants.conf)
+    conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
+    val hBaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+      classOf[org.apache.hadoop.hbase.client.Result])
+    hBaseRDD
   }
 }
