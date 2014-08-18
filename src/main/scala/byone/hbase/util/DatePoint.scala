@@ -1,8 +1,8 @@
 package byone.hbase.util
 
 import java.text.SimpleDateFormat
-import org.apache.hadoop.hbase.client.{Result, Scan}
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable
+
+import org.apache.hadoop.hbase.client.Scan
 
 /**
  * Created by dream on 7/7/14.
