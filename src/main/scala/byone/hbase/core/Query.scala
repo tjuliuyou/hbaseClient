@@ -31,21 +31,23 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
 /**
- * Created by liuyou on 14-8-13.
+ * Created by liu you on 14-8-13.
  *
- * Core Query class read hbase/cached to local RDD
+ * Core Query class read Hbase/cached to local RDD
  * @param args args to retrieve data {@see QueryArgs}
  */
 class Query(args: QueryArgs) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[Query])
-  private val family = Constants.FAMILY
+
+  private val family = Constants.dataFamily
 
   private var range = args.Range
   private var items = args.Items
   private var events = args.Events
   private var filters = args.Filter
   private var groups =  args.Groups
+
   private var aggres = if(args.Aggres.nonEmpty) {
     for (ar <- args.Aggres) yield {
       val cond = ar.head
@@ -55,16 +57,15 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   } else Seq[(String,Seq[String])]()
 
   case class readArgs(Range: Seq[String], Events: Seq[String])
+
   val cached = new LruMap[readArgs,RDD[(String,Map[String,String])]](10)
-  //val rdd = new Promise[RDD[(String,Map[String,String])]]
 
   var rdd: RDD[(String,Map[String,String])] = Constants.sc.emptyRDD
-
 
   private val uid = new UniqueId
   uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
-  Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.tablename)
+  Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.dataTable)
 
   def setRange(rg: Seq[String]) {
     if(rg.size != 2)
@@ -135,7 +136,6 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     prerdd
     } else
       retrdd
-
   }
 
   private def itemFilter=(raw: Map[String, String]) => {
@@ -206,7 +206,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     if(events.nonEmpty){
       val ents = for(event <- events) yield {
         val rowfilter: Filter = new RowFilter(
-          CompareFilter.CompareOp.EQUAL,new EventComparator(uid.id(event)))
+          CompareFilter.CompareOp.EQUAL,new EventComparator(uid.toId(event)))
         rowfilter
       }
       val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE,ents.asJava)

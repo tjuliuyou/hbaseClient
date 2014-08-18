@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType
 import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
+import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import scala.math.pow
@@ -12,21 +13,24 @@ import scala.math.pow
 /**
  * Created by dream on 7/7/14.
  */
-class Table extends java.io.Serializable {
-  private val tablename = Constants.tablename
+class Insert(tableName: String) extends java.io.Serializable {
+
+  private val logger = LoggerFactory.getLogger(classOf[Insert])
+
+  //private val tablename = Constants.dataTable
 
   // create usual table
-  def create(tab : String, familys : Array[String]) {
+  def create(familys : Seq[String]) {
     val admin = new HBaseAdmin(Constants.conf)
-    if(admin.tableExists(tab))
-      println("table '" + tab + "' already exists")
+    if(admin.tableExists(tableName))
+      logger.error("table '" + tableName + "' already exists")
     else
     {
-      val tableDesc : HTableDescriptor = new HTableDescriptor(tab)
+      val tableDesc : HTableDescriptor = new HTableDescriptor(tableName)
       for(fc <- familys)
         tableDesc.addFamily(new HColumnDescriptor(fc))
       admin.createTable(tableDesc)
-      println("create table: '" +tab + "' successfully.")
+      logger.info("create table: '" +tableName + "' successfully.")
     }
   }
 
@@ -34,7 +38,7 @@ class Table extends java.io.Serializable {
   def create(tab : String,familys : Array[String], startkey: Int, stopkey: Int, num: Int) {
     val admin = new HBaseAdmin(Constants.conf)
     if(admin.tableExists(tab))
-      println("table '" + tab + "' already exists")
+      logger.error("table '" + tab + "' already exists")
     else
     {
       val desc : HTableDescriptor = new HTableDescriptor(tab)
@@ -47,31 +51,31 @@ class Table extends java.io.Serializable {
         desc.addFamily(hdes)
       }
       admin.createTable(desc,getSplits(startkey,stopkey,num))
-      println("create table: '" +tab + "' successfully.")
+      logger.info("create table: '" +tab + "' successfully.")
     }
   }
 
 
   //delete table
-  def delete(tab : String  = tablename) {
+  def delete {
     val admin = new HBaseAdmin(Constants.conf)
-    if(!admin.tableExists(tab))
-      println("table: '" + tab + "' does not exists")
+    if(!admin.tableExists(tableName))
+      logger.error("table: '" + tableName + "' does not exists")
     else
     {
-      admin.disableTable(tab)
-      admin.deleteTable(tab)
-      println("delete table: " + tab + " successfully.")
+      admin.disableTable(tableName)
+      admin.deleteTable(tableName)
+      logger.info("delete table: " + tableName + " successfully.")
     }
   }
 
-  def add(row : String, fc : String, col : String, vl : String,tab:String = tablename) {
+  def add(row : Array[Byte], fc : String, col : String, vl : Array[Byte]) {
 
-    val tb = new HTable(Constants.conf,tab)
-    val pt = new Put(row.getBytes)
-    pt.add(fc.getBytes,col.getBytes,vl.getBytes)
+    val tb = new HTable(Constants.conf,tableName)
+    val pt = new Put(row)
+    pt.add(fc.getBytes,col.getBytes,vl)
     tb.put(pt)
-    println("put " + row +" to table " + tab + " successfully.")
+    logger.info("put " + new String(row) +" to table " + tableName + " successfully.")
   }
 
   def mapToPut(cols: Map[String, String], row: Array[Byte]): Put = {
@@ -82,15 +86,15 @@ class Table extends java.io.Serializable {
     put
   }
 
-  def batAdd(puts: List[Put], tab:String = tablename) {
+  def batAdd(puts: List[Put]) {
     //val cf = Conf.conf.set
-    val tb = new HTable(Constants.conf,tab)
+    val tb = new HTable(Constants.conf,tableName)
     tb.setAutoFlush(false,true)
 
   }
   //get row
-  def get(row : String,tab:String = tablename) : String = {
-    val tb = new HTable(Constants.conf,tab)
+  def get(row : String): String = {
+    val tb = new HTable(Constants.conf,tableName)
     var s=""
     val gt = new Get(row.getBytes)
     val res = tb.get(gt)
@@ -110,22 +114,28 @@ class Table extends java.io.Serializable {
     ret.toArray
   }
 
-  def getV(row : String, col : String,tab:String = tablename) : Array[Byte] = {
-    val tb = new HTable(Constants.conf,tab)
+  def values(row : String, col : String) : Array[Byte] = {
+    val tb = new HTable(Constants.conf,tableName)
     val gt = new Get(row.getBytes)
     var s = Array[Byte]()
-    gt.addColumn("d".getBytes,col.getBytes)
-    val res = tb.get(gt)
+    gt.addColumn("id".getBytes,col.getBytes)
+    val res = tb.get(gt).getNoVersionMap
     require(!res.isEmpty)
-    for(kv:Cell <- res.rawCells())
-    { s ++= kv.getValue }
+
+    val resId = res.firstEntry().getValue.asScala
+    val resName = res.lastEntry().getValue.asScala
+   // resId.foldRight()
+
+
+//    for(kv:Cell <- res.rawCells())
+//    { s ++= kv.getValue }
     s
 
   }
 
-  def scanV(scan: Scan,tab:String = tablename):Set[String] = {
+  def scanV(scan: Scan):Set[String] = {
     var ret: Set[String] = Set.empty
-    val tb = new HTable(Constants.conf,tab)
+    val tb = new HTable(Constants.conf,tableName)
     val ss = tb.getScanner(scan)
     for(res:Result <- ss.asScala)
       for(kv:Cell <- res.rawCells())

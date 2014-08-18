@@ -10,7 +10,7 @@ object puttest {
   //implicit formats = DefaultFormats
   def main(args: Array[String]) {
 
-    val tablename = Constants.tablename
+    val tablename = Constants.dataTable
 
 
 

@@ -13,17 +13,25 @@ import org.apache.spark.{SparkConf, SparkContext}
 object Constants {
 
   /**
-   * Default table name
+   * Default data table name
    */
-  val tablename = "log_data"
+  val dataTable   = "log_data"
   /**
-   * Default family name
+   * Default data family name
    */
-  val FAMILY = "d"
+  val dataFamily  = "d"
+  /**
+   * Default uid table name
+   */
+  val uidTable    = "uid"
+  /**
+   * Default uid family names
+   */
+  val uidfamily   = Seq("id","name")
   /**
    * Default event uid length store in rowkey (Bytes)
    */
-  val UIDLENGTH     =  4
+  val UIDLENGTH     =  3
   /**
    * Default random prefix length store in rowkey (Bytes)
    */
