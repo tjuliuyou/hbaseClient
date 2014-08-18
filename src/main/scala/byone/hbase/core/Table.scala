@@ -6,16 +6,14 @@ import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType
 import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
 import org.slf4j.LoggerFactory
-
 import scala.collection.JavaConverters._
-import scala.math.pow
 
 /**
  * Created by dream on 7/7/14.
  */
-class Insert(tableName: String) extends java.io.Serializable {
+class Table(tableName: String) extends java.io.Serializable {
 
-  private val logger = LoggerFactory.getLogger(classOf[Insert])
+  private val logger = LoggerFactory.getLogger(classOf[Table])
 
   //private val tablename = Constants.dataTable
 
@@ -69,7 +67,7 @@ class Insert(tableName: String) extends java.io.Serializable {
     }
   }
 
-  def add(row : Array[Byte], fc : String, col : String, vl : Array[Byte]) {
+  def put(row : Array[Byte], fc : String, col : String, vl : Array[Byte]) {
 
     val tb = new HTable(Constants.conf,tableName)
     val pt = new Put(row)
@@ -86,12 +84,8 @@ class Insert(tableName: String) extends java.io.Serializable {
     put
   }
 
-  def batAdd(puts: List[Put]) {
-    //val cf = Conf.conf.set
-    val tb = new HTable(Constants.conf,tableName)
-    tb.setAutoFlush(false,true)
+  def puts(tb: HTable,pts: List[Put]) = HTableUtil.bucketRsPut(tb,pts.asJava)
 
-  }
   //get row
   def get(row : String): String = {
     val tb = new HTable(Constants.conf,tableName)
@@ -104,7 +98,19 @@ class Insert(tableName: String) extends java.io.Serializable {
     s
   }
 
-  def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
+
+  def get(row : Array[Byte], col : String) : Array[Byte] = {
+    val tb = new HTable(Constants.conf,tableName)
+    val gt = new Get(row)
+    gt.addColumn(col.getBytes,col.getBytes)
+    val res = tb.get(gt).getNoVersionMap
+    require(!res.isEmpty)
+    val resValue = res.firstEntry().getValue.asScala
+    resValue(col.getBytes)
+  }
+
+
+  private def getSplits(startkey: Int, stopkey: Int, num: Int): Array[Array[Byte]] ={
     val range = stopkey - startkey
     val rangeIncrement = range/(num-1)
     val ret =for(i <- 0 until (num-1)) yield {
@@ -113,35 +119,4 @@ class Insert(tableName: String) extends java.io.Serializable {
     }
     ret.toArray
   }
-
-  def values(row : String, col : String) : Array[Byte] = {
-    val tb = new HTable(Constants.conf,tableName)
-    val gt = new Get(row.getBytes)
-    var s = Array[Byte]()
-    gt.addColumn("id".getBytes,col.getBytes)
-    val res = tb.get(gt).getNoVersionMap
-    require(!res.isEmpty)
-
-    val resId = res.firstEntry().getValue.asScala
-    val resName = res.lastEntry().getValue.asScala
-   // resId.foldRight()
-
-
-//    for(kv:Cell <- res.rawCells())
-//    { s ++= kv.getValue }
-    s
-
-  }
-
-  def scanV(scan: Scan):Set[String] = {
-    var ret: Set[String] = Set.empty
-    val tb = new HTable(Constants.conf,tableName)
-    val ss = tb.getScanner(scan)
-    for(res:Result <- ss.asScala)
-      for(kv:Cell <- res.rawCells())
-        ret += new String(kv.getRow)
-    ss.close()
-    ret
-  }
-
 }

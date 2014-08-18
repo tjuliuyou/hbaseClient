@@ -1,4 +1,4 @@
-import byone.hbase.core.Insert
+import byone.hbase.core.Table
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{DatePoint, Constants}
 
@@ -39,14 +39,17 @@ object test4 {
     val uid = new UniqueId
 
     for(x <- 1 to 13) {
-      val temp = uid.toName(DatePoint.Int2Byte(x))
+      val temp = uid.toName(x)
       println(new String(temp))
     }
     println("--------------------------")
     uid.getCached.foreach(x=>println(new String(x)))
-  //  uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
-  // uid.create
-  // uid.insert("x")
+
+    uid.ids.foreach(y => {
+      //y.foreach(x=>print(x + ","))
+      println(new String(y) + "   " + y.length)
+    })
+
 
   }
 
