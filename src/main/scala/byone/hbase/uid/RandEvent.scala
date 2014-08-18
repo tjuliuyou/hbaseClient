@@ -7,7 +7,7 @@ import scala.xml.{Node, Elem, XML}
 import byone.hbase.util.Constants
 import scala.collection.JavaConverters._
 import scala.util.Random
-import byone.hbase.core.Insert
+import byone.hbase.core.Table
 
 /**
  * Created by dream on 7/22/14.

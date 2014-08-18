@@ -1,9 +1,8 @@
 package byone.hbase.uid
 
-import byone.hbase.core.Insert
+import byone.hbase.core.Table
 import byone.hbase.util.{Constants, DatePoint}
 import com.twitter.util.LruMap
-import org.apache.hadoop.hbase.{HColumnDescriptor, HTableDescriptor, Cell}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
 import org.slf4j.LoggerFactory
@@ -17,62 +16,40 @@ class UniqueId extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[UniqueId])
 
-  private val cached = new LruMap[Array[Byte], Array[Byte]](100)
-
   private val tableName = Constants.uidTable
 
-  def get(row : Array[Byte], col : String) : Array[Byte] = {
-    val tb = new HTable(Constants.conf,tableName)
-    val gt = new Get(row)
-    gt.addColumn(col.getBytes,col.getBytes)
-    val res = tb.get(gt).getNoVersionMap
-    require(!res.isEmpty)
-    val resValue = res.firstEntry().getValue.asScala
-    resValue(col.getBytes)
-  }
+  private val cached = new LruMap[Array[Byte], Array[Byte]](100)
 
+  private val uidTable = new Table(tableName)
 
-  def toId(event : String) : Array[Byte] = {
-    val et = event.getBytes
-    if(cached.contains(et))
-      cached(et)
-    else
-    {
-      val uid = get(et,"id")
-      cached += (et->uid)
-      uid
-    }
-  }
+  def toId(event : String) : Array[Byte] =
+    convert(event.getBytes,Constants.uidfamily(0))
 
-  def toName(id : Array[Byte]) : Array[Byte] = {
+  def toName(id : Int) : Array[Byte] =
+    convert(DatePoint.Int2Byte(id),Constants.uidfamily(1))
 
-    if(cached.contains(id))
-      cached(id)
-    else
-    {
-      val name = get(id,"name")
-      cached += (id->name)
-      name
-    }
-  }
-
-  def ids : Seq[String] = {
+  /**
+   * All uids stored in Hbase
+   * @return
+   */
+  def ids : Seq[Array[Byte]] = {
     var ret: Seq[String] = List.empty
     val tb = new HTable(Constants.conf,tableName)
     val scan = new Scan()
     val fl = new KeyOnlyFilter ()
     scan.setFilter(fl)
     val ss = tb.getScanner(scan)
-    for(res:Result <- ss.asScala)
-      for(kv:Cell <- res.rawCells()) {
-        val id = new String(kv.getRow)
-        if(id.length.equals(Constants.UIDLENGTH))
-        ret = ret :+ id
-      }
+    val retdata = for(res:Result <- ss.asScala) yield {
+      res.getRow
+    }
     ss.close()
-    ret.sorted
+    retdata.toSeq.filter(checker)
   }
 
+  /**
+   * Get cached uid list
+   * @return
+   */
   def getCached: List[Array[Byte]] = {
     val iter = for(x <- cached) yield {
       x._2
@@ -80,7 +57,10 @@ class UniqueId extends java.io.Serializable {
     iter.toList
   }
 
-
+  /**
+   * Read uid/event type file to cached
+   * @param file
+   */
   def readToCache (file : String) {
     val txtFile = Constants.sc.textFile(file)
     val txtFileMap = txtFile.map({lines =>
@@ -94,34 +74,42 @@ class UniqueId extends java.io.Serializable {
     } }
   }
 
+  /**
+   * insert uid / event type to hbase
+   * @param name uid or event
+   */
   def insert(name : String) =
     cached.foreach{ case(a,b) =>
-      add(b,"name","name",a)
-      add(a,"id","id",b)
+      uidTable.put(b,"name","name",a)
+      uidTable.put(a,"id","id",b)
     }
 
-
-  def add(row : Array[Byte], fc : String, col : String, vl : Array[Byte]) {
-
-    val tb = new HTable(Constants.conf,tableName)
-    val pt = new Put(row)
-    pt.add(fc.getBytes,col.getBytes,vl)
-    tb.put(pt)
-    logger.info("put " + new String(row) +" to table " + tableName + " successfully.")
-  }
-
-  def create(familys : Seq[String]) {
-    val admin = new HBaseAdmin(Constants.conf)
-    if(admin.tableExists(tableName))
-      logger.error("table '" + tableName + "' already exists")
+  /**
+   * Uid/event Converter
+   * @param in event or uid
+   * @return
+   */
+  private def convert(in: Array[Byte],flag: String) : Array[Byte] = {
+    if(cached.contains(in))
+      cached(in)
     else
     {
-      val tableDesc : HTableDescriptor = new HTableDescriptor(tableName)
-      for(fc <- familys)
-        tableDesc.addFamily(new HColumnDescriptor(fc))
-      admin.createTable(tableDesc)
-      logger.info("create table: '" +tableName + "' successfully.")
+      val out = uidTable.get(in,flag)
+      cached(in) = out
+      cached(out) = in
+      out
     }
+
   }
 
+  /**
+   * Uid checker using length
+   * @return
+   */
+  private def checker = (in : Array[Byte]) => {
+    in.length match {
+      case 3 => true
+      case _ => false
+    }
+  }
 }

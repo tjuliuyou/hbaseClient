@@ -1,11 +1,8 @@
-import byone.hbase.uid.UniqueId
-import byone.hbase.util.{DatePoint, Constants}
-import com.twitter.util.{Future, Promise}
-import com.twitter.conversions.time._
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
-import org.apache.hadoop.hbase.client.{Result, Scan, HTable}
+import byone.hbase.util.{Constants, DatePoint}
+import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.{Cell, HBaseConfiguration}
+
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 14-8-12.

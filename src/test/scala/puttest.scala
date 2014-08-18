@@ -12,12 +12,10 @@ object puttest {
 
     val tablename = Constants.dataTable
 
-
-
     val tb = new HTable(Constants.conf,tablename)
     //val tbutil = new HTableUtil()
 
-    tb.setAutoFlush(false)
+    tb.setAutoFlush(false,false)
     tb.setWriteBufferSize(10*1024*1024)
     var a: Int = 0
     while (a < 20000){
@@ -27,9 +25,6 @@ object puttest {
       //tb.put(plist.asJava)
       HTableUtil.bucketRsPut(tb,plist.asJava)
     }
-
-
-
     Constants.sc.stop()
 
   }
