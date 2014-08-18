@@ -43,9 +43,9 @@ object Constants {
 
 
   // Default global Hbase Configurations
-  private val HBASE_CONF_PATH = "src/conf/hbase-site.xml"
-  private val YARN_CONF_PATH = "src/conf/yarn-site.xml"
-  private val MAPR_CONF_PATH = "src/conf/mapred-site.xml"
+  private val HBASE_CONF_PATH = "src/main/resources/conf/hbase-site.xml"
+  private val YARN_CONF_PATH = "src/main/resources/conf/yarn-site.xml"
+  private val MAPR_CONF_PATH = "src/main/resources/conf/mapred-site.xml"
   val conf = HBaseConfiguration.create
   conf.addResource(new Path(HBASE_CONF_PATH))
   conf.addResource(new Path(YARN_CONF_PATH))
@@ -63,17 +63,4 @@ object Constants {
   val sc = new SparkContext(sparkConf)
 }
 
-/**
- * Args holds a bunch of args parsed from test file (json)
- * @param Range   Time range list should be start time and stop time, to see the format {@see DatePoint#toTs}
- * @param Items   Items list that needed to take back for display
- * @param Events  Event type list explicit should be take back
- * @param Filter  Filter String will be used for Scans
- * @param Groups Group by lists
- * @param Aggres  Aggreagte args
- */
-@deprecated
-case class Args(Range: List[String], Items: List[String]
-     ,Events: List[String], Filter: String
-     ,Groups: List[String], Aggres: List[List[String]])
 
