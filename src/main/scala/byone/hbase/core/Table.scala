@@ -33,13 +33,13 @@ class Table(tableName: String) extends java.io.Serializable {
   }
 
   // create  table with regions
-  def create(tab : String,familys : Array[String], startkey: Int, stopkey: Int, num: Int) {
+  def create(familys : Array[String], startkey: Int, stopkey: Int, num: Int) {
     val admin = new HBaseAdmin(Constants.conf)
-    if(admin.tableExists(tab))
-      logger.error("table '" + tab + "' already exists")
+    if(admin.tableExists(tableName))
+      logger.error("table '" + tableName + "' already exists")
     else
     {
-      val desc : HTableDescriptor = new HTableDescriptor(tab)
+      val desc : HTableDescriptor = new HTableDescriptor(tableName)
       for(fc <- familys){
         val hdes: HColumnDescriptor = new HColumnDescriptor(fc)
         hdes.setInMemory(true)
@@ -49,7 +49,7 @@ class Table(tableName: String) extends java.io.Serializable {
         desc.addFamily(hdes)
       }
       admin.createTable(desc,getSplits(startkey,stopkey,num))
-      logger.info("create table: '" +tab + "' successfully.")
+      logger.info("create table: '" +tableName + "' successfully.")
     }
   }
 

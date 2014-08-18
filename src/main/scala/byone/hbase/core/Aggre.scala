@@ -73,6 +73,8 @@ object Aggre {
       case "min" => (Math.min(rt._1, lt._1), 1)
       case "max" => (Math.max(rt._1, lt._1), 1)
       case "avg" => (rt._1+lt._1, rt._2+lt._2)
+      case "count" => (0,rt._2+lt._2)
+      case _ => (0,rt._2+lt._2)
     }
   }
 
@@ -119,6 +121,7 @@ object Aggre {
   private def doCalc(method: String)(tuple: (Double,Int)):String ={
     method match {
       case "avg" => if(tuple._2 == 0) "0.0" else (tuple._1/tuple._2).toString
+      case "count" => tuple._2.toString
       case _ => tuple._1.toString
     }
   }
