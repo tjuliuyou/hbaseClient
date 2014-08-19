@@ -40,7 +40,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[Query])
 
-  private val family = Constants.dataFamily
+  private val family = Constants.dataFamily(0)
 
   private var range = args.Range
   private var items = args.Items
@@ -124,18 +124,18 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
   def getFromHbase(): Future[RDD[(String,Map[String,String])]] = {
 
-    val retrdd = {
+    val retRdd = {
     if(groups.isEmpty)
-      rawRdd().flatMap(raw => Future(raw.map(x => family->itemFilter(x._2))))
+      rawRdd().flatMap(raw => Future(raw.map(x => family -> itemFilter(x._2))))
     else
       rawRdd().flatMap(raw => Future(raw.map(grouBy)))
     }
     if(aggres.nonEmpty) {
-      val prerdd  = retrdd.flatMap(raw =>{
+      val prerdd  = retRdd.flatMap(raw =>{
         Future(Aggre.doAggre(raw,aggres))})
-    prerdd
+      prerdd
     } else
-      retrdd
+      retRdd
   }
 
   private def itemFilter=(raw: Map[String, String]) => {

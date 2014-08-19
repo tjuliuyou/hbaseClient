@@ -19,7 +19,7 @@ object Constants {
   /**
    * Default data family name
    */
-  val dataFamily  = "d"
+  val dataFamily  = Seq("d")
   /**
    * Default uid table name
    */

@@ -33,7 +33,7 @@ class Table(tableName: String) extends java.io.Serializable {
   }
 
   // create  table with regions
-  def create(familys : Array[String], startkey: Int, stopkey: Int, num: Int) {
+  def create(familys : Seq[String], startkey: Int, stopkey: Int, num: Int) {
     val admin = new HBaseAdmin(Constants.conf)
     if(admin.tableExists(tableName))
       logger.error("table '" + tableName + "' already exists")
@@ -55,15 +55,18 @@ class Table(tableName: String) extends java.io.Serializable {
 
 
   //delete table
-  def delete {
+  def delete:Boolean = {
     val admin = new HBaseAdmin(Constants.conf)
-    if(!admin.tableExists(tableName))
+    if(!admin.tableExists(tableName)){
       logger.error("table: '" + tableName + "' does not exists")
+      false
+    }
     else
     {
       admin.disableTable(tableName)
       admin.deleteTable(tableName)
       logger.info("delete table: " + tableName + " successfully.")
+      true
     }
   }
 
@@ -76,10 +79,10 @@ class Table(tableName: String) extends java.io.Serializable {
     logger.info("put " + new String(row) +" to table " + tableName + " successfully.")
   }
 
-  def mapToPut(cols: Map[String, String], row: Array[Byte]): Put = {
+  def mapToPut(cols: Map[String, String], row: Array[Byte],family: String = Constants.dataFamily(0)): Put = {
     val put = new Put(row)
     put.setWriteToWAL(false)
-    val fc = "d".getBytes
+    val fc = family.getBytes
     cols.foreach(x => put.add(fc, x._1.getBytes, x._2.getBytes))
     put
   }
