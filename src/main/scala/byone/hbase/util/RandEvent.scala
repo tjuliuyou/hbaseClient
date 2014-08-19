@@ -1,13 +1,10 @@
-package byone.hbase.uid
+package byone.hbase.util
 
-import org.apache.hadoop.hbase.client.{HTable, Put, Row}
-import java.lang.String
-import scala.collection.mutable.Map
-import scala.xml.{Node, Elem, XML}
-import byone.hbase.util.Constants
-import scala.collection.JavaConverters._
-import scala.util.Random
 import byone.hbase.core.Table
+import org.apache.hadoop.hbase.client.Put
+
+import scala.collection.mutable.Map
+import scala.util.Random
 
 /**
  * Created by dream on 7/22/14.
@@ -434,28 +431,7 @@ object RandEvent {
     //table.adds(row,cols)
   }
 
-  def toPut(cols: Map[String,String],row: Array[Byte]):Put = {
-    val put = new Put(row)
-    put.setWriteToWAL(false)
-    val fc = "d".getBytes
-
-    cols.foreach(x=>put.add(fc,x._1.getBytes,x._2.getBytes))
-    put
-  }
-
-  def Int2Byte(num: Int,max: Int = 3):Array[Byte] = {
-    val ret = for(i <- 0 until max) yield {
-      (num >>>(8*(max-i-1)) & 0xff).toByte
-    }
-    ret.toArray
-  }
-
-  def num2Byte(num: Long,max: Int = 8):Array[Byte] = {
-    val ret = for(i <- 0 until max) yield {
-      (num >>>(8*(max-i-1)) & 0xff).toByte
-    }
-    ret.toArray
-  }
+  val dataTable = new Table(Constants.dataTable)
 
   def randData(u : Int):Put = {
     val event = Random.nextInt(13)+1
@@ -476,16 +452,16 @@ object RandEvent {
     }
     val ts = System.currentTimeMillis()
     val pre = Random.nextInt(Constants.REGIONRANGE)
-    val row =  Int2Byte(pre,1) ++ num2Byte(ts/1000,4) ++ Int2Byte(event) ++ num2Byte(ts%1000,3) ++ Int2Byte(u)
-    toPut(data,row)
-  }
-}
 
-object EventFactory {
+    val row =  DatePoint.Int2Byte(pre,1) ++ DatePoint.num2Byte(ts/1000,4) ++
+               DatePoint.Int2Byte(event) ++ DatePoint.num2Byte(ts%1000,3) ++
+               DatePoint.Int2Byte(u)
+    dataTable.mapToPut(data.toMap,row)
+  }
 
   def rand(num: Int): List[Put] = {
     val pl =for(i <- 0 until num ) yield {
-      RandEvent.randData(i)
+      randData(i)
     }
     pl.toList
   }
