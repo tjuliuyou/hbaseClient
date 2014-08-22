@@ -59,7 +59,6 @@ object FilterTest {
     ents(2).foreach(x=>print(x+","))
     println()
 
-    //val rowfilter = new RowFilter(CompareOp.EQUAL,new BinaryPrefixComparator(pre ++ ts,1))
     val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(0)))
     val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(1)))
     val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(2)))
