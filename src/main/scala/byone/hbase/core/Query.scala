@@ -63,7 +63,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   var rdd: RDD[(String,Map[String,String])] = Constants.sc.emptyRDD
 
   private val uid = new UniqueId
-  uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
+  //uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
 
   Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.dataTable)
 
