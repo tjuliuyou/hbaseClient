@@ -20,19 +20,15 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(5)
-    val rw = new Query(thistest)
+    val thistest = testlist(0)
+    val query = Query.create(thistest)
 
-    val futureRDD =rw.getFromHbase()
-    futureRDD onSuccess (hbaseRDD => {
-        hbaseRDD.collect().foreach(println)
-        println("hbaseRDD count: " + hbaseRDD.count())
-    })
+      val rdd = query.get()
+      println("multi get count: " + rdd.count())
 
-//    val futureRDD2 =rw.get()
-//    futureRDD2.collect().foreach(println)
-//    println("hbaseRDD count: " + futureRDD2.count())
-    Constants.sc.stop()
+      Query.close()
+
+      Constants.sc.stop()
     }
 
 }

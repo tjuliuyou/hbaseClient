@@ -3,7 +3,7 @@ package byone.hbase.util
 import java.text.SimpleDateFormat
 
 import org.apache.hadoop.hbase.client.Scan
-
+import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/7/14.
  *
@@ -53,6 +53,6 @@ object DatePoint {
    * .TableMapReduceUtil#convertScanToString }
    * @return The scan saved in a Base64 encoded string.
    */
-  def ScanToString = (scan : Scan) => new ScanCovert().coverToScan(scan)
-
+  def ScanToString(scan : Scan) ={new ScanCovert().coverToScan(scan)}
+  def ScanToString(scans : List[Scan])={new ScanCovert().coverToScan(scans.asJava)}
 }

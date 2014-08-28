@@ -14,7 +14,7 @@ import scala.collection.JavaConverters._
 class Table(tableName: String) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[Table])
-
+  private val serialVersionUID = 6529685098267757691L
   //private val tablename = Constants.dataTable
 
   // create usual table
@@ -76,6 +76,7 @@ class Table(tableName: String) extends java.io.Serializable {
     val pt = new Put(row)
     pt.add(fc.getBytes,col.getBytes,vl)
     tb.put(pt)
+    tb.close()
     logger.info("put " + new String(row) +" to table " + tableName + " successfully.")
   }
 
@@ -96,6 +97,7 @@ class Table(tableName: String) extends java.io.Serializable {
     val gt = new Get(row.getBytes)
     val res = tb.get(gt)
     require(!res.isEmpty)
+    tb.close()
     for(kv: Cell<- res.rawCells())
       s += new String(kv.getQualifier) +"=" + new String(kv.getValue)
     s
@@ -109,6 +111,7 @@ class Table(tableName: String) extends java.io.Serializable {
     val res = tb.get(gt).getNoVersionMap
     require(!res.isEmpty)
     val resValue = res.firstEntry().getValue.asScala
+    tb.close()
     resValue(col.getBytes)
   }
 

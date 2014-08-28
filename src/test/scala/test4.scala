@@ -36,19 +36,22 @@ object test4 {
 
   def main(args: Array[String]) {
 
-    val uid = new UniqueId
+//    val uid = new UniqueId
+//
+//    for(x <- 1 to 13) {
+//      val temp = uid.toName(x)
+//      println(new String(temp))
+//    }
+//    println("--------------------------")
+//    uid.getCached.foreach(x=>println(new String(x)))
+//
+//    uid.ids.foreach(y => {
+//      //y.foreach(x=>print(x + ","))
+//      println(new String(y) + "   " + y.length)
+//    })
 
-    for(x <- 1 to 13) {
-      val temp = uid.toName(x)
-      println(new String(temp))
-    }
-    println("--------------------------")
-    uid.getCached.foreach(x=>println(new String(x)))
 
-    uid.ids.foreach(y => {
-      //y.foreach(x=>print(x + ","))
-      println(new String(y) + "   " + y.length)
-    })
+
 
 
   }
