@@ -2,7 +2,7 @@ import byone.hbase.filter.CompareFilter.CompareOp
 import byone.hbase.filter.{ByParseFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Constants, DatePoint, ScanCovert}
-import org.apache.hadoop.hbase.Cell
+import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
@@ -41,8 +41,9 @@ object FilterTest {
     val startTs =  DatePoint.toTs(range(0))
     val stopTs = DatePoint.toTs(range(1))
     val pre = DatePoint.Int2Byte(16,1)
+    val pre2 = DatePoint.Int2Byte(19,1)
     val startRow = pre ++ startTs
-    val stoptRow = pre ++ stopTs
+    val stoptRow = pre2 ++ stopTs
 
     val ts = DatePoint.toTs("05/08/2014 15:15:19")
 
@@ -59,38 +60,52 @@ object FilterTest {
     ents(2).foreach(x=>print(x+","))
     println()
 
-    val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(0)))
-    val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(1)))
-    val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(2)))
-    val rowfilter4: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(4)))
-    val rowfl = List(rowfilter1,rowfilter2,rowfilter3,rowfilter4)
-    val jrowfl = rowfl.asJava
-
-    val fl:Filter  =new FilterList(FilterList.Operator.MUST_PASS_ONE,jrowfl)
-    val flist  =new FilterList(FilterList.Operator.MUST_PASS_ALL)
-    val colfilter = new ByParseFilter().parseFilterString("SingleColumnValueFilter ('d','collectorId',<,'number:89')")
-    flist.addFilter(fl)
-    flist.addFilter(colfilter)
-    sn.setFilter(flist)
-    val ss = tb.getScanner(sn)
-    var count =0
-    for(res:Result <- ss.asScala){
-      for(kv:Cell <- res.rawCells())
-        print(new String(kv.getQualifier) +"-> "+new String(kv.getValue)+ ", ")
-      println()
-      count += 1
-    }
-
-    ss.close()
-    // ret
-
-    println("count:" + count)
-
-
-    println("put to table successfully.")
-
-
+//    val rowfilter1: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(0)))
+//    val rowfilter2: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(1)))
+//    val rowfilter3: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(2)))
+//    val rowfilter4: Filter = new RowFilter(CompareOp.EQUAL,new EventComparator(ents(4)))
+//    val rowfl = List(rowfilter1,rowfilter2,rowfilter3,rowfilter4)
+//    val jrowfl = rowfl.asJava
+//
+//    val fl:Filter  =new FilterList(FilterList.Operator.MUST_PASS_ONE,jrowfl)
+//    val flist  =new FilterList(FilterList.Operator.MUST_PASS_ALL)
+//    val colfilter = new ByParseFilter().parseFilterString("SingleColumnValueFilter ('d','collectorId',<,'number:89')")
+//    flist.addFilter(fl)
+//    flist.addFilter(colfilter)
+//    sn.setFilter(flist)
+//    val ss = tb.getScanner(sn)
+//    var count =0
+//    for(res:Result <- ss.asScala){
+//      for(kv:Cell <- res.rawCells())
+//        print(new String(kv.getQualifier) +"-> "+new String(kv.getValue)+ ", ")
+//      println()
+//      count += 1
+//    }
+//
+//    ss.close()
+//    // ret
+//
+//    println("count:" + count)
+//
+//
+//    println("put to table successfully.")
 
 
+    val hRdd = hbaseRdd(sn)
+    println(hRdd.count())
+
+    Constants.sc.stop()
   }
+
+  def hbaseRdd(scan: Scan) = {
+    Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.dataTable)
+    val conf = HBaseConfiguration.create(Constants.conf)
+    conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
+    val hBaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
+      classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
+      classOf[org.apache.hadoop.hbase.client.Result])
+    hBaseRDD
+  }
+
+
 }

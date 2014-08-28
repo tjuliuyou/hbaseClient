@@ -15,7 +15,7 @@ import scala.collection.JavaConverters._
 class UniqueId extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[UniqueId])
-
+  private val serialVersionUID = 6529685098267757680L
   private val tableName = Constants.uidTable
 
   private val cached = new LruMap[Array[Byte], Array[Byte]](100)
