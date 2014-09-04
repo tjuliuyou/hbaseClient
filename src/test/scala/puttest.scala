@@ -9,7 +9,7 @@ object puttest {
   //implicit formats = DefaultFormats
   def main(args: Array[String]) {
 
-    val tablename = "log_data1"
+    val tablename = "log_data"
 
     val tb = new HTable(Constants.conf,tablename)
     //val tbutil = new HTableUtil()
@@ -17,7 +17,7 @@ object puttest {
     tb.setAutoFlush(false,false)
     tb.setWriteBufferSize(10*1024*1024)
     var a: Int = 0
-    while (a < 200){
+    while (a < 40000){
       a += 1
       val plist = RandEvent.rand(1000)
       if(a%10 == 0) println(a*1000)

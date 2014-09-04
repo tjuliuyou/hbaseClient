@@ -18,10 +18,10 @@ object Aggre {
   : (String,Map[String, (Double, Int)]) ={
     //val retmap = scala.collection.mutable.Map[String, (Double,Int)]()
     val ret = args.map(ar => {
-        if(event._2(ar).equals("null"))
-          ar -> (0.0,0)
-        else
+        if(event._2.contains(ar))
           ar -> (event._2(ar).toDouble,1)
+        else
+          ar -> (0.0,0)
       })
 
     (event._1,ret.toMap)

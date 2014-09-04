@@ -43,12 +43,15 @@ object Constants {
   /**
    * Possible pre values for all regions
    */
-  val REGIONRANGE   =  256
+  val REGIONRANGE   =  32
   /**
    * Default pre-spilt regions numbers
    */
-  val REGIONNUM     =  16
-
+  val REGIONNUM     =  32
+  /**
+   * Default pre-spilt regions numbers
+   */
+  val STARTKEY     =  1
 
   // Default global Hbase Configurations
   private val HBASE_CONF_PATH = "src/main/resources/conf/hbase-site.xml"
@@ -60,15 +63,17 @@ object Constants {
   conf.addResource(new Path(MAPR_CONF_PATH))
 
   //Default spark Configurations
-  private val sparkConf = new SparkConf()
+  val sparkConf = new SparkConf()
     .setAppName("hbase test")
     //.setMaster("local")
+    //.setMaster("yarn-client")
     .setMaster("spark://master3.dream:7077")
     .setJars(Seq("classes/artifacts/ByoneHbaseCore/ByoneHbaseCore.jar"
     ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
     ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
 
   val sc = new SparkContext(sparkConf)
+
 }
 
 
