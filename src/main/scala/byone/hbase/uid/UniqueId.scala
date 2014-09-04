@@ -20,7 +20,7 @@ class UniqueId extends java.io.Serializable {
 
   private val cached = new LruMap[Array[Byte], Array[Byte]](100)
 
-  private val uidTable = new Table(tableName)
+  private val uidTable = Table(tableName)
 
   def toId(event : String) : Array[Byte] =
     convert(event.getBytes,Constants.uidfamily(0))
@@ -43,6 +43,7 @@ class UniqueId extends java.io.Serializable {
       res.getRow
     }
     ss.close()
+    tb.close()
     retdata.toSeq.filter(checker)
   }
 
@@ -95,8 +96,13 @@ class UniqueId extends java.io.Serializable {
     else
     {
       val out = uidTable.get(in,flag)
-      cached(in) = out
-      cached(out) = in
+      if(out== null){
+        logger.error("Can not find "+new String(in)+" in uidTable or cache.")
+      }
+        else{
+        cached(in) = out
+        cached(out) = in
+      }
       out
     }
 

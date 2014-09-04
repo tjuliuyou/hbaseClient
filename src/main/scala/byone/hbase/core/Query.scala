@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 
+
 /**
  * Created by liu you on 14-8-13.
  *
@@ -41,15 +42,14 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   private val serialVersionUID = 6529685098267757690L
   private val logger = LoggerFactory.getLogger(classOf[Query])
 
-
   private val family = Constants.dataFamily(0)
   private val tablename = Constants.dataTable
   private val uid = new UniqueId
 
   private var range = args.Range
-  private var items = args.Items
   private var events = args.Events
   private var filters = args.Filter
+
   private var groups = args.Groups
 
   private var aggres = if (args.Aggres.nonEmpty) {
@@ -60,6 +60,12 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     }
   } else Seq[(String, Seq[String])]()
 
+  private val aggitems = {
+    val ilist = for(agg <- aggres) yield agg._2
+    ilist.flatten.toList
+  }
+
+  private var items = (args.Items ++ args.Groups ++ aggitems).toSet
   case class readArgs(Range: Seq[String], Events: Seq[String])
 
   val cached = new LruMap[readArgs, RDD[(String, Map[String, String])]](10)
@@ -77,7 +83,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     range = rg
   }
 
-  def setItems(it: Seq[String]) {
+  def setItems(it: Set[String]) {
     items = it
   }
 
@@ -115,46 +121,25 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     if (localCache) {
       rdd = cached(new readArgs(range, events))
     } else {
-      if (single)
-        rdd = multiGet
-      else {
-        singleGet() onSuccess { raw =>
-          cached(new readArgs(range, events)) = raw
-          rdd = raw
-        }
-      }
+      rdd = multiGet
     }
     rdd
   }
 
+
+  //def groupchecker: ((Array[Byte], Map[String, String])) => Boolean = ???
 
   def multiGet = {
 
     logger.info("multi get rdds")
     val retRdd = {
       if (groups.isEmpty)
-        newRawRdd().map(x => family -> itemFilter(x._2))
+        newRawRdd().map(x => family -> x._2)
       else
-        newRawRdd().map(grouBy)
+        newRawRdd().filter(groupChecker).map(groupBy)
     }
     if (aggres.nonEmpty) {
       Aggre.doAggre(retRdd, aggres)
-    } else
-      retRdd
-  }
-
-  def singleGet(): Future[RDD[(String, Map[String, String])]] = {
-
-    val retRdd = {
-      if (groups.isEmpty)
-        rawRdd().flatMap(raw => Future(raw.map(x => family -> itemFilter(x._2))))
-      else
-        rawRdd().flatMap(raw => Future(raw.map(grouBy)))
-    }
-    if (aggres.nonEmpty) {
-      retRdd.flatMap(raw => {
-        Future(Aggre.doAggre(raw, aggres))
-      })
     } else
       retRdd
   }
@@ -163,15 +148,12 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     items.map(x => x -> raw.getOrElse(x, "null")).toMap
   }
 
-  def grouBy(raw: (Array[Byte], Map[String, String]))
+  def groupBy(raw: (Array[Byte], Map[String, String]))
   : (String, Map[String, String]) = {
-
     val keys = for (g <- groups) yield {
-      if (raw._2.contains(g)) "key" -> raw._2(g)
-      else "nul" -> ""
+      raw._2(g)
     }
-    val key = keys.toMap
-    (key("key"), itemFilter(raw._2))
+    (keys.mkString, raw._2)
 
   }
 
@@ -180,35 +162,10 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return Future[RDD[(String,Map[String,String])]
    */
   def newRawRdd(): RDD[(Array[Byte], Map[String, String])] = {
-
     logger.info("get rdds using newRawRdd")
-    val scans = scanList(hbaseFilter(filters,events), range.map(DatePoint.toTs))
+    val scans = scanList(hbaseFilter(filters, events), range.map(DatePoint.toTs))
 
     hbaseRdd(scans.toList).map(normalize)
-
-  }
-
-  /**
-   * raw Future rdd
-   * @return Future[RDD[(String,Map[String,String])]
-   */
-  def rawRdd(): Future[RDD[(Array[Byte], Map[String, String])]] = {
-
-    logger.info("get future rdds")
-
-    val scanFilter = {
-      if (filters.equals("null") && events.isEmpty)
-        null
-      else
-        hbaseFilter(filters, events)
-    }
-    val scans = scanList(scanFilter, range.map(DatePoint.toTs))
-
-    val futureList = for (scan <- scans) yield Future(hbaseRdd(scan))
-
-    Future.collect(futureList)
-      .flatMap(accumulator)
-      .flatMap(raw => Future(raw.map(normalize)))
 
   }
 
@@ -219,11 +176,27 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   private def normalize(raw: (ImmutableBytesWritable, Result))
   : (Array[Byte], Map[String, String]) = {
+    logger.debug("Normalize raw data to Map(k,v).")
     val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
     val retmap = eventPairs.map { case (x, y) =>
       new String(x) -> new String(y)
     }
     raw._1.get -> retmap.toMap
+  }
+
+  def checknull(any: AnyRef): Boolean = {
+    any match {
+      case null => false
+      case _ => true
+    }
+  }
+
+  def groupChecker(event: (Array[Byte], Map[String, String])): Boolean = {
+    for (g <- groups){
+      if(!event._2.contains(g))
+        return false
+    }
+    true
   }
 
   /**
@@ -235,24 +208,32 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   private def hbaseFilter(args: String, events: Seq[String]): FilterList = {
     val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
 
-    if (filters.equals("null") && events.isEmpty)
-      return null
+    if (filters.equals("null") && events.isEmpty) {
+      logger.debug("filters&& event equals null, set Filter to null")
+      null
+    }
 
-    if (events.nonEmpty) {
-      val ents = for (event <- events) yield {
-        val rowfilter: Filter = new RowFilter(
-          CompareFilter.CompareOp.EQUAL, new EventComparator(uid.toId(event)))
-        rowfilter
+    else {
+      if (events.nonEmpty) {
+        logger.debug(" Parsering events to Filters.")
+        val meaningful = events.map(uid.toId).filter(checknull)
+        if (meaningful.nonEmpty) {
+          val ents = for (event <- meaningful) yield {
+            val rowfilter: Filter = new RowFilter(
+              CompareFilter.CompareOp.EQUAL, new EventComparator(event))
+            rowfilter
+          }
+          val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE, ents.asJava)
+          flist.addFilter(rowlist)
+        }
       }
-      val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE, ents.asJava)
-      flist.addFilter(rowlist)
-    }
 
-    if (!args.equals("null")) {
-      flist.addFilter(new ByParseFilter().parseFilterString(args))
+      if (!args.equals("null")) {
+        logger.debug(" Parsering filter string to Filters.")
+        flist.addFilter(new ByParseFilter().parseFilterString(args))
+      }
+      flist
     }
-    flist
-
   }
 
   /**
@@ -263,13 +244,17 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   private def scanList(scanFilter: FilterList, timeRange: Seq[Array[Byte]]) = {
 
+    val cf = family.getBytes
+    val tab = tablename.getBytes
     rowArea(timeRange).map { rows =>
       val scan = new Scan(rows._1, rows._2)
       scan.setCacheBlocks(false)
       scan.setCaching(10000)
       scan.setReversed(true)
       scan.setFilter(scanFilter)
-      scan.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tablename.getBytes)
+      if (items.nonEmpty)
+        items.foreach(item => scan.addColumn(cf, item.getBytes))
+      scan.setAttribute(Scan.SCAN_ATTRIBUTES_TABLE_NAME, tab)
       scan
     }
   }
@@ -352,7 +337,6 @@ object Query {
   private val constConnect = new HTable(Constants.conf, Constants.dataTable)
 
   def create(args: QueryArgs) = new Query(args)
-
 
   def close() = constConnect.close()
 

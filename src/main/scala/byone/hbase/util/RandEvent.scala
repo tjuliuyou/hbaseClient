@@ -11,7 +11,7 @@ import scala.util.Random
  */
 object RandEvent {
 
-  def data1: Map[String,String]= {
+  def data1: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_PROC_RESOURCE_UTIL",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:46:01 CST 2014",
@@ -25,22 +25,22 @@ object RandEvent {
       "reptModel" -> "byone")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "GZ-Web" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
 
     cols("cpuUtil") = Random.nextFloat.toString
     cols("memUtil") = Random.nextFloat.toString
-    cols("collectorId" ) = Random.nextInt(200).toString
+    cols("collectorId") = Random.nextInt(200).toString
 
     cols
     //table.adds(row,cols)
   }
 
-  def data2 : Map[String,String]=  {
+  def data2: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_SYS_MEM_FREE",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:45:35 CST 2014",
@@ -62,16 +62,17 @@ object RandEvent {
       "reptGeoLatitude" -> "22.25")
     cols += ("collectorId" -> Random.nextInt(200).toString)
     val h = "202.181.254." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("202.181.254." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("202.181.254." + Random.nextInt(180).toString))
     val x = "CNlink-GZ-PE-7206A" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
-    cols +=("freeMemKB"-> (2000+ Random.nextInt(19202)).toString)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
+    cols += ("freeMemKB" -> (2000 + Random.nextInt(19202)).toString)
     //table.adds(row,cols)
   }
-  def data3: Map[String,String]=  {
+
+  def data3: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_HW_TEMP",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:46:31 CST 2014",
@@ -100,16 +101,17 @@ object RandEvent {
       "reptGeoLatitude" -> "22.25")
     cols += ("collectorId" -> Random.nextInt(200).toString)
     val h = "10.64.252." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("202.181.254." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("202.181.254." + Random.nextInt(180).toString))
     val x = "A2-BB-BJ-CH" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
-    cols +=("envTempOffHighDegC"-> (15+Random.nextInt(45)).toString)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
+    cols += ("envTempOffHighDegC" -> (15 + Random.nextInt(45)).toString)
     //table.adds(row,cols)
   }
-  def data4: Map[String,String]=  {
+
+  def data4: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_BGP_NBR_STATUS",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:48:49 CST 2014",
@@ -131,18 +133,19 @@ object RandEvent {
       "destGeoLatitude" -> "22.25")
 
     val h = "10.64.252." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("202.181.254." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("202.181.254." + Random.nextInt(180).toString))
     val x = "GZskylcollector" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("srcASNum"-> (1500+Random.nextInt(4500)).toString)
-    cols +=("destASNum"-> (1500+Random.nextInt(4500)).toString)
+    cols += ("srcASNum" -> (1500 + Random.nextInt(4500)).toString)
+    cols += ("destASNum" -> (1500 + Random.nextInt(4500)).toString)
     //table.adds(row,cols)
   }
-  def data5: Map[String,String]=  {
+
+  def data5: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_PING_STAT",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:46:52 CST 2014",
@@ -162,18 +165,19 @@ object RandEvent {
       "reptModel" -> "byone")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.128.244." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.128.244." + Random.nextInt(180).toString))
     val x = "KXC_Monitor" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("minDurationMSec"-> Random.nextInt(45).toString)
-    cols +=("maxDurationMSec"-> Random.nextInt(45).toString)
+    cols += ("minDurationMSec" -> Random.nextInt(45).toString)
+    cols += ("maxDurationMSec" -> Random.nextInt(45).toString)
     //table.adds(row,cols)
   }
-  def data6: Map[String,String]=  {
+
+  def data6: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_OSPF_NBR_STATUS",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:46:05 CST 2014",
@@ -196,17 +200,18 @@ object RandEvent {
       "destGeoLatitude" -> "22.25")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "GZskylcollector" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("ospfAreaId"-> (Random.nextInt(4500)).toString)
+    cols += ("ospfAreaId" -> (Random.nextInt(4500)).toString)
     ///table.adds(row,cols)
   }
-  def data7: Map[String,String]=  {
+
+  def data7: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_SYS_UPTIME",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:45:34 CST 2014",
@@ -230,18 +235,19 @@ object RandEvent {
       "reptGeoLatitude" -> "22.25")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "GZskylcollector" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("sysUpTimePct"-> (100*Random.nextDouble()).toString)
-    cols +=("destASNum"-> (1500+Random.nextInt(4500)).toString)
+    cols += ("sysUpTimePct" -> (100 * Random.nextDouble()).toString)
+    cols += ("destASNum" -> (1500 + Random.nextInt(4500)).toString)
     //table.adds(row,cols)
   }
-  def data8: Map[String,String]=  {
+
+  def data8: Map[String, String] = {
     val cols = Map("cpuInterruptPersec" -> "0.00",
       "contextSwitchPersec" -> "1989.00",
       "eventType" -> "PH_DEV_MON_SYS_CPU_UTIL",
@@ -263,18 +269,18 @@ object RandEvent {
       "cpuName" -> "Generic CPU")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "byone-super" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("waitCpuUtil"-> Random.nextFloat().toString)
+    cols += ("waitCpuUtil" -> Random.nextFloat().toString)
     //table.adds(row,cols)
   }
 
-  def data9: Map[String,String]=  {
+  def data9: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_SYS_MEM_UTIL",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:45:34 CST 2014",
@@ -297,17 +303,18 @@ object RandEvent {
       "reptModel" -> "byone")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "GZskylcollector" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("freeMemKB"-> (1500+Random.nextInt(2159980)).toString)
+    cols += ("freeMemKB" -> (1500 + Random.nextInt(2159980)).toString)
     //table.adds(row,cols)
   }
-  def data10: Map[String,String]=  {
+
+  def data10: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_SYS_PER_CPU_UTIL",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:46:08 CST 2014",
@@ -331,17 +338,18 @@ object RandEvent {
       "reptGeoLatitude" -> "22.25")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "CNlink-GZ-PE-7206A" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("cpuUtil"-> Random.nextDouble.toString)
+    cols += ("cpuUtil" -> Random.nextDouble.toString)
     //table.adds(row,cols)
   }
-  def data11: Map[String,String]=  {
+
+  def data11: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_SYS_PROC_COUNT",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:45:34 CST 2014",
@@ -355,17 +363,18 @@ object RandEvent {
       "eventSeverityCat" -> "LOW")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.133.64." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.133.64." + Random.nextInt(180).toString))
     val x = "GZskylcollector" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("procCount"-> Random.nextInt(450).toString)
-   // table.adds(row,cols)
+    cols += ("procCount" -> Random.nextInt(450).toString)
+    // table.adds(row,cols)
   }
-  def data12: Map[String,String]=  {
+
+  def data12: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_HW_STATUS",
       "hwFanStatus" -> "0",
       "hwFanStatus" -> "0",
@@ -393,18 +402,19 @@ object RandEvent {
       "reptGeoLatitude" -> "22.25")
 
     val h = "10.64.252." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("202.181.254." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("202.181.254." + Random.nextInt(180).toString))
     val x = "A2-BB-BJ-CH" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("hwFanStatus"-> Random.nextInt(1).toString)
-    cols +=("hwStatusCode"-> Random.nextInt(1).toString)
+    cols += ("hwFanStatus" -> Random.nextInt(1).toString)
+    cols += ("hwStatusCode" -> Random.nextInt(1).toString)
     //table.adds(row,cols)
   }
-  def data13: Map[String,String]=  {
+
+  def data13: Map[String, String] = {
     val cols = Map("eventType" -> "PH_DEV_MON_IPSLA_ICMP_MET",
       "eventSeverity" -> "1",
       "phRecvTime" -> "Thu May 22 09:49:06 CST 2014",
@@ -420,21 +430,21 @@ object RandEvent {
       "eventSeverityCat" -> "LOW")
 
     val h = "10.133.64." + Random.nextInt(100).toString
-    cols += ("reptDevName"-> h)
-    cols += ("hostIpAddr"-> h)
-    cols += ("relayDevIpAddr"-> ("10.128.244." + Random.nextInt(180).toString))
+    cols += ("reptDevName" -> h)
+    cols += ("hostIpAddr" -> h)
+    cols += ("relayDevIpAddr" -> ("10.128.244." + Random.nextInt(180).toString))
     val x = "KXC_Monitor" + Random.nextInt(251).toString
-    cols +=("reptDevName"-> x)
-    cols +=("hostName"-> x)
+    cols += ("reptDevName" -> x)
+    cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols +=("icmpResponseTimeMs"-> (18781215+Random.nextInt(18781215)).toString)
+    cols += ("icmpResponseTimeMs" -> (18781215 + Random.nextInt(18781215)).toString)
     //table.adds(row,cols)
   }
 
-  val dataTable = new Table(Constants.dataTable)
+  // val dataTable = new Table(Constants.dataTable)
 
-  def randData(u : Int):Put = {
-    val event = Random.nextInt(13)+1
+  def randData(u: Int): Put = {
+    val event = Random.nextInt(13) + 1
     val data = event match {
       case 1 => data1
       case 2 => data2
@@ -453,14 +463,14 @@ object RandEvent {
     val ts = System.currentTimeMillis()
     val pre = Random.nextInt(Constants.REGIONRANGE)
 
-    val row =  DatePoint.Int2Byte(pre,1) ++ DatePoint.num2Byte(ts/1000,4) ++
-               DatePoint.Int2Byte(event) ++ DatePoint.num2Byte(ts%1000,3) ++
-               DatePoint.Int2Byte(u)
-    dataTable.mapToPut(data.toMap,row)
+    val row = DatePoint.Int2Byte(pre, 1) ++ DatePoint.num2Byte(ts / 1000, 4) ++
+      DatePoint.Int2Byte(event) ++ DatePoint.num2Byte(ts % 1000, 3) ++
+      DatePoint.Int2Byte(u)
+    Table.mapToPut(data.toMap, row, Constants.dataFamily(0).getBytes)
   }
 
   def rand(num: Int): List[Put] = {
-    val pl =for(i <- 0 until num ) yield {
+    val pl = for (i <- 0 until num) yield {
       randData(i)
     }
     pl.toList
