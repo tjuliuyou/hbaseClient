@@ -20,7 +20,7 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(2)
+    val thistest = testlist(0)
     val query = Query.create(thistest)
 
     val rdd = query.get()

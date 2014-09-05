@@ -1,6 +1,6 @@
 import byone.hbase.core.Table
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{DatePoint, Constants}
+import byone.hbase.util.{Converter, Constants}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration

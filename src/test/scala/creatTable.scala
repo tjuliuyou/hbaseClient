@@ -10,7 +10,7 @@ object creatTable {
 
   def main(args: Array[String]) {
 
-    val tablename = "log_data"
+    val tablename = "log_data1"
     val dataTable = new Table(tablename)
     dataTable.delete
     dataTable.create(Constants.dataFamily, Constants.STARTKEY, Constants.REGIONRANGE, Constants.REGIONNUM)

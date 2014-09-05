@@ -1,7 +1,7 @@
 import byone.hbase.filter.CompareFilter.CompareOp
 import byone.hbase.filter.{ByParseFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, DatePoint, ScanCovert}
+import byone.hbase.util.{Constants, Converter, ScanCovert}
 import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
@@ -38,14 +38,14 @@ object FilterTest {
     val uid = new UniqueId
     uid.readToCache("hdfs://master1.dream:9000/spark/eventuid.txt")
     val range: List[String] = List("08/08/2014 14:45:53","08/08/2014 14:45:54")
-    val startTs =  DatePoint.toTs(range(0))
-    val stopTs = DatePoint.toTs(range(1))
-    val pre = DatePoint.Int2Byte(16,1)
-    val pre2 = DatePoint.Int2Byte(19,1)
+    val startTs =  Converter.toTs(range(0))
+    val stopTs = Converter.toTs(range(1))
+    val pre = Converter.Int2Byte(16,1)
+    val pre2 = Converter.Int2Byte(19,1)
     val startRow = pre ++ startTs
     val stoptRow = pre2 ++ stopTs
 
-    val ts = DatePoint.toTs("05/08/2014 15:15:19")
+    val ts = Converter.toTs("05/08/2014 15:15:19")
 
 
     val sn = new Scan(startRow,stoptRow)
@@ -100,7 +100,7 @@ object FilterTest {
   def hbaseRdd(scan: Scan) = {
     Constants.conf.set(TableInputFormat.INPUT_TABLE, Constants.dataTable)
     val conf = HBaseConfiguration.create(Constants.conf)
-    conf.set(TableInputFormat.SCAN,DatePoint.ScanToString(scan))
+    conf.set(TableInputFormat.SCAN,Converter.ScanToString(scan))
     val hBaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])

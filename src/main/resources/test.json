@@ -1,22 +1,22 @@
 {
     "test0": {
-        "Range": ["02/09/2014 16:20:50", "02/09/2014 16:20:56"],
-        "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
+        "Range": ["05/09/2014 11:56:12","05/09/2014 11:57:20"],
+        "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
         "Events": null,
         "Filter": "null",
         "Groups": null,
         "Aggres": null
     },
     "test1": {
-        "Range": ["02/09/2014 16:20:50", "02/09/2014 16:21:00"],
-        "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
-        "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL1","PH_DEV_MON_SYS_MEM_UTIL"],
-        "Filter": "null",
+        "Range": ["05/09/2014 11:56:12","05/09/2014 11:57:20"],
+        "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
+        "Events": null,
+        "Filter": "(SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.20')) AND (SingleColumnValueFilter ('d','eventSeverity',>,'binary:5'))",
         "Groups": null,
         "Aggres": null
     },
     "test2": {
-        "Range": ["02/09/2014 16:20:53", "02/09/2014 16:20:54"],
+        "Range": ["05/09/2014 11:08:12","05/09/2014 11:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC","collectorId"],
         "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
         "Filter": "SingleColumnValueFilter ('d', 'collectorId', <,'number:80')",
@@ -34,10 +34,10 @@
         ]
     },
     "test4": {
-        "Range": ["08/08/2014 14:45:53", "08/08/2014 14:45:54"],
+        "Range": ["05/09/2014 11:50:12","05/09/2014 11:57:20"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
         "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL"],
-        "Filter": "SingleColumnValueFilter ('d','hostIpAddr1',=,'binary:10.133.64.2')",
+        "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
         "Groups": ["relayDevIpAddr"],
         "Aggres": [
             ["avg", "cpuUtil1"]

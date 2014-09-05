@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
  *
  * DataPoint holds a bunch of method used to covert value to other type
  */
-object DatePoint {
+object Converter {
 
   /**
    * Int2Byte covert int value to Array[Byte]
@@ -46,6 +46,16 @@ object DatePoint {
     val df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
     val time =df.parse(date).getTime/1000
     num2Byte(time,4)
+  }
+
+  /**
+   * ip2Byte covert ip address to Array[Byte](4)
+   * @param ip Input ip address
+   * @return Array[Byte]
+   */
+  def ip2Byte(ip: String): Array[Byte] ={
+    val num = ip.split('.')
+    num.map(sub => sub.toInt.toByte)
   }
 
   /**

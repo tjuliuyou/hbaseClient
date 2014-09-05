@@ -18,7 +18,7 @@ package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, DatePoint}
+import byone.hbase.util.{Constants, Converter}
 import com.twitter.util.{LruMap, Future}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
@@ -163,7 +163,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   def newRawRdd(): RDD[(Array[Byte], Map[String, String])] = {
     logger.info("get rdds using newRawRdd")
-    val scans = scanList(hbaseFilter(filters, events), range.map(DatePoint.toTs))
+    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
 
     hbaseRdd(scans.toList).map(normalize)
 
@@ -210,7 +210,16 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
     if (filters.equals("null") && events.isEmpty) {
       logger.debug("filters&& event equals null, set Filter to null")
-      null
+      //debug code
+      val exfilter: Filter = new RowFilter(
+        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.20"),8))
+      flist.addFilter(exfilter)
+      val exfilter2: Filter = new RowFilter(
+        CompareFilter.CompareOp.GREATER, new EventComparator(Converter.num2Byte(5,1),12))
+      flist.addFilter(exfilter2)
+      flist
+     // null
+
     }
 
     else {
@@ -227,6 +236,10 @@ class Query(args: QueryArgs) extends java.io.Serializable {
           flist.addFilter(rowlist)
         }
       }
+      //debug code
+//      val exfilter: Filter = new RowFilter(
+//        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.20"),8))
+//      flist.addFilter(exfilter)
 
       if (!args.equals("null")) {
         logger.debug(" Parsering filter string to Filters.")
@@ -268,7 +281,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     val length = Constants.PRELENGTH
     val regionRange = Constants.REGIONRANGE
     for (num <- 0 until regionRange) yield {
-      val pre = DatePoint.Int2Byte(num, length)
+      val pre = Converter.Int2Byte(num, length)
       (pre ++ timeRange(0)) -> (pre ++ timeRange(1))
     }
   }
@@ -281,7 +294,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   def hbaseRdd(scan: Scan) = {
     val conf = HBaseConfiguration.create(Constants.conf)
-    conf.set(TableInputFormat.SCAN, DatePoint.ScanToString(scan))
+    conf.set(TableInputFormat.SCAN, Converter.ScanToString(scan))
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
@@ -295,7 +308,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   def hbaseRdd(scans: List[Scan]) = {
     val conf = HBaseConfiguration.create(Constants.conf)
-    conf.setStrings(MultiTableInputFormat.SCANS, DatePoint.ScanToString(scans): _*)
+    conf.setStrings(MultiTableInputFormat.SCANS, Converter.ScanToString(scans): _*)
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[MultiTableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
