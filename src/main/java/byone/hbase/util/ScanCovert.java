@@ -14,7 +14,6 @@ import java.util.List;
  * Created by dream on 7/7/14.
  */
 public class ScanCovert {
-
     public String coverToScan(Scan scan) throws IOException {
         ClientProtos.Scan proto = ProtobufUtil.toScan(scan);
         return Base64.encodeBytes(proto.toByteArray());
