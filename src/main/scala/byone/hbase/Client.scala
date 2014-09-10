@@ -25,8 +25,12 @@ object Client {
 
     val rdd = query.get()
     //val sortRdd = rdd.collect().sortBy(raw => raw._1)
-    //rdd.collect().foreach(println)
+    rdd.collect().foreach(println)
     println("multi get count: " + rdd.count())
+
+    //val raw = query.rawRdd()
+
+    //raw.collect().foreach(x => {println("raw key length: "); x._1.foreach(y=>print((y&0xff)+","))})
 
     Query.close()
 

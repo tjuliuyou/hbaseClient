@@ -63,6 +63,6 @@ object Converter {
    * .TableMapReduceUtil#convertScanToString }
    * @return The scan saved in a Base64 encoded string.
    */
-  def ScanToString(scan : Scan) ={new ScanCovert().coverToScan(scan)}
-  def ScanToString(scans : List[Scan])={new ScanCovert().coverToScan(scans.asJava)}
+  def ScanToString(scan : Scan) = new ScanCovert().coverToScan(scan)
+  def ScanToString(scans : List[Scan])= new ScanCovert().coverToScan(scans.asJava)
 }

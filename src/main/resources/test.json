@@ -1,6 +1,6 @@
 {
     "test0": {
-        "Range": ["05/09/2014 11:50:12","05/09/2014 11:57:20"],
+        "Range": ["05/09/2014 11:57:10","05/09/2014 11:57:20"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
         "Events": null,
         "Filter": "null",
@@ -8,10 +8,10 @@
         "Aggres": null
     },
     "test1": {
-        "Range": ["05/09/2014 11:50:12","05/09/2014 11:57:20"],
+        "Range": ["05/09/2014 11:57:10","05/09/2014 11:57:20"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
         "Events": null,
-        "Filter": "(SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.20')) AND (SingleColumnValueFilter ('d','eventSeverity',>,'binary:5'))",
+        "Filter": "(SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')) AND (SingleColumnValueFilter ('d','eventSeverity',>,'number:5'))",
         "Groups": null,
         "Aggres": null
     },
