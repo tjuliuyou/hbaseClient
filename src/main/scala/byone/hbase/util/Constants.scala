@@ -15,7 +15,7 @@ object Constants {
   /**
    * Default data table name
    */
-  val dataTable   = "log_data"
+  val dataTable   = "log_data1"
   /**
    * Default data family name
    */

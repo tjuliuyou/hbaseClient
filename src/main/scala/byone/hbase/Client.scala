@@ -20,13 +20,17 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(2)
+    val thistest = testlist(0)
     val query = Query.create(thistest)
 
     val rdd = query.get()
     //val sortRdd = rdd.collect().sortBy(raw => raw._1)
     rdd.collect().foreach(println)
     println("multi get count: " + rdd.count())
+
+    //val raw = query.rawRdd()
+
+    //raw.collect().foreach(x => {println("raw key length: "); x._1.foreach(y=>print((y&0xff)+","))})
 
     Query.close()
 

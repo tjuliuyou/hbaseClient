@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
  *
  * DataPoint holds a bunch of method used to covert value to other type
  */
-object DatePoint {
+object Converter {
 
   /**
    * Int2Byte covert int value to Array[Byte]
@@ -49,10 +49,20 @@ object DatePoint {
   }
 
   /**
+   * ip2Byte covert ip address to Array[Byte](4)
+   * @param ip Input ip address
+   * @return Array[Byte]
+   */
+  def ip2Byte(ip: String): Array[Byte] ={
+    val num = ip.split('.')
+    num.map(sub => sub.toInt.toByte)
+  }
+
+  /**
    * covert Scan to  Base64 encoded String {@see org.apache.hadoop.hbase.mapreduce
    * .TableMapReduceUtil#convertScanToString }
    * @return The scan saved in a Base64 encoded string.
    */
-  def ScanToString(scan : Scan) ={new ScanCovert().coverToScan(scan)}
-  def ScanToString(scans : List[Scan])={new ScanCovert().coverToScan(scans.asJava)}
+  def ScanToString(scan : Scan) = new ScanCovert().coverToScan(scan)
+  def ScanToString(scans : List[Scan])= new ScanCovert().coverToScan(scans.asJava)
 }

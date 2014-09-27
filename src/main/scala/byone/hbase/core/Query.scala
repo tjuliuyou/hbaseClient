@@ -18,7 +18,7 @@ package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, DatePoint}
+import byone.hbase.util.{Constants, Converter}
 import com.twitter.util.{LruMap, Future}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
@@ -127,6 +127,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
 
+
   //def groupchecker: ((Array[Byte], Map[String, String])) => Boolean = ???
 
   def multiGet = {
@@ -134,18 +135,14 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     logger.info("multi get rdds")
     val retRdd = {
       if (groups.isEmpty)
-        newRawRdd().map(x => family -> x._2)
+        rawRdd().map(x => family -> x._2)
       else
-        newRawRdd().filter(groupChecker).map(groupBy)
+        rawRdd().filter(groupChecker).map(groupBy)
     }
     if (aggres.nonEmpty) {
       Aggre.doAggre(retRdd, aggres)
     } else
       retRdd
-  }
-
-  private def itemFilter = (raw: Map[String, String]) => {
-    items.map(x => x -> raw.getOrElse(x, "null")).toMap
   }
 
   def groupBy(raw: (Array[Byte], Map[String, String]))
@@ -161,43 +158,14 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * raw Future rdd
    * @return Future[RDD[(String,Map[String,String])]
    */
-  def newRawRdd(): RDD[(Array[Byte], Map[String, String])] = {
+  def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
     logger.info("get rdds using newRawRdd")
-    val scans = scanList(hbaseFilter(filters, events), range.map(DatePoint.toTs))
+    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
 
-    hbaseRdd(scans.toList).map(normalize)
+    hbaseRdd(scans.toList).map(normalize).cache()
 
   }
 
-  /**
-   * Normailzie raw date from Hbase to (rowkey,valuePairs)
-   * @param raw get from hbase { @see newAPIHadoopRDD}
-   * @return (rowkey array[byte], value map)
-   */
-  private def normalize(raw: (ImmutableBytesWritable, Result))
-  : (Array[Byte], Map[String, String]) = {
-    logger.debug("Normalize raw data to Map(k,v).")
-    val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
-    val retmap = eventPairs.map { case (x, y) =>
-      new String(x) -> new String(y)
-    }
-    raw._1.get -> retmap.toMap
-  }
-
-  def checknull(any: AnyRef): Boolean = {
-    any match {
-      case null => false
-      case _ => true
-    }
-  }
-
-  def groupChecker(event: (Array[Byte], Map[String, String])): Boolean = {
-    for (g <- groups){
-      if(!event._2.contains(g))
-        return false
-    }
-    true
-  }
 
   /**
    * parser filter args and events to filter
@@ -210,13 +178,21 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
     if (filters.equals("null") && events.isEmpty) {
       logger.debug("filters&& event equals null, set Filter to null")
-      null
+      //debug code
+      val exfilter: Filter = new RowFilter(
+        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
+      flist.addFilter(exfilter)
+      val exfilter2: Filter = new RowFilter(
+        CompareFilter.CompareOp.GREATER, new EventComparator(Converter.num2Byte(5,1),12))
+      flist.addFilter(exfilter2)
+      flist
+     // null
     }
 
     else {
       if (events.nonEmpty) {
         logger.debug(" Parsering events to Filters.")
-        val meaningful = events.map(uid.toId).filter(checknull)
+        val meaningful = events.map(uid.toId).filter(nullChecker)
         if (meaningful.nonEmpty) {
           val ents = for (event <- meaningful) yield {
             val rowfilter: Filter = new RowFilter(
@@ -227,7 +203,6 @@ class Query(args: QueryArgs) extends java.io.Serializable {
           flist.addFilter(rowlist)
         }
       }
-
       if (!args.equals("null")) {
         logger.debug(" Parsering filter string to Filters.")
         flist.addFilter(new ByParseFilter().parseFilterString(args))
@@ -243,7 +218,6 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return scan list
    */
   private def scanList(scanFilter: FilterList, timeRange: Seq[Array[Byte]]) = {
-
     val cf = family.getBytes
     val tab = tablename.getBytes
     rowArea(timeRange).map { rows =>
@@ -268,11 +242,10 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     val length = Constants.PRELENGTH
     val regionRange = Constants.REGIONRANGE
     for (num <- 0 until regionRange) yield {
-      val pre = DatePoint.Int2Byte(num, length)
+      val pre = Converter.Int2Byte(num, length)
       (pre ++ timeRange(0)) -> (pre ++ timeRange(1))
     }
   }
-
 
   /**
    * Get single Hbase RDD with one Scan
@@ -281,7 +254,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    */
   def hbaseRdd(scan: Scan) = {
     val conf = HBaseConfiguration.create(Constants.conf)
-    conf.set(TableInputFormat.SCAN, DatePoint.ScanToString(scan))
+    conf.set(TableInputFormat.SCAN, Converter.ScanToString(scan))
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
@@ -289,17 +262,60 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
   /**
-   * Get  Hbase RDD with one Scan list
+   * Get Hbase RDD with Scan list
    * @param scans { @see org.apache.hadoop.hbase.client.Scan}
    * @return table out multi rdd
    */
   def hbaseRdd(scans: List[Scan]) = {
     val conf = HBaseConfiguration.create(Constants.conf)
-    conf.setStrings(MultiTableInputFormat.SCANS, DatePoint.ScanToString(scans): _*)
+    conf.setStrings(MultiTableInputFormat.SCANS, Converter.ScanToString(scans): _*)
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[MultiTableInputFormat],
       classOf[org.apache.hadoop.hbase.io.ImmutableBytesWritable],
       classOf[org.apache.hadoop.hbase.client.Result])
     hbaseRDD
+  }
+
+
+  /**
+   * Normailzie raw date from Hbase to (rowkey,valuePairs)
+   * @param raw get from hbase { @see newAPIHadoopRDD}
+   * @return (rowkey array[byte], value map)
+   */
+  private def normalize(raw: (ImmutableBytesWritable, Result))
+  : (Array[Byte], Map[String, String]) = {
+    logger.debug("Normalize raw data to Map(k,v).")
+    val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
+    val retmap = eventPairs.map { case (x, y) =>
+      new String(x) -> new String(y)
+    }
+    val key = raw._1.get
+    val subkey = key.slice(8,12)
+    subkey -> retmap.toMap
+  }
+
+  /**
+   * Check item equal null
+   * @param any any type
+   * @return
+   */
+  def nullChecker(any: AnyRef): Boolean = {
+    any match {
+      case null => false
+      case _ => true
+    }
+  }
+
+  /**
+   * Check if event belongs to group
+   * @param event one event
+   * @return
+   */
+  def groupChecker(event: (Array[Byte], Map[String, String])): Boolean = {
+    for (g <- groups){
+      if(!event._2.contains(g))
+        return false
+    }
+    true
   }
 
   /**
@@ -313,9 +329,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     Future.value(rdd)
   }
 
-
 }
-
 
 /**
  * Args holds a bunch of args parsed from test file (json)

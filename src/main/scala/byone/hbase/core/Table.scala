@@ -1,6 +1,6 @@
 package byone.hbase.core
 
-import byone.hbase.util.{Constants, DatePoint}
+import byone.hbase.util.{Constants, Converter}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType
@@ -142,7 +142,7 @@ class Table(tableName: String) extends java.io.Serializable {
     val rangeIncrement = range / (num - 1)
     val ret = for (i <- 0 until (num - 1)) yield {
       val key = startkey + rangeIncrement * i
-      DatePoint.Int2Byte(key, Constants.PRELENGTH)
+      Converter.Int2Byte(key, Constants.PRELENGTH)
     }
     ret.toArray
   }

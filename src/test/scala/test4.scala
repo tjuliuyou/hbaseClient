@@ -1,6 +1,6 @@
 import byone.hbase.core.Table
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{DatePoint, Constants}
+import byone.hbase.util.{Converter, Constants}
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
@@ -42,20 +42,20 @@ object test4 {
 
   def main(args: Array[String]) {
 
-        val uid = new UniqueId
+    val uid = new UniqueId
 
-//        for(x <- 1 to 13) {
-//          val temp = uid.toName(x)
-//          println(new String(temp))
-//        }
-//        println("--------------------------")
-//        uid.getCached.foreach(x=>println(new String(x)))
+    //        for(x <- 1 to 13) {
+    //          val temp = uid.toName(x)
+    //          println(new String(temp))
+    //        }
+    //        println("--------------------------")
+    //        uid.getCached.foreach(x=>println(new String(x)))
 
-//        uid.ids.foreach(y => {
-//          //y.foreach(x=>print(x + ","))
-//          println(new String(y) + "   " + y.length)
-//        })
-        val temp = uid.toName(14)
+    //        uid.ids.foreach(y => {
+    //          //y.foreach(x=>print(x + ","))
+    //          println(new String(y) + "   " + y.length)
+    //        })
+    val temp = uid.toName(14)
 
   }
 

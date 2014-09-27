@@ -1,7 +1,7 @@
 package byone.hbase.uid
 
 import byone.hbase.core.Table
-import byone.hbase.util.{Constants, DatePoint}
+import byone.hbase.util.{Constants, Converter}
 import com.twitter.util.LruMap
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
@@ -26,7 +26,7 @@ class UniqueId extends java.io.Serializable {
     convert(event.getBytes,Constants.uidfamily(0))
 
   def toName(id : Int) : Array[Byte] =
-    convert(DatePoint.Int2Byte(id),Constants.uidfamily(1))
+    convert(Converter.Int2Byte(id),Constants.uidfamily(1))
 
   /**
    * All uids stored in Hbase
@@ -70,8 +70,8 @@ class UniqueId extends java.io.Serializable {
     }
     )
     txtFileMap.collect().foreach{case (event,id) =>{
-      cached(event.getBytes) = DatePoint.Int2Byte(id.toInt)
-      cached(DatePoint.Int2Byte(id.toInt)) = event.getBytes
+      cached(event.getBytes) = Converter.Int2Byte(id.toInt)
+      cached(Converter.Int2Byte(id.toInt)) = event.getBytes
     } }
   }
 
