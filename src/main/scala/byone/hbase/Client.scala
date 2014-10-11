@@ -20,8 +20,8 @@ object Client {
 
     // using one of testlist
 
-    val thistest = testlist(0)
-    val query = Query.create(thistest)
+    val currtest = testlist(0)
+    val query = Query.create(currtest)
 
     val rdd = query.get()
     //val sortRdd = rdd.collect().sortBy(raw => raw._1)
