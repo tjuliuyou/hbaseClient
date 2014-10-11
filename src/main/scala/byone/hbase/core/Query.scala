@@ -61,11 +61,12 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   } else Seq[(String, Seq[String])]()
 
   private val aggitems = {
-    val ilist = for(agg <- aggres) yield agg._2
+    val ilist = for (agg <- aggres) yield agg._2
     ilist.flatten.toList
   }
 
   private var items = (args.Items ++ args.Groups ++ aggitems).toSet
+
   case class readArgs(Range: Seq[String], Events: Seq[String])
 
   val cached = new LruMap[readArgs, RDD[(String, Map[String, String])]](10)
@@ -127,7 +128,6 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
 
-
   //def groupchecker: ((Array[Byte], Map[String, String])) => Boolean = ???
 
   def multiGet = {
@@ -179,14 +179,14 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     if (filters.equals("null") && events.isEmpty) {
       logger.debug("filters&& event equals null, set Filter to null")
       //debug code
-      val exfilter: Filter = new RowFilter(
-        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
-      flist.addFilter(exfilter)
-      val exfilter2: Filter = new RowFilter(
-        CompareFilter.CompareOp.GREATER, new EventComparator(Converter.num2Byte(5,1),12))
-      flist.addFilter(exfilter2)
-      flist
-     // null
+      //      val exfilter: Filter = new RowFilter(
+      //        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
+      //      flist.addFilter(exfilter)
+      //      val exfilter2: Filter = new RowFilter(
+      //        CompareFilter.CompareOp.GREATER, new EventComparator(Converter.num2Byte(5,1),12))
+      //      flist.addFilter(exfilter2)
+      //      flist
+      null
     }
 
     else {
@@ -223,7 +223,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     rowArea(timeRange).map { rows =>
       val scan = new Scan(rows._1, rows._2)
       scan.setCacheBlocks(false)
-      scan.setCaching(10000)
+      scan.setCaching(2000)
       scan.setReversed(true)
       scan.setFilter(scanFilter)
       if (items.nonEmpty)
@@ -289,7 +289,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
       new String(x) -> new String(y)
     }
     val key = raw._1.get
-    val subkey = key.slice(8,12)
+    val subkey = key.slice(8, 12)
     subkey -> retmap.toMap
   }
 
@@ -311,8 +311,8 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return
    */
   def groupChecker(event: (Array[Byte], Map[String, String])): Boolean = {
-    for (g <- groups){
-      if(!event._2.contains(g))
+    for (g <- groups) {
+      if (!event._2.contains(g))
         return false
     }
     true

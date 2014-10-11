@@ -1,15 +1,17 @@
-import byone.hbase.util.{RandEvent, Constants}
+package byone.hbase
+
+import byone.hbase.util.{Constants, RandEvent}
 import org.apache.hadoop.hbase.client._
 
 import scala.collection.JavaConverters._
 /**
  * Created by dream on 7/11/14.
  */
-object puttest {
+object putData {
   //implicit formats = DefaultFormats
   def main(args: Array[String]) {
 
-    val tablename = "log_data1"
+    val tablename = Constants.dataTable
 
     val tb = new HTable(Constants.conf,tablename)
     //val tbutil = new HTableUtil()

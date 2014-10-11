@@ -1,3 +1,5 @@
+package byone.hbase
+
 import byone.hbase.core.Table
 import byone.hbase.util.{Constants, ScanCovert}
 import org.apache.hadoop.hbase.client._
@@ -10,7 +12,7 @@ object creatTable {
 
   def main(args: Array[String]) {
 
-    val tablename = "log_data1"
+    val tablename = Constants.dataTable
     val dataTable = new Table(tablename)
     dataTable.delete
     dataTable.create(Constants.dataFamily, Constants.STARTKEY, Constants.REGIONRANGE, Constants.REGIONNUM)

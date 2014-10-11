@@ -15,7 +15,7 @@ object Constants {
   /**
    * Default data table name
    */
-  val dataTable   = "log_data1"
+  val dataTable   = "log_data"
   /**
    * Default data family name
    */
@@ -68,7 +68,7 @@ object Constants {
     //.setMaster("local")
     //.setMaster("yarn-client")
     .setMaster("spark://master3.dream:7077")
-    .setJars(Seq("classes/artifacts/ByoneHbaseCore/ByoneHbaseCore.jar"
+    .setJars(Seq("target/scala-2.10/hbaseclient_2.10-0.2.2.jar"
     ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
     ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
 
