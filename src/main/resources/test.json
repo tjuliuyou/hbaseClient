@@ -1,22 +1,22 @@
 {
     "test0": {
-        "Range": ["05/09/2014 11:57:10","05/09/2014 11:57:20"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
-        "Events": null,
-        "Filter": "null",
-        "Groups": null,
+        "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
+        "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
+        "Groups": ["hostName"],
         "Aggres": null
     },
     "test1": {
-        "Range": ["05/09/2014 11:57:10","05/09/2014 11:57:20"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
         "Events": null,
-        "Filter": "(SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')) AND (SingleColumnValueFilter ('d','eventSeverity',>,'number:5'))",
+        "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
         "Groups": null,
         "Aggres": null
     },
     "test2": {
-        "Range": ["05/09/2014 11:08:12","05/09/2014 11:08:15"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC","collectorId"],
         "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
         "Filter": "SingleColumnValueFilter ('d', 'collectorId', <,'number:80')",
@@ -24,7 +24,7 @@
         "Aggres": [["avg", "cpuUtil"],["min", "freeMemKB"]]
     },
     "test3": {
-        "Range": ["02/09/2014 16:17:53", "02/09/2014 17:17:53"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "freeMemKB"],
         "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL","PH_DEV_MON_SYS_MEM_UTIL"],
         "Filter": "SingleColumnValueFilter ('d','hostIpAddr1',=,'binary:10.133.64.2')",
@@ -34,7 +34,7 @@
         ]
     },
     "test4": {
-        "Range": ["05/09/2014 11:50:12","05/09/2014 11:57:20"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
         "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL"],
         "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
@@ -44,7 +44,7 @@
         ]
     },
     "test5": {
-        "Range": ["08/08/2014 10:45:53", "08/08/2014 16:45:54"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
         "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL", "PH_DEV_MON_HW_TEMP"],
         "Filter": "null",
@@ -55,7 +55,7 @@
         ]
     },
     "test6": {
-        "Range": ["08/08/2014 14:45:53", "08/08/2014 14:45:54"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
         "Events": null,
         "Filter": "SingleColumnValueFilter ('d', 'collectorId', <,'number:80') ",
@@ -63,7 +63,7 @@
         "Aggres": null
     },
     "test7": {
-        "Range": ["08/08/2014 14:45:53", "08/08/2014 14:45:54"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "pollIntv", "cpuUtil", "envTempOffHighDegC"],
         "Events": null,
         "Filter": "(SingleColumnValueFilter ('d','collectorId',<,'number:80'))",
@@ -73,7 +73,7 @@
         ]
     },
     "test8": {
-        "Range": ["11/08/2014 17:40:48", "11/08/2014 18:55:01"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil", "envTempOffHighDegC"],
         "Events": ["PH_DEV_MON_SYS_PER_CPU_UTIL", "PH_DEV_MON_HW_TEMP"],
         "Filter": "(SingleColumnValueFilter ('d','collectorId',<,'number:50'))",
@@ -85,7 +85,7 @@
     },
 
     "test9": {
-        "Range": ["02/09/2014 16:10:53", "02/09/2014 17:45:54"],
+        "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
         "Items": ["eventType", "relayDevIpAddr"],
         "Events": null,
         "Filter": "null",

@@ -43,7 +43,7 @@ object Converter {
    * @return timestamps Array[Byte]
    */
   def toTs(date : String) : Array[Byte] = {
-    val df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+    val df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
     val time =df.parse(date).getTime/1000
     num2Byte(time,4)
   }

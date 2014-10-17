@@ -1,19 +1,21 @@
 package byone.hbase
 
-import byone.hbase.core.{QueryArgs, Query}
-import byone.hbase.util.Constants
+import byone.hbase.core.{Table, QueryArgs, Query}
+import byone.hbase.util.{RandEvent, Constants}
 import net.liftweb.json.JsonParser._
+import org.apache.hadoop.hbase.client.{HTableUtil, HTable}
+import scala.collection.JavaConverters._
 
 /**
  * Created by dream on 14-8-13.
  */
 object Client {
 
-  def main(args: Array[String]) {
 
+  def read {
     // read test.json to class testlist
     implicit val formats = net.liftweb.json.DefaultFormats
-    val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
+    val source = scala.io.Source.fromFile("/home/dream/json.txt").mkString
     val m = parse(source)
 
     val testlist: Seq[QueryArgs] = m.children.map(_.extract[QueryArgs])
@@ -25,7 +27,7 @@ object Client {
 
     val rdd = query.get()
     //val sortRdd = rdd.collect().sortBy(raw => raw._1)
-    rdd.collect().foreach(println)
+   // rdd.collect().foreach(println)
     println("multi get count: " + rdd.count())
 
     //val raw = query.rawRdd()
@@ -35,6 +37,50 @@ object Client {
     Query.close()
 
     Constants.sc.stop()
+  }
+
+  def create {
+    val tablename = Constants.dataTable
+    val dataTable = new Table(tablename)
+    dataTable.delete
+    dataTable.create(Constants.dataFamily, Constants.STARTKEY, Constants.REGIONRANGE, Constants.REGIONNUM)
+
+    dataTable.close
+    println("create table: '" + tablename + "' successfully.")
+  }
+
+  def putData {
+    val tablename = Constants.dataTable
+
+    val tb = new HTable(Constants.conf, tablename)
+    //val tbutil = new HTableUtil()
+
+    tb.setAutoFlush(false, false)
+    tb.setWriteBufferSize(10 * 1024 * 1024)
+    var a: Int = 0
+    while (a < 100) {
+      a += 1
+      val plist = RandEvent.rand(1000)
+      if (a % 10 == 0) println(a * 1000)
+      //tb.put(plist.asJava)
+      HTableUtil.bucketRsPut(tb, plist.asJava)
+    }
+    Constants.sc.stop()
+
+  }
+
+  def main(args: Array[String]) {
+    val usage = "Usage: run <op>\r\ncreate:\t\tCreate table.\r\nread:\t\tRead data for hbase.\r\nputdata:\tPut random data to hbase."
+
+    if (args.length != 1)
+      println(usage)
+    else
+      args(0) match {
+        case "read" => read
+        case "create" => create
+        case "putdata" => putData
+        case _ => println(usage)
+      }
   }
 
 }
