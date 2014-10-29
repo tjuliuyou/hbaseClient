@@ -24,10 +24,10 @@
   </property>
   <property>
     <name>mapreduce.jobhistory.webapp.address</name>
-    <value>master1.dream:19888</value>
+    <value>hdpmaster.dream:19888</value>
   </property>
   <property>
     <name>mapreduce.jobhistory.address</name>
-    <value>master1.dream:10020</value>
+    <value>hdpmaster.dream:10020</value>
   </property>
 </configuration>

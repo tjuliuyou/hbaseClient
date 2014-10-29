@@ -3,7 +3,7 @@
 <configuration>
 	<property>
    		<name>fs.defaultFS</name>
-    	<value>hdfs://master1.dream:9000</value>
+    	<value>hdfs://hdpmaster.dream:9000</value>
   	</property>
   	<!--<property>-->
     	<!--<name>hadoop.tmp.dir</name>-->
@@ -11,7 +11,7 @@
   	<!--</property>-->
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/home/dream/hadoop-temp</value>
+        <value>/home/dream/hadoop-home</value>
     </property>
     <property>
         <name>hbase.cluster.distributed</name>
@@ -19,6 +19,6 @@
 	</property>
     <property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>master1.dream,master2.dream,master3.dream</value>
+		<value>dnsserver.dream,hbmaster.dream,hdmaster.dream</value>
 	</property>
 </configuration>
