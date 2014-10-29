@@ -10,3 +10,4 @@ project/plugins.sbt
 classes/
 out/
 lib/
+.DS_Store
