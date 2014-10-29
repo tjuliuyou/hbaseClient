@@ -1,36 +1,42 @@
 import byone.hbase.core.Table
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{DatePoint, Constants}
+import byone.hbase.util.{Converter, Constants}
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.Path
+import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.deploy.yarn.{Client, ClientArguments}
 
 /**
  * Created by dream on 8/1/14.
  */
 object test4 {
 
-  def test{
-    val event = Map("aaa"->"111","bbb"->"222","ccc"->"333","ddd"->"444","fff"->"666")
+  def test {
+    val event = Map("aaa" -> "111", "bbb" -> "222", "ccc" -> "333", "ddd" -> "444", "fff" -> "666")
 
-    val groups = Seq("fff","eee")
+    val groups = Seq("fff", "eee")
 
-    val items = Seq("aaa","ccc","fff","ggg")
+    val items = Seq("aaa", "ccc", "fff", "ggg")
 
     val aggres = Seq("ccc")
 
-    val keys = for(g <- groups) yield {
-      event.getOrElse(g,"")
+    val keys = for (g <- groups) yield {
+      event.getOrElse(g, "")
     }
 
-    val key = keys.foldLeft("")((x,y)=>x+y)
+    val key = keys.foldLeft("")((x, y) => x + y)
     println(key)
 
-    val display = items.map(x=>{
-      val y = event.getOrElse(x,"null")
-      println(x +" : is empty " + y.isEmpty)
-      x-> y.toDouble
+    val display = items.map(x => {
+      val y = event.getOrElse(x, "null")
+      println(x + " : is empty " + y.isEmpty)
+      x -> y.toDouble
     })
 
-    val ret = (key,display)
-    println("ret: " +ret)
+    val ret = (key, display)
+    println("ret: " + ret)
   }
 
 
@@ -38,18 +44,18 @@ object test4 {
 
     val uid = new UniqueId
 
-    for(x <- 1 to 13) {
-      val temp = uid.toName(x)
-      println(new String(temp))
-    }
-    println("--------------------------")
-    uid.getCached.foreach(x=>println(new String(x)))
+    //        for(x <- 1 to 13) {
+    //          val temp = uid.toName(x)
+    //          println(new String(temp))
+    //        }
+    //        println("--------------------------")
+    //        uid.getCached.foreach(x=>println(new String(x)))
 
-    uid.ids.foreach(y => {
-      //y.foreach(x=>print(x + ","))
-      println(new String(y) + "   " + y.length)
-    })
-
+    //        uid.ids.foreach(y => {
+    //          //y.foreach(x=>print(x + ","))
+    //          println(new String(y) + "   " + y.length)
+    //        })
+    val temp = uid.toName(14)
 
   }
 

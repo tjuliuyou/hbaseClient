@@ -8,3 +8,5 @@ project/
 project/plugins.sbt
 .idea/
 classes/
+out/
+lib/

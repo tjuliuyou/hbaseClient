@@ -1,7 +1,7 @@
 package byone.hbase.uid
 
 import byone.hbase.core.Table
-import byone.hbase.util.{Constants, DatePoint}
+import byone.hbase.util.{Constants, Converter}
 import com.twitter.util.LruMap
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
@@ -15,18 +15,18 @@ import scala.collection.JavaConverters._
 class UniqueId extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[UniqueId])
-
+  private val serialVersionUID = 6529685098267757680L
   private val tableName = Constants.uidTable
 
   private val cached = new LruMap[Array[Byte], Array[Byte]](100)
 
-  private val uidTable = new Table(tableName)
+  private val uidTable = Table(tableName)
 
   def toId(event : String) : Array[Byte] =
     convert(event.getBytes,Constants.uidfamily(0))
 
   def toName(id : Int) : Array[Byte] =
-    convert(DatePoint.Int2Byte(id),Constants.uidfamily(1))
+    convert(Converter.Int2Byte(id),Constants.uidfamily(1))
 
   /**
    * All uids stored in Hbase
@@ -43,6 +43,7 @@ class UniqueId extends java.io.Serializable {
       res.getRow
     }
     ss.close()
+    tb.close()
     retdata.toSeq.filter(checker)
   }
 
@@ -69,8 +70,8 @@ class UniqueId extends java.io.Serializable {
     }
     )
     txtFileMap.collect().foreach{case (event,id) =>{
-      cached(event.getBytes) = DatePoint.Int2Byte(id.toInt)
-      cached(DatePoint.Int2Byte(id.toInt)) = event.getBytes
+      cached(event.getBytes) = Converter.Int2Byte(id.toInt)
+      cached(Converter.Int2Byte(id.toInt)) = event.getBytes
     } }
   }
 
@@ -95,8 +96,13 @@ class UniqueId extends java.io.Serializable {
     else
     {
       val out = uidTable.get(in,flag)
-      cached(in) = out
-      cached(out) = in
+      if(out== null){
+        logger.error("Can not find "+new String(in)+" in uidTable or cache.")
+      }
+        else{
+        cached(in) = out
+        cached(out) = in
+      }
       out
     }
 
