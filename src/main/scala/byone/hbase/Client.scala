@@ -12,7 +12,7 @@ import scala.collection.JavaConverters._
 object Client {
 
 
-  def read {
+  def read(user: String) {
     // read test.json to class testlist
     implicit val formats = net.liftweb.json.DefaultFormats
     val source = scala.io.Source.fromFile("/home/dream/json.txt").mkString
@@ -32,14 +32,12 @@ object Client {
 
     //val raw = query.rawRdd()
 
-    //raw.collect().foreach(x => {println("raw key length: "); x._1.foreach(y=>print((y&0xff)+","))})
-
     Query.close()
 
     Constants.sc.stop()
   }
 
-  def create {
+  def create(user: String) {
     val tablename = Constants.dataTable
     val dataTable = new Table(tablename)
     dataTable.delete
@@ -49,7 +47,7 @@ object Client {
     println("create table: '" + tablename + "' successfully.")
   }
 
-  def putData {
+  def putData(user: String) {
     val tablename = Constants.dataTable
 
     val tb = new HTable(Constants.conf, tablename)
@@ -70,15 +68,20 @@ object Client {
   }
 
   def main(args: Array[String]) {
-    val usage = "Usage: run <op>\r\ncreate:\t\tCreate table.\r\nread:\t\tRead data for hbase.\r\nputdata:\tPut random data to hbase."
+    val usage = "\r\nUsage: run <op> <usr>\r\n" +
+      "Options:\r\n" +
+      "\tcreate - Create table.\r\n" +
+      "\tread - Read data for hbase.\r\n" +
+      "\tinsert - Put random data to hbase.\r\n" +
+      "\r\nUsers: cpp , java or scala\r\n"
 
-    if (args.length != 1)
+    if (args.length != 2)
       println(usage)
     else
       args(0) match {
-        case "read" => read
-        case "create" => create
-        case "putdata" => putData
+        case "read" => read(args(1))
+        case "create" => read(args(1))
+        case "putdata" => read(args(1))
         case _ => println(usage)
       }
   }
