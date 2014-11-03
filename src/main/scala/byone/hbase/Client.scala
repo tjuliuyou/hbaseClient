@@ -15,7 +15,7 @@ object Client {
   def read(user: String) {
     // read test.json to class testlist
     implicit val formats = net.liftweb.json.DefaultFormats
-    val source = scala.io.Source.fromFile("/home/dream/json.txt").mkString
+    val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
     val m = parse(source)
 
     val testlist: Seq[QueryArgs] = m.children.map(_.extract[QueryArgs])
@@ -81,7 +81,7 @@ object Client {
       args(0) match {
         case "read" => read(args(1))
         case "create" => read(args(1))
-        case "putdata" => read(args(1))
+        case "insert" => read(args(1))
         case _ => println(usage)
       }
   }
