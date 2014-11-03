@@ -7,7 +7,7 @@ scalaVersion := "2.10.4"
 resolvers += "Apache" at "https://repository.apache.org/content/repositories/releases"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" % "spark-core_2.10" % "1.0.1",
+  "org.apache.spark" % "spark-core_2.10" % "1.1.0",
   //"org.apache.hadoop" % "hadoop-common" % "2.3.0",
   //"org.apache.hadoop" % "hadoop-mapreduce-client" % "2.3.0",
   //"org.apache.hbase" % "hbase-common" % "0.98.2-hadoop2",

@@ -19,6 +19,6 @@
 	</property>
     <property>
 		<name>hbase.zookeeper.quorum</name>
-		<value>dnsserver.dream,hbmaster.dream,hdmaster.dream</value>
+		<value>dnsserver.dream,hbmaster.dream,hdpmaster.dream</value>
 	</property>
 </configuration>
