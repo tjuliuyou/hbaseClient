@@ -6,7 +6,6 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkContext, SparkConf}
-import org.apache.spark.deploy.yarn.{Client, ClientArguments}
 
 /**
  * Created by dream on 8/1/14.
