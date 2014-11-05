@@ -14,21 +14,13 @@ object Test {
 
 
   def read(user: String) {
-    // read test.json to class testlist
-    implicit val formats = net.liftweb.json.DefaultFormats
-    val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
-    val m = parse(source)
 
-    val testlist: Seq[QueryArgs] = m.children.map(_.extract[QueryArgs])
-
-    // using one of testlist
-
-    val currtest = testlist(0)
-    val query = Query.create(currtest)
+    val query = Query.create(user)
 
     val rdd = query.get()
     //val sortRdd = rdd.collect().sortBy(raw => raw._1)
    // rdd.collect().foreach(println)
+
     println("multi get count: " + rdd.count())
 
     //val raw = query.rawRdd()

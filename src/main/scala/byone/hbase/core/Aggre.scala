@@ -1,5 +1,6 @@
 package byone.hbase.core
 
+import byone.hbase.util.Logging
 import org.apache.spark.rdd.RDD
 import org.apache.spark.SparkContext._
 import scala.collection.immutable.Map
@@ -7,7 +8,7 @@ import scala.collection.immutable.Map
  * Created by dream on 7/10/14.
  */
 
-object Aggre {
+object Aggre extends Logging {
   /**
    * pre covert each event: (String, Map[String,String]) to (String,Map[String, (Double, Int)]) by args
    * @param event raw event data

@@ -18,15 +18,15 @@ package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, Converter}
+import byone.hbase.util.{Logging, Constants, Converter}
 import com.twitter.util.{LruMap, Future}
+import net.liftweb.json.JsonParser._
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
 import org.apache.spark.rdd.RDD
-import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 
@@ -35,24 +35,24 @@ import scala.collection.JavaConverters._
  * Created by liu you on 14-8-13.
  *
  * Core Query class read Hbase/cached to local RDD
- * @param args args to retrieve data { @see QueryArgs}
+ * @param queryArgs args to retrieve data { @see QueryArgs}
  */
-class Query(args: QueryArgs) extends java.io.Serializable {
+class Query(queryArgs: String) extends java.io.Serializable with Logging {
 
   private val serialVersionUID = 6529685098267757690L
-  private val logger = LoggerFactory.getLogger(classOf[Query])
-
+  private var stat = 0
   private val family = Constants.dataFamily(0)
   private val tablename = Constants.dataTable
   private val uid = new UniqueId
 
-  private var range = args.Range
-  private var events = args.Events
-  private var filters = args.Filter
+  private val args = parser(queryArgs)
+  private val range = args.Range
+  private val events = args.Events
+  private val filters = args.Filter
 
-  private var groups = args.Groups
+  private val groups = args.Groups
 
-  private var aggres = if (args.Aggres.nonEmpty) {
+  private val aggres = if (args.Aggres.nonEmpty) {
     for (ar <- args.Aggres) yield {
       val cond = ar.head
       val item = ar.drop(1)
@@ -65,53 +65,33 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     ilist.flatten.toList
   }
 
-  private var items = (args.Items ++ args.Groups ++ aggitems).toSet
-
-  case class readArgs(Range: Seq[String], Events: Seq[String])
-
-  val cached = new LruMap[readArgs, RDD[(String, Map[String, String])]](10)
-
-  var rdd: RDD[(String, Map[String, String])] = Constants.sc.emptyRDD
+  private val items = (args.Items ++ args.Groups ++ aggitems).toSet
 
   Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
 
-  def setRange(rg: Seq[String]) {
-    if (rg.size != 2)
-      logger.error("range list size must be 2!")
-    if (rg(0) > rg(1)) {
-      logger.error("start time bigger than stop time")
+  private def updateStatus(ss: Int) = {
+    stat = ss
+  }
+
+  private def parser(args: String) = {
+
+    updateStatus(1)
+    log.info("Parser args...")
+
+    implicit val formats = net.liftweb.json.DefaultFormats
+    val args = parse(queryArgs).extract[QueryArgs]
+    if (args.Range.length != 2) {
+      log.error("range list size must be 2!")
+      updateStatus(-1)
     }
-    range = rg
+    if (args.Range(0) > args.Range(1)) {
+      log.error("start time bigger than stop time.")
+      updateStatus(-1)
+    }
+    args
   }
 
-  def setItems(it: Set[String]) {
-    items = it
-  }
-
-  def setEvents(et: Seq[String]) {
-    events = et
-  }
-
-  def setFilter(fr: String) {
-    filters = fr
-  }
-
-  def setGroups(gp: Seq[String]) {
-    groups = gp
-  }
-
-  def setAggres(ag: Seq[Seq[String]]) {
-    aggres = if (ag.nonEmpty) {
-      for (ar <- ag) yield {
-        val cond = ar.head
-        val item = ar.drop(1)
-        (cond, item)
-      }
-    } else Seq[(String, Seq[String])]()
-  }
-
-
-  def localCache: Boolean = {
+  def localCached: Boolean = {
     if (cached.isEmpty)
       false
     else
@@ -119,31 +99,24 @@ class Query(args: QueryArgs) extends java.io.Serializable {
   }
 
   def get(single: Boolean = true) = {
-    if (localCache) {
-      rdd = cached(new readArgs(range, events))
+    if (localCached) {
+      cached(new readArgs(range, events))
     } else {
-      rdd = multiGet
+      rdd = {
+        if (groups.isEmpty)
+          rawRdd().map(x => family -> x._2)
+        else
+          rawRdd().filter(groupChecker).map(groupBy)
+      }
+      if (aggres.nonEmpty) {
+        updateStatus(3)
+        Aggre.doAggre(rdd, aggres)
+      } else
+        updateStatus(4)
+      rdd
     }
-    rdd
   }
 
-
-  //def groupchecker: ((Array[Byte], Map[String, String])) => Boolean = ???
-
-  def multiGet = {
-
-    logger.info("multi get rdds")
-    val retRdd = {
-      if (groups.isEmpty)
-        rawRdd().map(x => family -> x._2)
-      else
-        rawRdd().filter(groupChecker).map(groupBy)
-    }
-    if (aggres.nonEmpty) {
-      Aggre.doAggre(retRdd, aggres)
-    } else
-      retRdd
-  }
 
   def groupBy(raw: (Array[Byte], Map[String, String]))
   : (String, Map[String, String]) = {
@@ -159,9 +132,8 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return Future[RDD[(String,Map[String,String])]
    */
   def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
-    logger.info("get rdds using newRawRdd")
+    log.info("get rdds using newRawRdd")
     val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
-
     hbaseRdd(scans.toList).map(normalize).cache()
 
   }
@@ -177,7 +149,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
 
     if (filters.equals("null") && events.isEmpty) {
-      logger.debug("filters&& event equals null, set Filter to null")
+      log.debug("filters&& event equals null, set Filter to null")
       //debug code
       //      val exfilter: Filter = new RowFilter(
       //        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
@@ -191,7 +163,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
     else {
       if (events.nonEmpty) {
-        logger.debug(" Parsering events to Filters.")
+        log.debug(" Parsering events to Filters.")
         val meaningful = events.map(uid.toId).filter(nullChecker)
         if (meaningful.nonEmpty) {
           val ents = for (event <- meaningful) yield {
@@ -204,7 +176,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
         }
       }
       if (!args.equals("null")) {
-        logger.debug(" Parsering filter string to Filters.")
+        log.debug(" Parsering filter string to Filters.")
         flist.addFilter(new ByParseFilter().parseFilterString(args))
       }
       flist
@@ -253,6 +225,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return table out rdd
    */
   def hbaseRdd(scan: Scan) = {
+    updateStatus(2)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.set(TableInputFormat.SCAN, Converter.ScanToString(scan))
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
@@ -267,6 +240,7 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @return table out multi rdd
    */
   def hbaseRdd(scans: List[Scan]) = {
+    updateStatus(2)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.setStrings(MultiTableInputFormat.SCANS, Converter.ScanToString(scans): _*)
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[MultiTableInputFormat],
@@ -281,9 +255,9 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @param raw get from hbase { @see newAPIHadoopRDD}
    * @return (rowkey array[byte], value map)
    */
-  private def normalize(raw: (ImmutableBytesWritable, Result))
+  private[Query] def normalize(raw: (ImmutableBytesWritable, Result))
   : (Array[Byte], Map[String, String]) = {
-    logger.debug("Normalize raw data to Map(k,v).")
+    log.debug("Normalize raw data to Map(k,v).")
     val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
     val retmap = eventPairs.map { case (x, y) =>
       new String(x) -> new String(y)
@@ -323,11 +297,28 @@ class Query(args: QueryArgs) extends java.io.Serializable {
    * @param rddSeq a Seq of rdd
    * @return RDD
    */
-  private def accumulator(rddSeq: Seq[RDD[(ImmutableBytesWritable, Result)]]) = {
+  private[Query] def accumulator(rddSeq: Seq[RDD[(ImmutableBytesWritable, Result)]]) = {
     val ret: RDD[(ImmutableBytesWritable, Result)] = Constants.sc.emptyRDD
     val rdd = rddSeq.foldLeft(ret)((rhs, left) => rhs ++ left)
     Future.value(rdd)
   }
+
+
+  def status = stat match {
+    case -1 => "Error..."
+    case 0 => "Init resource..."
+    case 1 => "Parser args..."
+    case 2 => "Reading data from HBase..."
+    case 3 => "Aggregate with args..."
+    case 4 => "Done."
+    case _ => "Fail with unknown error."
+  }
+
+  case class readArgs(Range: Seq[String], Events: Seq[String])
+
+  val cached = new LruMap[readArgs, RDD[(String, Map[String, String])]](10)
+
+  var rdd: RDD[(String, Map[String, String])] = Constants.sc.emptyRDD
 
 }
 
@@ -350,7 +341,7 @@ object Query {
 
   private val constConnect = new HTable(Constants.conf, Constants.dataTable)
 
-  def create(args: QueryArgs) = new Query(args)
+  def create(args: String) = new Query(args)
 
   def close() = constConnect.close()
 

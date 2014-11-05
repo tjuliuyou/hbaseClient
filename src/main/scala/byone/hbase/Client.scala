@@ -1,18 +1,22 @@
 package byone.hbase
 
-import byone.hbase.core.{TaskManager, Task}
+import byone.hbase.core.{Task, TaskQueue}
+import byone.hbase.util.Logging
+
 
 /**
  * Created by liuyou on 14/11/3.
  */
-object Client {
+object Client extends Logging {
 
-  def read(args: String) = Task(args)
+  def read = (args: String) => Task(args)
 
   def write(data: String) = {}
 
-  def taskQueue = TaskManager.TaskQueue
+  def taskQueue = TaskQueue.queue
 
-  def cancelTask(uid: String) = TaskManager.remove(uid)
-  def cancelTask(task: Task) = TaskManager.remove(task)
+  def cancelTask(uid: String) = TaskQueue.remove(uid)
+  def cancelTask(task: Task) = TaskQueue.remove(task)
+
+
 }
