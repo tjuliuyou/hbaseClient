@@ -76,16 +76,16 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
   private def parser(args: String) = {
 
     updateStatus(1)
-    log.info("Parser args...")
+    logInfo("Parser args...")
 
     implicit val formats = net.liftweb.json.DefaultFormats
     val args = parse(queryArgs).extract[QueryArgs]
     if (args.Range.length != 2) {
-      log.error("range list size must be 2!")
+      logError("range list size must be 2!")
       updateStatus(-1)
     }
     if (args.Range(0) > args.Range(1)) {
-      log.error("start time bigger than stop time.")
+      logError("start time bigger than stop time.")
       updateStatus(-1)
     }
     args
@@ -111,9 +111,11 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
       if (aggres.nonEmpty) {
         updateStatus(3)
         Aggre.doAggre(rdd, aggres)
-      } else
+      } else {
         updateStatus(4)
-      rdd
+        rdd
+      }
+
     }
   }
 
@@ -132,7 +134,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
    * @return Future[RDD[(String,Map[String,String])]
    */
   def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
-    log.info("get rdds using newRawRdd")
+    logInfo("get rdds using newRawRdd")
     val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
     hbaseRdd(scans.toList).map(normalize).cache()
 
@@ -149,7 +151,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
     val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
 
     if (filters.equals("null") && events.isEmpty) {
-      log.debug("filters&& event equals null, set Filter to null")
+      logDebug("filters&& event equals null, set Filter to null")
       //debug code
       //      val exfilter: Filter = new RowFilter(
       //        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
@@ -163,7 +165,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
 
     else {
       if (events.nonEmpty) {
-        log.debug(" Parsering events to Filters.")
+        logDebug(" Parsering events to Filters.")
         val meaningful = events.map(uid.toId).filter(nullChecker)
         if (meaningful.nonEmpty) {
           val ents = for (event <- meaningful) yield {
@@ -176,7 +178,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
         }
       }
       if (!args.equals("null")) {
-        log.debug(" Parsering filter string to Filters.")
+        logDebug(" Parsering filter string to Filters.")
         flist.addFilter(new ByParseFilter().parseFilterString(args))
       }
       flist
@@ -257,7 +259,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
    */
   private[Query] def normalize(raw: (ImmutableBytesWritable, Result))
   : (Array[Byte], Map[String, String]) = {
-    log.debug("Normalize raw data to Map(k,v).")
+    logDebug("Normalize raw data to Map(k,v).")
     val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
     val retmap = eventPairs.map { case (x, y) =>
       new String(x) -> new String(y)

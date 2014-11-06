@@ -33,15 +33,15 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
       val tableDesc: HTableDescriptor = new HTableDescriptor(tableName)
       for (fc <- familys) tableDesc.addFamily(new HColumnDescriptor(fc))
       Connect.admin.createTable(tableDesc)
-      log.info("create table: '" + tableName + "' successfully.")
+      logInfo("create table: '" + tableName + "' successfully.")
     }
     if (Connect.admin.tableExists(tableName))
       if (force) {
-        log.info("Force to recreate table.")
+        logInfo("Force to recreate table.")
         this.delete
         doCreate
       } else {
-        log.error("table '" + tableName + "' already exists.")
+        logError("table '" + tableName + "' already exists.")
       }
     else
       doCreate
@@ -58,7 +58,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
   def create(familys: Seq[String], startkey: Int, stopkey: Int, num: Int) {
 
     if (Connect.admin.tableExists(tableName))
-      log.error("table '" + tableName + "' already exists.")
+      logError("table '" + tableName + "' already exists.")
     else {
       val desc: HTableDescriptor = new HTableDescriptor(tableName)
       for (fc <- familys) {
@@ -71,7 +71,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
       }
       Connect.admin.createTable(desc, getSplits(startkey, stopkey, num))
 
-      log.info("create table: '" + tableName + "' successfully.")
+      logInfo("create table: '" + tableName + "' successfully.")
     }
     this.close
   }
@@ -81,13 +81,13 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
   def delete: Boolean = {
 
     if (!Connect.admin.tableExists(tableName)) {
-      log.error("table: '" + tableName + "' does not exists.")
+      logError("table: '" + tableName + "' does not exists.")
       false
     }
     else {
       Connect.admin.disableTable(tableName)
       Connect.admin.deleteTable(tableName)
-      log.info("delete table: " + tableName + " successfully.")
+      logInfo("delete table: " + tableName + " successfully.")
       true
     }
 
@@ -100,7 +100,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
     pt.add(fc.getBytes, col.getBytes, vl)
     tb.put(pt)
     tb.close()
-    log.info("put " + new String(row) + " to table " + tableName + " successfully.")
+    logInfo("put " + new String(row) + " to table " + tableName + " successfully.")
   }
 
   def puts(htable: HTable, putlist: List[Put]) = HTableUtil.bucketRsPut(htable, putlist.asJava)
@@ -126,7 +126,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
     val res = tb.get(gt).getNoVersionMap
 
     val resValue = if (res == null) {
-      log.warn("Can not find Column: " + col + " in row: " + new String(row)
+      logWarning("Can not find Column: " + col + " in row: " + new String(row)
         + ". now return null")
       null
     }
