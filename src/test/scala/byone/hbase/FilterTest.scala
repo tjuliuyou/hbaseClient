@@ -1,13 +1,10 @@
-import byone.hbase.filter.CompareFilter.CompareOp
-import byone.hbase.filter.{ByParseFilter, EventComparator, RowFilter}
+package byone.hbase
+
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Constants, Converter, ScanCovert}
-import org.apache.hadoop.hbase.{HBaseConfiguration, Cell}
-import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
-import org.apache.hadoop.hbase.filter.{Filter, FilterList}
+import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.hadoop.hbase.client.{HTable, Scan}
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
-
-import scala.collection.JavaConverters._
 
 /**
  * Created by dream on 7/31/14.

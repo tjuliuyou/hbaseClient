@@ -13,26 +13,25 @@ import scala.collection.JavaConverters._
  */
 
 
-class Table(tableName: String) extends java.io.Serializable with Logging{
+class Table(tableName: String) extends java.io.Serializable with Logging {
 
   object Connect {
     val admin = new HBaseAdmin(Constants.conf)
 
-    def close1 = admin.close()
+    def disconnect() = admin.close()
   }
 
   private val serialVersionUID = 6529685098267757691L
   //private val tablename = Constants.dataTable
 
-  def close = Connect.close1
+  def close() = Connect.disconnect()
 
   // create usual table
   def create(familys: Seq[String], force: Boolean = false) {
 
     def doCreate = {
       val tableDesc: HTableDescriptor = new HTableDescriptor(tableName)
-      for (fc <- familys)
-        tableDesc.addFamily(new HColumnDescriptor(fc))
+      for (fc <- familys) tableDesc.addFamily(new HColumnDescriptor(fc))
       Connect.admin.createTable(tableDesc)
       log.info("create table: '" + tableName + "' successfully.")
     }
@@ -46,14 +45,20 @@ class Table(tableName: String) extends java.io.Serializable with Logging{
       }
     else
       doCreate
-
+    this.close
   }
 
-  // create  table with regions
+  /**
+   * highly create table with multi args
+   * @param familys
+   * @param startkey
+   * @param stopkey
+   * @param num
+   */
   def create(familys: Seq[String], startkey: Int, stopkey: Int, num: Int) {
 
     if (Connect.admin.tableExists(tableName))
-      log.error("table '" + tableName + "' already exists")
+      log.error("table '" + tableName + "' already exists.")
     else {
       val desc: HTableDescriptor = new HTableDescriptor(tableName)
       for (fc <- familys) {
@@ -68,26 +73,24 @@ class Table(tableName: String) extends java.io.Serializable with Logging{
 
       log.info("create table: '" + tableName + "' successfully.")
     }
-    //admin.close()
+    this.close
   }
 
 
   //delete table
   def delete: Boolean = {
 
-    val success =
-      if (!Connect.admin.tableExists(tableName)) {
-        log.error("table: '" + tableName + "' does not exists.")
-        false
-      }
-      else {
-        Connect.admin.disableTable(tableName)
-        Connect.admin.deleteTable(tableName)
-        log.info("delete table: " + tableName + " successfully.")
-        true
-      }
+    if (!Connect.admin.tableExists(tableName)) {
+      log.error("table: '" + tableName + "' does not exists.")
+      false
+    }
+    else {
+      Connect.admin.disableTable(tableName)
+      Connect.admin.deleteTable(tableName)
+      log.info("delete table: " + tableName + " successfully.")
+      true
+    }
 
-    success
   }
 
   def put(row: Array[Byte], fc: String, col: String, vl: Array[Byte]) {
@@ -149,9 +152,10 @@ class Table(tableName: String) extends java.io.Serializable with Logging{
 
 object Table {
 
-  def mapToPut(cols: Map[String, String], row: Array[Byte], family: Array[Byte]): Put = {
+  def mapToPut(cols: Map[String, String], row: Array[Byte], family: Array[Byte], wal: Boolean = false): Put = {
     val put = new Put(row)
-    put.setWriteToWAL(false)
+    //disable WAL
+    put.setWriteToWAL(wal)
     cols.foreach(x => put.add(family, x._1.getBytes, x._2.getBytes))
     put
   }

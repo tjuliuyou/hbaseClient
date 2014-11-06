@@ -1,4 +1,4 @@
-import byone.hbase.core.Table
+import byone.hbase.core.TableTest
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Converter, Constants}
 import org.apache.hadoop.conf.Configuration
