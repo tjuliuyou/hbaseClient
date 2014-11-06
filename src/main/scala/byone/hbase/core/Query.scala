@@ -18,7 +18,7 @@ package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Logging, Constants, Converter}
+import byone.hbase.util.{Constants, Converter}
 import com.twitter.util.{LruMap, Future}
 import net.liftweb.json.JsonParser._
 import org.apache.hadoop.hbase.HBaseConfiguration
@@ -27,6 +27,7 @@ import org.apache.hadoop.hbase.filter.{Filter, FilterList}
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
 import org.apache.spark.rdd.RDD
+import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 
@@ -37,8 +38,9 @@ import scala.collection.JavaConverters._
  * Core Query class read Hbase/cached to local RDD
  * @param queryArgs args to retrieve data { @see QueryArgs}
  */
-class Query(queryArgs: String) extends java.io.Serializable with Logging {
+class Query(queryArgs: String) extends java.io.Serializable {
 
+  private val logger = LoggerFactory.getLogger(classOf[Query])
   private val serialVersionUID = 6529685098267757690L
   private var stat = 0
   private val family = Constants.dataFamily(0)
@@ -76,16 +78,16 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
   private def parser(args: String) = {
 
     updateStatus(1)
-    logInfo("Parser args...")
+    logger.info("Parser args...")
 
     implicit val formats = net.liftweb.json.DefaultFormats
     val args = parse(queryArgs).extract[QueryArgs]
     if (args.Range.length != 2) {
-      logError("range list size must be 2!")
+      logger.error("range list size must be 2!")
       updateStatus(-1)
     }
     if (args.Range(0) > args.Range(1)) {
-      logError("start time bigger than stop time.")
+      logger.error("start time bigger than stop time.")
       updateStatus(-1)
     }
     args
@@ -134,7 +136,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
    * @return Future[RDD[(String,Map[String,String])]
    */
   def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
-    logInfo("get rdds using newRawRdd")
+    logger.info("get rdds using newRawRdd")
     val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
     hbaseRdd(scans.toList).map(normalize).cache()
 
@@ -151,7 +153,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
     val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
 
     if (filters.equals("null") && events.isEmpty) {
-      logDebug("filters&& event equals null, set Filter to null")
+      logger.debug("filters&& event equals null, set Filter to null")
       //debug code
       //      val exfilter: Filter = new RowFilter(
       //        CompareFilter.CompareOp.EQUAL, new EventComparator(Converter.ip2Byte("10.133.64.2"),8))
@@ -165,7 +167,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
 
     else {
       if (events.nonEmpty) {
-        logDebug(" Parsering events to Filters.")
+        logger.debug(" Parsering events to Filters.")
         val meaningful = events.map(uid.toId).filter(nullChecker)
         if (meaningful.nonEmpty) {
           val ents = for (event <- meaningful) yield {
@@ -178,7 +180,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
         }
       }
       if (!args.equals("null")) {
-        logDebug(" Parsering filter string to Filters.")
+        logger.debug(" Parsering filter string to Filters.")
         flist.addFilter(new ByParseFilter().parseFilterString(args))
       }
       flist
@@ -259,7 +261,7 @@ class Query(queryArgs: String) extends java.io.Serializable with Logging {
    */
   private[Query] def normalize(raw: (ImmutableBytesWritable, Result))
   : (Array[Byte], Map[String, String]) = {
-    logDebug("Normalize raw data to Map(k,v).")
+    logger.debug("Normalize raw data to Map(k,v).")
     val eventPairs = raw._2.getNoVersionMap.firstEntry().getValue.asScala
     val retmap = eventPairs.map { case (x, y) =>
       new String(x) -> new String(y)

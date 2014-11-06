@@ -1,6 +1,6 @@
 package byone.hbase.core
 
-import byone.hbase.util.Logging
+import org.slf4j.LoggerFactory
 
 import scala.collection.mutable
 
@@ -8,27 +8,28 @@ import scala.collection.mutable
 /**
  * Created by liuyou on 14/11/3.
  */
-object TaskQueue extends Logging  {
+object TaskQueue {
 
-  def get(workId: String): Task = {
-    new Task("")
+  private val logger = LoggerFactory.getLogger(getClass)
+  def get(workId: String): HTask = {
+    new HTask("")
   }
 
-  var queue = mutable.Queue.empty[Task]
+  var queue = mutable.Queue.empty[HTask]
 
 
   def add(workId: String) = {
 
   }
 
-  def add(tk: Task) = {
-    log.info("add to taskManager.")
+  def add(tk: HTask) = {
+    logger.info("add to taskManager.")
 
   }
 
   def remove(workId: String) = ???
 
-  def remove(task: Task) = ???
+  def remove(task: HTask) = ???
 
   def removeAll = ???
 

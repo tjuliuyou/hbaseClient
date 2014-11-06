@@ -1,11 +1,10 @@
 package byone.hbase.core
 
-import byone.hbase.util.Logging
 
 /**
  * Created by liuyou on 14/11/5.
  */
-object TableTest extends Logging {
+object TableTest {
 
   def main(args: Array[String]) {
     val tablename = "test1"

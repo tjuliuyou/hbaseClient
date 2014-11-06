@@ -1,6 +1,6 @@
 package byone.hbase.core
 
-import byone.hbase.util.{Logging, Constants, Converter}
+import byone.hbase.util.{Constants, Converter}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType
@@ -13,7 +13,7 @@ import scala.collection.JavaConverters._
  */
 
 
-class Table(tableName: String) extends java.io.Serializable with Logging {
+class Table(tableName: String) extends java.io.Serializable {
 
   object Connect {
     val admin = new HBaseAdmin(Constants.conf)
@@ -23,7 +23,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
 
   private val serialVersionUID = 6529685098267757691L
   //private val tablename = Constants.dataTable
-
+  private val logger = LoggerFactory.getLogger(classOf[Table])
   def close() = Connect.disconnect()
 
   // create usual table
@@ -33,15 +33,15 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
       val tableDesc: HTableDescriptor = new HTableDescriptor(tableName)
       for (fc <- familys) tableDesc.addFamily(new HColumnDescriptor(fc))
       Connect.admin.createTable(tableDesc)
-      logInfo("create table: '" + tableName + "' successfully.")
+      ("create table: '" + tableName + "' successfully.")
     }
     if (Connect.admin.tableExists(tableName))
       if (force) {
-        logInfo("Force to recreate table.")
+        logger.info("Force to recreate table.")
         this.delete
         doCreate
       } else {
-        logError("table '" + tableName + "' already exists.")
+        logger.error("table '" + tableName + "' already exists.")
       }
     else
       doCreate
@@ -58,7 +58,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
   def create(familys: Seq[String], startkey: Int, stopkey: Int, num: Int) {
 
     if (Connect.admin.tableExists(tableName))
-      logError("table '" + tableName + "' already exists.")
+      logger.error("table '" + tableName + "' already exists.")
     else {
       val desc: HTableDescriptor = new HTableDescriptor(tableName)
       for (fc <- familys) {
@@ -71,7 +71,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
       }
       Connect.admin.createTable(desc, getSplits(startkey, stopkey, num))
 
-      logInfo("create table: '" + tableName + "' successfully.")
+      logger.info("create table: '" + tableName + "' successfully.")
     }
     this.close
   }
@@ -81,13 +81,13 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
   def delete: Boolean = {
 
     if (!Connect.admin.tableExists(tableName)) {
-      logError("table: '" + tableName + "' does not exists.")
+      logger.error("table: '" + tableName + "' does not exists.")
       false
     }
     else {
       Connect.admin.disableTable(tableName)
       Connect.admin.deleteTable(tableName)
-      logInfo("delete table: " + tableName + " successfully.")
+      logger.info("delete table: " + tableName + " successfully.")
       true
     }
 
@@ -100,7 +100,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
     pt.add(fc.getBytes, col.getBytes, vl)
     tb.put(pt)
     tb.close()
-    logInfo("put " + new String(row) + " to table " + tableName + " successfully.")
+    logger.info("put " + new String(row) + " to table " + tableName + " successfully.")
   }
 
   def puts(htable: HTable, putlist: List[Put]) = HTableUtil.bucketRsPut(htable, putlist.asJava)
@@ -126,7 +126,7 @@ class Table(tableName: String) extends java.io.Serializable with Logging {
     val res = tb.get(gt).getNoVersionMap
 
     val resValue = if (res == null) {
-      logWarning("Can not find Column: " + col + " in row: " + new String(row)
+      logger.warn("Can not find Column: " + col + " in row: " + new String(row)
         + ". now return null")
       null
     }

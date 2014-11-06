@@ -3,20 +3,20 @@ package byone.hbase.core
 import java.util.Calendar
 
 import byone.hbase.uid.UIDCreater
-import byone.hbase.util.Logging
 import net.liftweb.json.JsonParser._
+import org.slf4j.LoggerFactory
 
 
 /**
  * Created by liuyou on 14/11/3.
  */
-class Task(queryArgs: String) extends Logging {
+class HTask(queryArgs: String) extends java.io.Serializable {
 
   private var stat = 0
   private var priority = 0
   private val buildtime = Calendar.getInstance.getTime
-
-  log.debug("Now create uuid for this task.")
+  private val logger = LoggerFactory.getLogger(classOf[HTask])
+  logger.debug("Now create uuid for this task.")
   val id = UIDCreater.uuid
 
   val info = "Task id: " + id +
@@ -43,10 +43,10 @@ class Task(queryArgs: String) extends Logging {
 
 }
 
-object Task {
+object HTask {
 
   def apply(args: String) = {
-    val handle = new Task(args)
+    val handle = new HTask(args)
     TaskQueue.add(handle)
     handle
   }
