@@ -39,7 +39,7 @@ class HTask(queryArgs: String) extends java.io.Serializable {
     println("3.aggregate the data...")
     Thread.sleep(3000)
     println("4.done")
-    HTaskTracker.statusUpdate(id,2)
+    HTaskManager.statusUpdate(id,2)
     HTask.sender ! WorkDone(id)
   }
 

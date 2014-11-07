@@ -1,7 +1,7 @@
 package byone.hbase.core.actor
 
 import akka.actor.Actor
-import byone.hbase.core.task.HTaskTracker
+import byone.hbase.core.task.HTaskManager
 
 import scala.collection.script.Update
 
@@ -10,13 +10,10 @@ import scala.collection.script.Update
  */
 class TaskActor extends Actor {
   override def receive: Receive = {
-    case RunWork(workId) => HTaskTracker.get(workId).start
+    case RunWork(workId) => HTaskManager.get(workId).start
     case WorkDone(workId)  =>
-      if(HTaskTracker.created.nonEmpty) {
-        val uid = HTaskTracker.created.head
-        HTaskTracker.get(workId).start
-      }
-      HTaskTracker.remove(workId)
+      HTaskManager.remove(workId)
+      HTaskManager.checkWork()
   }
 }
 case class RunWork(workId: String)

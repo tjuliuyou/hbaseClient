@@ -11,11 +11,7 @@ object WriteTest {
 //      if(i % 15 == 0)
 //        Thread.sleep(2000)
       RsyncClient.writeDataToHBase("data"+i.toString)
-      //    rdd onSuccess(x => println("rdd already!"))
-      //    while(true){
-      //      println(handle.status)
-      //      Thread.sleep(5000)
-      //    }
+
     }
 
   }
