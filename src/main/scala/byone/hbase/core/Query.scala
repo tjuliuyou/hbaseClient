@@ -41,7 +41,7 @@ import scala.collection.JavaConverters._
 class Query(queryArgs: String) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(classOf[Query])
-  private val serialVersionUID = 6529685098267757690L
+  private val serialVersionUID = 6329685098267757690L
   private var stat = 0
   private val family = Constants.dataFamily(0)
   private val tablename = Constants.dataTable
