@@ -1,9 +1,9 @@
 package byone.hbase
 
-import byone.hbase.core.{Table, QueryArgs, Query}
-import byone.hbase.util.{RandEvent, Constants}
-import net.liftweb.json.JsonParser._
-import org.apache.hadoop.hbase.client.{HTableUtil, HTable}
+import byone.hbase.core.{Query, Table}
+import byone.hbase.util.{Constants, RandEvent}
+import org.apache.hadoop.hbase.client.{HTable, HTableUtil}
+
 import scala.collection.JavaConverters._
 
 /**
@@ -87,3 +87,5 @@ object Test {
   }
 
 }
+
+

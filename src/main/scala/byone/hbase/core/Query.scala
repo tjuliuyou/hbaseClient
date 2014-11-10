@@ -19,7 +19,6 @@ package byone.hbase.core
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
 import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Constants, Converter}
-import com.twitter.util.{LruMap, Future}
 import net.liftweb.json.JsonParser._
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
@@ -48,14 +47,14 @@ class Query(queryArgs: String) extends java.io.Serializable {
   private val uid = new UniqueId
 
   private val args = parser(queryArgs)
-  private val range = args.Range
-  private val events = args.Events
-  private val filters = args.Filter
+  private val range = args.Range.get
+  private val events = args.Events.get
+  private val filters = args.Filter.get
 
-  private val groups = args.Groups
+  private val groups = args.Groups.get
 
-  private val aggres = if (args.Aggres.nonEmpty) {
-    for (ar <- args.Aggres) yield {
+  private val aggres = if (args.Aggres.get.nonEmpty) {
+    for (ar <- args.Aggres.get) yield {
       val cond = ar.head
       val item = ar.drop(1)
       (cond, item)
@@ -67,28 +66,22 @@ class Query(queryArgs: String) extends java.io.Serializable {
     ilist.flatten.toList
   }
 
-  private val items = (args.Items ++ args.Groups ++ aggitems).toSet
+  private val items = (args.Items.get ++ args.Groups.get ++ aggitems).toSet
 
   Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
 
-  private def updateStatus(ss: Int) = {
-    stat = ss
-  }
 
   private def parser(args: String) = {
 
-    updateStatus(1)
     logger.info("Parser args...")
 
     implicit val formats = net.liftweb.json.DefaultFormats
     val args = parse(queryArgs).extract[QueryArgs]
-    if (args.Range.length != 2) {
+    if (args.Range.get.length != 2) {
       logger.error("range list size must be 2!")
-      updateStatus(-1)
     }
-    if (args.Range(0) > args.Range(1)) {
+    if (args.Range.get(0) > args.Range.get(1)) {
       logger.error("start time bigger than stop time.")
-      updateStatus(-1)
     }
     args
   }
@@ -111,10 +104,8 @@ class Query(queryArgs: String) extends java.io.Serializable {
           rawRdd().filter(groupChecker).map(groupBy)
       }
       if (aggres.nonEmpty) {
-        updateStatus(3)
         Aggre.doAggre(rdd, aggres)
       } else {
-        updateStatus(4)
         rdd
       }
 
@@ -141,7 +132,6 @@ class Query(queryArgs: String) extends java.io.Serializable {
     hbaseRdd(scans.toList).map(normalize).cache()
 
   }
-
 
   /**
    * parser filter args and events to filter
@@ -229,7 +219,6 @@ class Query(queryArgs: String) extends java.io.Serializable {
    * @return table out rdd
    */
   def hbaseRdd(scan: Scan) = {
-    updateStatus(2)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.set(TableInputFormat.SCAN, Converter.ScanToString(scan))
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[TableInputFormat],
@@ -244,7 +233,6 @@ class Query(queryArgs: String) extends java.io.Serializable {
    * @return table out multi rdd
    */
   def hbaseRdd(scans: List[Scan]) = {
-    updateStatus(2)
     val conf = HBaseConfiguration.create(Constants.conf)
     conf.setStrings(MultiTableInputFormat.SCANS, Converter.ScanToString(scans): _*)
     val hbaseRDD = Constants.sc.newAPIHadoopRDD(conf, classOf[MultiTableInputFormat],
@@ -304,23 +292,14 @@ class Query(queryArgs: String) extends java.io.Serializable {
   private[Query] def accumulator(rddSeq: Seq[RDD[(ImmutableBytesWritable, Result)]]) = {
     val ret: RDD[(ImmutableBytesWritable, Result)] = Constants.sc.emptyRDD
     val rdd = rddSeq.foldLeft(ret)((rhs, left) => rhs ++ left)
-    Future.value(rdd)
+    rdd
   }
 
 
-  def status = stat match {
-    case -1 => "Error..."
-    case 0 => "Init resource..."
-    case 1 => "Parser args..."
-    case 2 => "Reading data from HBase..."
-    case 3 => "Aggregate with args..."
-    case 4 => "Done."
-    case _ => "Fail with unknown error."
-  }
+
 
   case class readArgs(Range: Seq[String], Events: Seq[String])
-
-  val cached = new LruMap[readArgs, RDD[(String, Map[String, String])]](10)
+  val cached = Map[readArgs,RDD[(String, Map[String, String])]]()
 
   var rdd: RDD[(String, Map[String, String])] = Constants.sc.emptyRDD
 
@@ -335,10 +314,13 @@ class Query(queryArgs: String) extends java.io.Serializable {
  * @param Groups Group by Seq
  * @param Aggres  Aggreagte args
  */
-case class QueryArgs(Range: Seq[String], Items: Seq[String]
-                     , Events: Seq[String], Filter: String
-                     , Groups: Seq[String], Aggres: Seq[Seq[String]])
-
+case class QueryArgs(Range: Option[Seq[String]],
+                   Items: Option[Seq[String]],
+                   Events: Option[Seq[String]],
+                   Filter: Option[String],
+                   Groups: Option[Seq[String]],
+                   Aggres: Option[Seq[Seq[String]]],
+                   Order: Option[Boolean])
 
 object Query {
 

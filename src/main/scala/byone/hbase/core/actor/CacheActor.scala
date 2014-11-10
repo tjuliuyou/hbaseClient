@@ -1,7 +1,6 @@
 package byone.hbase.core.actor
 
 import akka.actor.Actor
-import akka.actor.Actor.Receive
 import byone.hbase.core.WriteCache
 
 /**

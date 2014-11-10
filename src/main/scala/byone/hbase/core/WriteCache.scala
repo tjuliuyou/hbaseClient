@@ -1,8 +1,6 @@
 package byone.hbase.core
 
-import java.sql.Timestamp
-
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ActorSystem, Props}
 import byone.hbase.core.actor.CacheActor
 import org.slf4j.LoggerFactory
 
@@ -15,7 +13,7 @@ import scala.collection.concurrent.TrieMap
 object WriteCache {
   private val logger  = LoggerFactory.getLogger(getClass)
   val cached = TrieMap[String,String]()
-  val MaxSize = 9
+  val MaxSize = 100
 
   val system = ActorSystem("writeCache")
   val sender = system.actorOf(Props[CacheActor],name = "cacheActor")

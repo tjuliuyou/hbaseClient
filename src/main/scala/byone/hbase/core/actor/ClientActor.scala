@@ -11,22 +11,22 @@ import byone.hbase.core.task.HTaskManager
 class ClientActor extends Actor with ActorLogging{
 
   override def receive: Receive = {
-    case Read(workId) =>
-      log.info("read command received. workId :" + workId )
-      HTaskManager.add(workId)
+    case Read(taskId) =>
+      log.info("read command received. create new task." )
+      HTaskManager.add(taskId)
 
     case Write(data) =>
       log.info("write command received.")
       WriteCache.add(data)
 
-    case Cancel(task) =>
+    case Cancel(taskId) =>
       log.info("Cancel command received.")
-      HTaskManager.remove(task)
+      HTaskManager.remove(taskId)
 
     case "flush" => WriteCache.flush
   }
 }
 
-case class Read(workId: String)
+case class Read(taskId: String)
 case class Write(data: String)
-case class Cancel(workId: String)
+case class Cancel(taskId: String)

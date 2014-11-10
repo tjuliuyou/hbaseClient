@@ -1,9 +1,8 @@
 package byone.hbase
 
-import akka.actor.{Props, ActorSystem}
-import byone.hbase.core._
-import byone.hbase.core.actor.{Cancel, Write, Read, ClientActor}
-import byone.hbase.core.task.{HTaskManager, HTask}
+import akka.actor.{ActorSystem, Props}
+import byone.hbase.core.actor.{Cancel, ClientActor, Read, Write}
+import byone.hbase.core.task.HTaskManager
 
 
 /**
@@ -11,12 +10,12 @@ import byone.hbase.core.task.{HTaskManager, HTask}
  */
 object RsyncClient {
 
-  val system = ActorSystem("hbaseClient")
-  val router = system.actorOf(Props[ClientActor],name = "router")
+  private val system = ActorSystem("hbaseClient")
+  private val dispatcher = system.actorOf(Props[ClientActor],name = "ClientActor")
 
   /**
    * queryData from HBase or cached data. This will return Query task handle id immediately.
-   * then we can get the data or task status with the id @See {byone.hbase.core.task.Htask}.
+   * then we can get the data or task status with the id @See {byone.hbase.core.task.HTask}.
    * @param args read args using json
    *             i.e.
    *             """{
@@ -29,11 +28,11 @@ object RsyncClient {
    *             "Order": "dec"
    *             }"""
    *
-   * @return task id to access the task.
+   * @return task id to access the task: HtaskManager.get(id) @see {byone.hbase.core.task.HtaskManager}
    */
   def queryData(args: String): String = {
     val taskId = HTaskManager.create(args)
-    router ! Read(taskId)
+    dispatcher ! Read(taskId)
     taskId
   }
 
@@ -41,12 +40,14 @@ object RsyncClient {
    * put data to HBase
    * @param data
    */
-  def writeDataToHBase(data: String) = router ! Write(data)
+  def writeDataToHBase(data: String) = dispatcher ! Write(data)
 
-  def flushToHBase() = router ! "flush"
+  def flushToHBase() = dispatcher ! "flush"
 
-  def cancelQueryTask(workId: String) = router ! Cancel(workId)
+  def cancelQueryTask(workId: String) = dispatcher ! Cancel(workId)
 
   def taskQueue =  ???
+
+  def stop = system.awaitTermination()
 
 }

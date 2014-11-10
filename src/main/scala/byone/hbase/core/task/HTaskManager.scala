@@ -1,6 +1,6 @@
 package byone.hbase.core.task
 
-import byone.hbase.core.actor.RunWork
+import byone.hbase.core.actor.{AddWork, RunWork}
 import org.slf4j.LoggerFactory
 import scala.collection.concurrent.TrieMap
 
@@ -19,8 +19,9 @@ object HTaskManager {
 
   def create(args: String) = {
     val task = new HTask(args)
-    manager.tasks.update(task.id,task)
-    task.id
+    val taskId = task.id
+    manager.tasks.update(taskId,task)
+    taskId
   }
 
   def add(workId: String){
@@ -37,13 +38,14 @@ object HTaskManager {
   }
 
 
-  def checkWork() = {
+  def checkLeft() = {
     if(manager.created.nonEmpty){
       val uid = manager.created.head
       statusUpdate(uid, 1)
       HTask.sender ! RunWork(uid)
     }
   }
+
 
 
   def removeAll = ???
@@ -65,6 +67,8 @@ object HTaskManager {
     manager.taskStatuses.update(uid,status)
   }
 
+
+
 }
 
 class HTaskManager(workThread: Int = 3) {
@@ -74,8 +78,18 @@ class HTaskManager(workThread: Int = 3) {
   val PREFIX = "task: "
 
   val MAXTHREAD = workThread
+
   private[HTaskManager] val tasks = TrieMap[String,HTask]()
   private[HTaskManager] val taskStatuses = TrieMap[String,Int]()
+
+  /**
+   *  value                 status
+   *  0                     created
+   *  1                     running
+   *  2                     finished
+   *  3                     failed
+   *  4                     terminated
+   */
 
   def created = {
     taskStatuses.filter(x => x._2 == 0).keys

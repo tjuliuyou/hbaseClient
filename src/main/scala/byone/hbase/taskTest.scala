@@ -1,6 +1,6 @@
 package byone.hbase
 
-import com.twitter.util.Future
+
 
 /**
  * Created by liuyou on 14/11/3.
@@ -23,20 +23,14 @@ object taskTest {
 //      println(handle.status)
 //      Thread.sleep(5000)
 //    }
-    val handles = for(i <- 0 to 5) yield {
+    val handles = for(i <- 0 to 2) yield {
       RsyncClient.queryData("query"+ i.toString)
     }
-//    for(i <- 1000 to 1100) {
-//      RsyncClient.writeDataToHBase("data"+i.toString)
-//      //    rdd onSuccess(x => println("rdd already!"))
-//      //    while(true){
-//      //      println(handle.status)
-//      //      Thread.sleep(5000)
-//      //    }
-//    }
     handles.foreach{x =>
-      Thread.sleep(6000)
+      Thread.sleep(1000)
+
       println("--------------------------------------------")
     }
+    RsyncClient.stop
   }
 }

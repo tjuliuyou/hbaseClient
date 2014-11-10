@@ -1,60 +1,49 @@
-import byone.hbase.core.TableTest
-import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Converter, Constants}
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.Path
-import org.apache.hadoop.hbase.HBaseConfiguration
-import org.apache.spark.rdd.RDD
-import org.apache.spark.{SparkContext, SparkConf}
+import byone.hbase.core.QueryArgs
+import net.liftweb.json.JsonParser._
 
 /**
  * Created by dream on 8/1/14.
  */
 object test4 {
 
-  def test {
-    val event = Map("aaa" -> "111", "bbb" -> "222", "ccc" -> "333", "ddd" -> "444", "fff" -> "666")
-
-    val groups = Seq("fff", "eee")
-
-    val items = Seq("aaa", "ccc", "fff", "ggg")
-
-    val aggres = Seq("ccc")
-
-    val keys = for (g <- groups) yield {
-      event.getOrElse(g, "")
-    }
-
-    val key = keys.foldLeft("")((x, y) => x + y)
-    println(key)
-
-    val display = items.map(x => {
-      val y = event.getOrElse(x, "null")
-      println(x + " : is empty " + y.isEmpty)
-      x -> y.toDouble
-    })
-
-    val ret = (key, display)
-    println("ret: " + ret)
-  }
 
 
   def main(args: Array[String]) {
+    val ar =
+      """{
+           "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
+           "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
+           "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
+           "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
+           "Groups": ["hostName"],
+           "Aggres": null,
+           "Order" : null
+          }"""
+    try {
+      implicit val formats = net.liftweb.json.DefaultFormats
+      val argss = parse(ar).extract[QueryArgs]
+      if (argss.Range.get.length != 2) {
+        println("range list size must be 2!")
+      }
+      if (argss.Range.get(0) > argss.Range.get(1)) {
+        println("start time bigger than stop time.")
 
-    val uid = new UniqueId
+      }
+      println(argss)
+    } catch {
+      case e: Exception => {
+        println("Parser QueryArgs with liftweb json error: " + e.getMessage)
 
-    //        for(x <- 1 to 13) {
-    //          val temp = uid.toName(x)
-    //          println(new String(temp))
-    //        }
-    //        println("--------------------------")
-    //        uid.getCached.foreach(x=>println(new String(x)))
+      }
+    }
+    finally {
 
-    //        uid.ids.foreach(y => {
-    //          //y.foreach(x=>print(x + ","))
-    //          println(new String(y) + "   " + y.length)
-    //        })
-    val temp = uid.toName(14)
+    }
+
+
+   // val a = parse(ar)
+
+
 
   }
 
