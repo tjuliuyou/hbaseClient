@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory
 /**
  * Created by liuyou on 14/11/3.
  */
-class HTask(queryArgs: String) extends java.io.Serializable {
+class HTask(queryArgs: String)  {
 
   private[byone] var stat = 0
   private[byone] var errors = 0
@@ -27,52 +27,59 @@ class HTask(queryArgs: String) extends java.io.Serializable {
     "\r\nQuery Args: " + queryArgs +
     "\r\nCreate at: " + buildtime
 
-  private def parser = {
+  private def parser: QueryArgs = {
 
     logger.info("Parser args...")
     updateStatus(1)
     try {
       implicit val formats = net.liftweb.json.DefaultFormats
       val args = parse(queryArgs).extract[QueryArgs]
-      if (args.Range.get.length != 2) {
+      val range = args.Range.getOrElse(Seq(""))
+      if (range.length != 2) {
         logger.error("range list size must be 2!")
         errors += 1
-      }
-      if (args.Range.get(0) > args.Range.get(1)) {
-        logger.error("start time bigger than stop time.")
-        errors += 1
+        if (range(0) > range(1)) {
+          logger.error("start time bigger than stop time.")
+          errors += 1
+        }
       }
       args
     } catch {
       case e: Exception => {
         logger.error("Parser QueryArgs with liftweb json error: " + e.getMessage)
         errors += 1
+        QueryArgs(None,None,None,None,None,None,None)
       }
     }
     finally {
-      if(errors > 0)
+      if (errors > 0)
         updateStatus(-1)
     }
 
 
   }
 
-  //  private val query = Query.create(queryArgs)
+ //private val query = Query.create(queryArgs)
 
   // def status = query.status
 
   //def take = query.get()
 
+  def argsToscans(args: QueryArgs) = {
+
+  }
+
   def start = {
     println("Task: " + id + "now running.")
     println("1.paser args...\r\n")
-    parser
+    val scans = argsToscans(parser)
+
     println("2.get data from hbase...\r\n")
     Thread.sleep(4000)
     println("3.aggregate the data...")
     Thread.sleep(3000)
     println("4.done")
-    HTaskManager.statusUpdate(id,2)
+    HTaskManager.statusUpdate(id, 2)
     HTask.sender ! WorkDone(id)
   }
 
@@ -98,9 +105,9 @@ class HTask(queryArgs: String) extends java.io.Serializable {
     case _ => "Fail with unknown error."
   }
 
-  private def updateStatus(currStatus: Int){
-   if(currStatus == -1)
-     HTask.sender ! HError(id)
+  private def updateStatus(currStatus: Int) {
+    if (currStatus == -1)
+      HTask.sender ! HError(id)
     stat = currStatus
   }
 
@@ -110,7 +117,7 @@ object HTask {
 
 
   val system = ActorSystem("TaskManager")
-  val sender = system.actorOf(Props[TaskActor],name = "TaskActor")
+  val sender = system.actorOf(Props[TaskActor], name = "TaskActor")
 
   private val logger = LoggerFactory.getLogger(getClass)
 

@@ -15,26 +15,26 @@ object Test {
 
   def read(user: String) {
 
-    val query = Query.create("""{
-           "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
-           "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
-           "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
-           "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
-           "Groups": ["hostName"],
-           "Aggres": [["avg","cpuUtil"]]
-          }""")
-
-    val rdd = query.get()
-    //val sortRdd = rdd.collect().sortBy(raw => raw._1)
-   // rdd.collect().foreach(println)
-
-    println("multi get count: " + rdd.count())
-
-    //val raw = query.rawRdd()
-
-    Query.close()
-
-    Constants.sc.stop()
+//    val query = Query.create("""{
+//           "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
+//           "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
+//           "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
+//           "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
+//           "Groups": ["hostName"],
+//           "Aggres": [["avg","cpuUtil"]]
+//          }""")
+//
+//    val rdd = query.get()
+//    //val sortRdd = rdd.collect().sortBy(raw => raw._1)
+//   // rdd.collect().foreach(println)
+//
+//    println("multi get count: " + rdd.count())
+//
+//    //val raw = query.rawRdd()
+//
+//    Query.close()
+//
+//    Constants.sc.stop()
   }
 
   def create(user: String) {

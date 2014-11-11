@@ -1,7 +1,8 @@
 package byone.hbase.core.task
 
-import byone.hbase.core.actor.{AddWork, RunWork}
+import byone.hbase.core.actor.RunWork
 import org.slf4j.LoggerFactory
+
 import scala.collection.concurrent.TrieMap
 
 /**

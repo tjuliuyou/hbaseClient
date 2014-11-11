@@ -42,12 +42,22 @@ object RsyncClient {
    */
   def writeDataToHBase(data: String) = dispatcher ! Write(data)
 
+  /**
+   * flush cache data to HBase
+   */
   def flushToHBase() = dispatcher ! "flush"
 
+  /**
+   * cancel query task using work string
+   * @param workId
+   */
   def cancelQueryTask(workId: String) = dispatcher ! Cancel(workId)
 
   def taskQueue =  ???
 
+  /**
+   * stop listening actor
+   */
   def stop = system.awaitTermination()
 
 }
