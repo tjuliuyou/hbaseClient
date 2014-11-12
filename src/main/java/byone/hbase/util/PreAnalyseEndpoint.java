@@ -4,7 +4,6 @@ import byone.hbase.filter.ByParseFilter;
 import byone.hbase.filter.CompareFilter;
 import byone.hbase.filter.EventComparator;
 import byone.hbase.filter.RowFilter;
-import byone.hbase.protobuf.FilterProtos;
 import byone.hbase.protobuf.PreAnalyseProtos;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.RpcCallback;
@@ -16,18 +15,15 @@ import org.apache.hadoop.hbase.CoprocessorEnvironment;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.coprocessor.CoprocessorException;
 import org.apache.hadoop.hbase.coprocessor.CoprocessorService;
-import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
+import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
-import org.apache.hadoop.hbase.filter.ParseFilter;
 import org.apache.hadoop.hbase.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.regionserver.InternalScanner;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuyou on 14/11/11.
@@ -87,7 +83,7 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
        // Map <String, String> kvMap = new HashMap<String, String>();
        // PreAnalyseProtos.AnalyseResponse.KvList.newBuilder().s
 
-        //List<PreAnalyseProtos.MapEntry> maplist = new ArrayList<PreAnalyseProtos.MapEntry>();
+        List<PreAnalyseProtos.MapEntry> maplist = new ArrayList<PreAnalyseProtos.MapEntry>();
         try {
             scanner = env.getRegion().getScanner(scan);
             List<Cell> results = new ArrayList<Cell>();
@@ -99,13 +95,15 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
                     PreAnalyseProtos.MapEntry mp = PreAnalyseProtos.MapEntry.newBuilder()
                             .setKey(new String(kv.getRow()))
                             .setValue(new String(kv.getValue())).build();
-                    //maplist.add(mp);
-                    response = PreAnalyseProtos.AnalyseResponse.newBuilder().setItems(results.indexOf(kv),mp).build();
+                    maplist.add(mp);
+                    //response = PreAnalyseProtos.AnalyseResponse.newBuilder().setItems(results.indexOf(kv),mp).build();
                     //kvMap.put(new String(kv.getRow()),new String(kv.getValue()));
                 }
 
             }while (hasMore);
-            //response = PreAnalyseProtos.AnalyseResponse.newBuilder().addItemsBuilder().
+            java.lang.Iterable<PreAnalyseProtos.MapEntry> list = new ArrayList<PreAnalyseProtos.MapEntry>(maplist);
+            //maplist.listIterator();
+            response = PreAnalyseProtos.AnalyseResponse.newBuilder().addAllItems(list).build();
             //response = PreAnalyseProtos.AnalyseResponse.newBuilder().
 
 
