@@ -47,5 +47,7 @@ public class ScanCovert {
         }
         return scanlist;
     }
+
+
    // private Scan scan;
 }

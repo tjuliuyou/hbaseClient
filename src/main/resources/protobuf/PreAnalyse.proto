@@ -1,0 +1,29 @@
+option java_package = "byone.hbase.protobuf";
+option java_outer_classname = "PreAnalyseProtos";
+option java_generic_services = true;
+option java_generate_equals_and_hash = true;
+option optimize_for = SPEED;
+
+
+message MapEntry
+{
+    required string key = 1;
+    required string value = 2;
+}
+
+
+
+message AnalyseRequest {
+    optional string filterString = 1;
+    repeated bytes events = 2;
+    repeated string groups = 3;
+}
+
+message AnalyseResponse {
+    repeated MapEntry items = 1;
+}
+
+service PreAnalyseService {
+  rpc getPreData(AnalyseRequest)
+    returns (AnalyseResponse);
+}
