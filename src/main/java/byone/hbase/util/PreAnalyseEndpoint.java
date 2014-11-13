@@ -9,6 +9,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 import com.google.protobuf.Service;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.Coprocessor;
 import org.apache.hadoop.hbase.CoprocessorEnvironment;
@@ -32,7 +34,7 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
     implements Coprocessor, CoprocessorService {
 
     private RegionCoprocessorEnvironment env;
-
+    private static final Log LOG = LogFactory.getLog(PreAnalyseEndpoint.class);
     public  PreAnalyseEndpoint() {
 
     }
@@ -70,11 +72,12 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
     public void getPreData(RpcController controller, PreAnalyseProtos.AnalyseRequest request,
                            RpcCallback<PreAnalyseProtos.AnalyseResponse> done) {
         Scan scan = new Scan();
+        LOG.info("create new Scan in getPreData");
         String filterString = request.getFilterString();
         List<ByteString> events = request.getEventsList();
 
         Filter fl = hbaseFilter(filterString,events);
-        scan.setFilter(fl);
+        //scan.setFilter(fl);
 
         PreAnalyseProtos.AnalyseResponse response = null;
         InternalScanner scanner = null;
@@ -91,6 +94,9 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
             byte[] lastRow = null;
             do {
                 hasMore = scanner.next(results);
+                if(!results.isEmpty()){
+                    LOG.info("results size:" + results.size());
+                }
                 for (Cell kv: results) {
                     PreAnalyseProtos.MapEntry mp = PreAnalyseProtos.MapEntry.newBuilder()
                             .setKey(new String(kv.getRow()))
@@ -103,6 +109,7 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
             }while (hasMore);
             java.lang.Iterable<PreAnalyseProtos.MapEntry> list = new ArrayList<PreAnalyseProtos.MapEntry>(maplist);
             //maplist.listIterator();
+            LOG.info("add MapEntry to response.");
             response = PreAnalyseProtos.AnalyseResponse.newBuilder().addAllItems(list).build();
             //response = PreAnalyseProtos.AnalyseResponse.newBuilder().
 
