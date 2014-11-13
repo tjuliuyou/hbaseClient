@@ -4,6 +4,7 @@ import byone.hbase.filter.ByParseFilter;
 import byone.hbase.filter.CompareFilter;
 import byone.hbase.filter.EventComparator;
 import byone.hbase.filter.RowFilter;
+import byone.hbase.protobuf.FilterProtos;
 import byone.hbase.protobuf.PreAnalyseProtos;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.RpcCallback;
@@ -20,6 +21,7 @@ import org.apache.hadoop.hbase.coprocessor.CoprocessorService;
 import org.apache.hadoop.hbase.coprocessor.RegionCoprocessorEnvironment;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.protobuf.ProtobufUtil;
 import org.apache.hadoop.hbase.protobuf.ResponseConverter;
 import org.apache.hadoop.hbase.regionserver.InternalScanner;
 
@@ -72,11 +74,26 @@ public class PreAnalyseEndpoint extends PreAnalyseProtos.PreAnalyseService
     public void getPreData(RpcController controller, PreAnalyseProtos.AnalyseRequest request,
                            RpcCallback<PreAnalyseProtos.AnalyseResponse> done) {
         Scan scan = new Scan();
-        LOG.info("create new Scan in getPreData");
-        String filterString = request.getFilterString();
-        List<ByteString> events = request.getEventsList();
+        byte[] pre = env.getRegion().getStartKey();
+        try {
+            LOG.info("create new Scan in getPreData");
+            Scan scan2 = ProtobufUtil.toScan(request.getScan());
+            List<ByteString> range = request.getRangeList();
+            if(pre.length == 0) {
 
-        Filter fl = hbaseFilter(filterString,events);
+            }
+            range.get(0).toByteArray()
+
+                    scan.sets
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // String filterString = request.getFilterString();
+       // List<ByteString> events = request.getEventsList();
+
+        //Filter fl2 = ProtobufUtil.toFilter(request.getFilter())
+
+       // Filter fl = hbaseFilter(filterString,events);
         //scan.setFilter(fl);
 
         PreAnalyseProtos.AnalyseResponse response = null;

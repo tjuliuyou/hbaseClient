@@ -701,34 +701,33 @@ public final class PreAnalyseProtos {
   public interface AnalyseRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional string filterString = 1;
+    // required .Scan scan = 1;
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    boolean hasFilterString();
+    boolean hasScan();
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    java.lang.String getFilterString();
+    org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan getScan();
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    com.google.protobuf.ByteString
-        getFilterStringBytes();
+    org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder getScanOrBuilder();
 
-    // repeated bytes events = 2;
+    // repeated bytes range = 2;
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
-    java.util.List<com.google.protobuf.ByteString> getEventsList();
+    java.util.List<com.google.protobuf.ByteString> getRangeList();
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
-    int getEventsCount();
+    int getRangeCount();
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
-    com.google.protobuf.ByteString getEvents(int index);
+    com.google.protobuf.ByteString getRange(int index);
 
     // repeated string groups = 3;
     /**
@@ -749,6 +748,31 @@ public final class PreAnalyseProtos {
      */
     com.google.protobuf.ByteString
         getGroupsBytes(int index);
+
+    // repeated .MapEntry aggre = 4;
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry> 
+        getAggreList();
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    byone.hbase.protobuf.PreAnalyseProtos.MapEntry getAggre(int index);
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    int getAggreCount();
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    java.util.List<? extends byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder> 
+        getAggreOrBuilderList();
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder getAggreOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code AnalyseRequest}
@@ -802,16 +826,24 @@ public final class PreAnalyseProtos {
               break;
             }
             case 10: {
+              org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = scan_.toBuilder();
+              }
+              scan_ = input.readMessage(org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(scan_);
+                scan_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000001;
-              filterString_ = input.readBytes();
               break;
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                events_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                range_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              events_.add(input.readBytes());
+              range_.add(input.readBytes());
               break;
             }
             case 26: {
@@ -820,6 +852,14 @@ public final class PreAnalyseProtos {
                 mutable_bitField0_ |= 0x00000004;
               }
               groups_.add(input.readBytes());
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                aggre_ = new java.util.ArrayList<byone.hbase.protobuf.PreAnalyseProtos.MapEntry>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              aggre_.add(input.readMessage(byone.hbase.protobuf.PreAnalyseProtos.MapEntry.PARSER, extensionRegistry));
               break;
             }
           }
@@ -831,10 +871,13 @@ public final class PreAnalyseProtos {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          events_ = java.util.Collections.unmodifiableList(events_);
+          range_ = java.util.Collections.unmodifiableList(range_);
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           groups_ = new com.google.protobuf.UnmodifiableLazyStringList(groups_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          aggre_ = java.util.Collections.unmodifiableList(aggre_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -868,70 +911,49 @@ public final class PreAnalyseProtos {
     }
 
     private int bitField0_;
-    // optional string filterString = 1;
-    public static final int FILTERSTRING_FIELD_NUMBER = 1;
-    private java.lang.Object filterString_;
+    // required .Scan scan = 1;
+    public static final int SCAN_FIELD_NUMBER = 1;
+    private org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan scan_;
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    public boolean hasFilterString() {
+    public boolean hasScan() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    public java.lang.String getFilterString() {
-      java.lang.Object ref = filterString_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          filterString_ = s;
-        }
-        return s;
-      }
+    public org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan getScan() {
+      return scan_;
     }
     /**
-     * <code>optional string filterString = 1;</code>
+     * <code>required .Scan scan = 1;</code>
      */
-    public com.google.protobuf.ByteString
-        getFilterStringBytes() {
-      java.lang.Object ref = filterString_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        filterString_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder getScanOrBuilder() {
+      return scan_;
     }
 
-    // repeated bytes events = 2;
-    public static final int EVENTS_FIELD_NUMBER = 2;
-    private java.util.List<com.google.protobuf.ByteString> events_;
+    // repeated bytes range = 2;
+    public static final int RANGE_FIELD_NUMBER = 2;
+    private java.util.List<com.google.protobuf.ByteString> range_;
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
     public java.util.List<com.google.protobuf.ByteString>
-        getEventsList() {
-      return events_;
+        getRangeList() {
+      return range_;
     }
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
-    public int getEventsCount() {
-      return events_.size();
+    public int getRangeCount() {
+      return range_.size();
     }
     /**
-     * <code>repeated bytes events = 2;</code>
+     * <code>repeated bytes range = 2;</code>
      */
-    public com.google.protobuf.ByteString getEvents(int index) {
-      return events_.get(index);
+    public com.google.protobuf.ByteString getRange(int index) {
+      return range_.get(index);
     }
 
     // repeated string groups = 3;
@@ -964,16 +986,67 @@ public final class PreAnalyseProtos {
       return groups_.getByteString(index);
     }
 
+    // repeated .MapEntry aggre = 4;
+    public static final int AGGRE_FIELD_NUMBER = 4;
+    private java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry> aggre_;
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    public java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry> getAggreList() {
+      return aggre_;
+    }
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    public java.util.List<? extends byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder> 
+        getAggreOrBuilderList() {
+      return aggre_;
+    }
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    public int getAggreCount() {
+      return aggre_.size();
+    }
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    public byone.hbase.protobuf.PreAnalyseProtos.MapEntry getAggre(int index) {
+      return aggre_.get(index);
+    }
+    /**
+     * <code>repeated .MapEntry aggre = 4;</code>
+     */
+    public byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder getAggreOrBuilder(
+        int index) {
+      return aggre_.get(index);
+    }
+
     private void initFields() {
-      filterString_ = "";
-      events_ = java.util.Collections.emptyList();
+      scan_ = org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.getDefaultInstance();
+      range_ = java.util.Collections.emptyList();
       groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      aggre_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasScan()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getScan().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getAggreCount(); i++) {
+        if (!getAggre(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -982,13 +1055,16 @@ public final class PreAnalyseProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getFilterStringBytes());
+        output.writeMessage(1, scan_);
       }
-      for (int i = 0; i < events_.size(); i++) {
-        output.writeBytes(2, events_.get(i));
+      for (int i = 0; i < range_.size(); i++) {
+        output.writeBytes(2, range_.get(i));
       }
       for (int i = 0; i < groups_.size(); i++) {
         output.writeBytes(3, groups_.getByteString(i));
+      }
+      for (int i = 0; i < aggre_.size(); i++) {
+        output.writeMessage(4, aggre_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1001,16 +1077,16 @@ public final class PreAnalyseProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getFilterStringBytes());
+          .computeMessageSize(1, scan_);
       }
       {
         int dataSize = 0;
-        for (int i = 0; i < events_.size(); i++) {
+        for (int i = 0; i < range_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(events_.get(i));
+            .computeBytesSizeNoTag(range_.get(i));
         }
         size += dataSize;
-        size += 1 * getEventsList().size();
+        size += 1 * getRangeList().size();
       }
       {
         int dataSize = 0;
@@ -1020,6 +1096,10 @@ public final class PreAnalyseProtos {
         }
         size += dataSize;
         size += 1 * getGroupsList().size();
+      }
+      for (int i = 0; i < aggre_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, aggre_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1044,15 +1124,17 @@ public final class PreAnalyseProtos {
       byone.hbase.protobuf.PreAnalyseProtos.AnalyseRequest other = (byone.hbase.protobuf.PreAnalyseProtos.AnalyseRequest) obj;
 
       boolean result = true;
-      result = result && (hasFilterString() == other.hasFilterString());
-      if (hasFilterString()) {
-        result = result && getFilterString()
-            .equals(other.getFilterString());
+      result = result && (hasScan() == other.hasScan());
+      if (hasScan()) {
+        result = result && getScan()
+            .equals(other.getScan());
       }
-      result = result && getEventsList()
-          .equals(other.getEventsList());
+      result = result && getRangeList()
+          .equals(other.getRangeList());
       result = result && getGroupsList()
           .equals(other.getGroupsList());
+      result = result && getAggreList()
+          .equals(other.getAggreList());
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
       return result;
@@ -1066,17 +1148,21 @@ public final class PreAnalyseProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasFilterString()) {
-        hash = (37 * hash) + FILTERSTRING_FIELD_NUMBER;
-        hash = (53 * hash) + getFilterString().hashCode();
+      if (hasScan()) {
+        hash = (37 * hash) + SCAN_FIELD_NUMBER;
+        hash = (53 * hash) + getScan().hashCode();
       }
-      if (getEventsCount() > 0) {
-        hash = (37 * hash) + EVENTS_FIELD_NUMBER;
-        hash = (53 * hash) + getEventsList().hashCode();
+      if (getRangeCount() > 0) {
+        hash = (37 * hash) + RANGE_FIELD_NUMBER;
+        hash = (53 * hash) + getRangeList().hashCode();
       }
       if (getGroupsCount() > 0) {
         hash = (37 * hash) + GROUPS_FIELD_NUMBER;
         hash = (53 * hash) + getGroupsList().hashCode();
+      }
+      if (getAggreCount() > 0) {
+        hash = (37 * hash) + AGGRE_FIELD_NUMBER;
+        hash = (53 * hash) + getAggreList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1179,6 +1265,8 @@ public final class PreAnalyseProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getScanFieldBuilder();
+          getAggreFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1187,12 +1275,22 @@ public final class PreAnalyseProtos {
 
       public Builder clear() {
         super.clear();
-        filterString_ = "";
+        if (scanBuilder_ == null) {
+          scan_ = org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.getDefaultInstance();
+        } else {
+          scanBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000001);
-        events_ = java.util.Collections.emptyList();
+        range_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
         groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (aggreBuilder_ == null) {
+          aggre_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          aggreBuilder_.clear();
+        }
         return this;
       }
 
@@ -1224,18 +1322,31 @@ public final class PreAnalyseProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.filterString_ = filterString_;
+        if (scanBuilder_ == null) {
+          result.scan_ = scan_;
+        } else {
+          result.scan_ = scanBuilder_.build();
+        }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          events_ = java.util.Collections.unmodifiableList(events_);
+          range_ = java.util.Collections.unmodifiableList(range_);
           bitField0_ = (bitField0_ & ~0x00000002);
         }
-        result.events_ = events_;
+        result.range_ = range_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           groups_ = new com.google.protobuf.UnmodifiableLazyStringList(
               groups_);
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.groups_ = groups_;
+        if (aggreBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            aggre_ = java.util.Collections.unmodifiableList(aggre_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.aggre_ = aggre_;
+        } else {
+          result.aggre_ = aggreBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1252,18 +1363,16 @@ public final class PreAnalyseProtos {
 
       public Builder mergeFrom(byone.hbase.protobuf.PreAnalyseProtos.AnalyseRequest other) {
         if (other == byone.hbase.protobuf.PreAnalyseProtos.AnalyseRequest.getDefaultInstance()) return this;
-        if (other.hasFilterString()) {
-          bitField0_ |= 0x00000001;
-          filterString_ = other.filterString_;
-          onChanged();
+        if (other.hasScan()) {
+          mergeScan(other.getScan());
         }
-        if (!other.events_.isEmpty()) {
-          if (events_.isEmpty()) {
-            events_ = other.events_;
+        if (!other.range_.isEmpty()) {
+          if (range_.isEmpty()) {
+            range_ = other.range_;
             bitField0_ = (bitField0_ & ~0x00000002);
           } else {
-            ensureEventsIsMutable();
-            events_.addAll(other.events_);
+            ensureRangeIsMutable();
+            range_.addAll(other.range_);
           }
           onChanged();
         }
@@ -1277,11 +1386,51 @@ public final class PreAnalyseProtos {
           }
           onChanged();
         }
+        if (aggreBuilder_ == null) {
+          if (!other.aggre_.isEmpty()) {
+            if (aggre_.isEmpty()) {
+              aggre_ = other.aggre_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureAggreIsMutable();
+              aggre_.addAll(other.aggre_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.aggre_.isEmpty()) {
+            if (aggreBuilder_.isEmpty()) {
+              aggreBuilder_.dispose();
+              aggreBuilder_ = null;
+              aggre_ = other.aggre_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              aggreBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAggreFieldBuilder() : null;
+            } else {
+              aggreBuilder_.addAllMessages(other.aggre_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasScan()) {
+          
+          return false;
+        }
+        if (!getScan().isInitialized()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getAggreCount(); i++) {
+          if (!getAggre(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
 
@@ -1304,147 +1453,190 @@ public final class PreAnalyseProtos {
       }
       private int bitField0_;
 
-      // optional string filterString = 1;
-      private java.lang.Object filterString_ = "";
+      // required .Scan scan = 1;
+      private org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan scan_ = org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder> scanBuilder_;
       /**
-       * <code>optional string filterString = 1;</code>
+       * <code>required .Scan scan = 1;</code>
        */
-      public boolean hasFilterString() {
+      public boolean hasScan() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string filterString = 1;</code>
+       * <code>required .Scan scan = 1;</code>
        */
-      public java.lang.String getFilterString() {
-        java.lang.Object ref = filterString_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          filterString_ = s;
-          return s;
+      public org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan getScan() {
+        if (scanBuilder_ == null) {
+          return scan_;
         } else {
-          return (java.lang.String) ref;
+          return scanBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string filterString = 1;</code>
+       * <code>required .Scan scan = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getFilterStringBytes() {
-        java.lang.Object ref = filterString_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          filterString_ = b;
-          return b;
+      public Builder setScan(org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan value) {
+        if (scanBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          scan_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          scanBuilder_.setMessage(value);
         }
-      }
-      /**
-       * <code>optional string filterString = 1;</code>
-       */
-      public Builder setFilterString(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        filterString_ = value;
-        onChanged();
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional string filterString = 1;</code>
+       * <code>required .Scan scan = 1;</code>
        */
-      public Builder clearFilterString() {
+      public Builder setScan(
+          org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder builderForValue) {
+        if (scanBuilder_ == null) {
+          scan_ = builderForValue.build();
+          onChanged();
+        } else {
+          scanBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .Scan scan = 1;</code>
+       */
+      public Builder mergeScan(org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan value) {
+        if (scanBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              scan_ != org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.getDefaultInstance()) {
+            scan_ =
+              org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.newBuilder(scan_).mergeFrom(value).buildPartial();
+          } else {
+            scan_ = value;
+          }
+          onChanged();
+        } else {
+          scanBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .Scan scan = 1;</code>
+       */
+      public Builder clearScan() {
+        if (scanBuilder_ == null) {
+          scan_ = org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.getDefaultInstance();
+          onChanged();
+        } else {
+          scanBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000001);
-        filterString_ = getDefaultInstance().getFilterString();
-        onChanged();
         return this;
       }
       /**
-       * <code>optional string filterString = 1;</code>
+       * <code>required .Scan scan = 1;</code>
        */
-      public Builder setFilterStringBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        filterString_ = value;
+      public org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder getScanBuilder() {
+        bitField0_ |= 0x00000001;
         onChanged();
-        return this;
+        return getScanFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .Scan scan = 1;</code>
+       */
+      public org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder getScanOrBuilder() {
+        if (scanBuilder_ != null) {
+          return scanBuilder_.getMessageOrBuilder();
+        } else {
+          return scan_;
+        }
+      }
+      /**
+       * <code>required .Scan scan = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder> 
+          getScanFieldBuilder() {
+        if (scanBuilder_ == null) {
+          scanBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.Scan.Builder, org.apache.hadoop.hbase.protobuf.generated.ClientProtos.ScanOrBuilder>(
+                  scan_,
+                  getParentForChildren(),
+                  isClean());
+          scan_ = null;
+        }
+        return scanBuilder_;
       }
 
-      // repeated bytes events = 2;
-      private java.util.List<com.google.protobuf.ByteString> events_ = java.util.Collections.emptyList();
-      private void ensureEventsIsMutable() {
+      // repeated bytes range = 2;
+      private java.util.List<com.google.protobuf.ByteString> range_ = java.util.Collections.emptyList();
+      private void ensureRangeIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          events_ = new java.util.ArrayList<com.google.protobuf.ByteString>(events_);
+          range_ = new java.util.ArrayList<com.google.protobuf.ByteString>(range_);
           bitField0_ |= 0x00000002;
          }
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
       public java.util.List<com.google.protobuf.ByteString>
-          getEventsList() {
-        return java.util.Collections.unmodifiableList(events_);
+          getRangeList() {
+        return java.util.Collections.unmodifiableList(range_);
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public int getEventsCount() {
-        return events_.size();
+      public int getRangeCount() {
+        return range_.size();
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public com.google.protobuf.ByteString getEvents(int index) {
-        return events_.get(index);
+      public com.google.protobuf.ByteString getRange(int index) {
+        return range_.get(index);
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public Builder setEvents(
+      public Builder setRange(
           int index, com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureEventsIsMutable();
-        events_.set(index, value);
+  ensureRangeIsMutable();
+        range_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public Builder addEvents(com.google.protobuf.ByteString value) {
+      public Builder addRange(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureEventsIsMutable();
-        events_.add(value);
+  ensureRangeIsMutable();
+        range_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public Builder addAllEvents(
+      public Builder addAllRange(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
-        ensureEventsIsMutable();
-        super.addAll(values, events_);
+        ensureRangeIsMutable();
+        super.addAll(values, range_);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated bytes events = 2;</code>
+       * <code>repeated bytes range = 2;</code>
        */
-      public Builder clearEvents() {
-        events_ = java.util.Collections.emptyList();
+      public Builder clearRange() {
+        range_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
@@ -1541,6 +1733,246 @@ public final class PreAnalyseProtos {
         groups_.add(value);
         onChanged();
         return this;
+      }
+
+      // repeated .MapEntry aggre = 4;
+      private java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry> aggre_ =
+        java.util.Collections.emptyList();
+      private void ensureAggreIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          aggre_ = new java.util.ArrayList<byone.hbase.protobuf.PreAnalyseProtos.MapEntry>(aggre_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          byone.hbase.protobuf.PreAnalyseProtos.MapEntry, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder, byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder> aggreBuilder_;
+
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry> getAggreList() {
+        if (aggreBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(aggre_);
+        } else {
+          return aggreBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public int getAggreCount() {
+        if (aggreBuilder_ == null) {
+          return aggre_.size();
+        } else {
+          return aggreBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public byone.hbase.protobuf.PreAnalyseProtos.MapEntry getAggre(int index) {
+        if (aggreBuilder_ == null) {
+          return aggre_.get(index);
+        } else {
+          return aggreBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder setAggre(
+          int index, byone.hbase.protobuf.PreAnalyseProtos.MapEntry value) {
+        if (aggreBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAggreIsMutable();
+          aggre_.set(index, value);
+          onChanged();
+        } else {
+          aggreBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder setAggre(
+          int index, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder builderForValue) {
+        if (aggreBuilder_ == null) {
+          ensureAggreIsMutable();
+          aggre_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          aggreBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder addAggre(byone.hbase.protobuf.PreAnalyseProtos.MapEntry value) {
+        if (aggreBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAggreIsMutable();
+          aggre_.add(value);
+          onChanged();
+        } else {
+          aggreBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder addAggre(
+          int index, byone.hbase.protobuf.PreAnalyseProtos.MapEntry value) {
+        if (aggreBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAggreIsMutable();
+          aggre_.add(index, value);
+          onChanged();
+        } else {
+          aggreBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder addAggre(
+          byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder builderForValue) {
+        if (aggreBuilder_ == null) {
+          ensureAggreIsMutable();
+          aggre_.add(builderForValue.build());
+          onChanged();
+        } else {
+          aggreBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder addAggre(
+          int index, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder builderForValue) {
+        if (aggreBuilder_ == null) {
+          ensureAggreIsMutable();
+          aggre_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          aggreBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder addAllAggre(
+          java.lang.Iterable<? extends byone.hbase.protobuf.PreAnalyseProtos.MapEntry> values) {
+        if (aggreBuilder_ == null) {
+          ensureAggreIsMutable();
+          super.addAll(values, aggre_);
+          onChanged();
+        } else {
+          aggreBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder clearAggre() {
+        if (aggreBuilder_ == null) {
+          aggre_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          aggreBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public Builder removeAggre(int index) {
+        if (aggreBuilder_ == null) {
+          ensureAggreIsMutable();
+          aggre_.remove(index);
+          onChanged();
+        } else {
+          aggreBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder getAggreBuilder(
+          int index) {
+        return getAggreFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder getAggreOrBuilder(
+          int index) {
+        if (aggreBuilder_ == null) {
+          return aggre_.get(index);  } else {
+          return aggreBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public java.util.List<? extends byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder> 
+           getAggreOrBuilderList() {
+        if (aggreBuilder_ != null) {
+          return aggreBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(aggre_);
+        }
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder addAggreBuilder() {
+        return getAggreFieldBuilder().addBuilder(
+            byone.hbase.protobuf.PreAnalyseProtos.MapEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder addAggreBuilder(
+          int index) {
+        return getAggreFieldBuilder().addBuilder(
+            index, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .MapEntry aggre = 4;</code>
+       */
+      public java.util.List<byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder> 
+           getAggreBuilderList() {
+        return getAggreFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          byone.hbase.protobuf.PreAnalyseProtos.MapEntry, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder, byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder> 
+          getAggreFieldBuilder() {
+        if (aggreBuilder_ == null) {
+          aggreBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              byone.hbase.protobuf.PreAnalyseProtos.MapEntry, byone.hbase.protobuf.PreAnalyseProtos.MapEntry.Builder, byone.hbase.protobuf.PreAnalyseProtos.MapEntryOrBuilder>(
+                  aggre_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          aggre_ = null;
+        }
+        return aggreBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:AnalyseRequest)
@@ -2531,14 +2963,15 @@ public final class PreAnalyseProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020PreAnalyse.proto\"&\n\010MapEntry\022\013\n\003key\030\001 " +
-      "\002(\t\022\r\n\005value\030\002 \002(\t\"F\n\016AnalyseRequest\022\024\n\014" +
-      "filterString\030\001 \001(\t\022\016\n\006events\030\002 \003(\014\022\016\n\006gr" +
-      "oups\030\003 \003(\t\"+\n\017AnalyseResponse\022\030\n\005items\030\001" +
-      " \003(\0132\t.MapEntry2D\n\021PreAnalyseService\022/\n\n" +
-      "getPreData\022\017.AnalyseRequest\032\020.AnalyseRes" +
-      "ponseB0\n\024byone.hbase.protobufB\020PreAnalys" +
-      "eProtosH\001\210\001\001\240\001\001"
+      "\n\020PreAnalyse.proto\032\014Client.proto\"&\n\010MapE" +
+      "ntry\022\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"^\n\016Anal" +
+      "yseRequest\022\023\n\004scan\030\001 \002(\0132\005.Scan\022\r\n\005range" +
+      "\030\002 \003(\014\022\016\n\006groups\030\003 \003(\t\022\030\n\005aggre\030\004 \003(\0132\t." +
+      "MapEntry\"+\n\017AnalyseResponse\022\030\n\005items\030\001 \003" +
+      "(\0132\t.MapEntry2D\n\021PreAnalyseService\022/\n\nge" +
+      "tPreData\022\017.AnalyseRequest\032\020.AnalyseRespo" +
+      "nseB0\n\024byone.hbase.protobufB\020PreAnalyseP" +
+      "rotosH\001\210\001\001\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2556,7 +2989,7 @@ public final class PreAnalyseProtos {
           internal_static_AnalyseRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_AnalyseRequest_descriptor,
-              new java.lang.String[] { "FilterString", "Events", "Groups", });
+              new java.lang.String[] { "Scan", "Range", "Groups", "Aggre", });
           internal_static_AnalyseResponse_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_AnalyseResponse_fieldAccessorTable = new
@@ -2569,6 +3002,7 @@ public final class PreAnalyseProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          org.apache.hadoop.hbase.protobuf.generated.ClientProtos.getDescriptor(),
         }, assigner);
   }
 

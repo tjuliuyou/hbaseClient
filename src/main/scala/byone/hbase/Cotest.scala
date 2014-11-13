@@ -1,5 +1,7 @@
 package byone.hbase
 
+import java.util
+
 import byone.hbase.protobuf.PreAnalyseProtos
 import byone.hbase.protobuf.PreAnalyseProtos.{MapEntry, PreAnalyseService}
 import com.google.protobuf.ByteString
@@ -11,6 +13,7 @@ import org.apache.hadoop.hbase.ipc.{BlockingRpcCallback, ServerRpcController}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
+import java.util.Iterator
 /**
  * Created by liuyou on 14/11/11.
  */
@@ -44,18 +47,15 @@ object Cotest {
 
     val results = table.coprocessorService(classOf[PreAnalyseProtos.PreAnalyseService],
                   null,null,
-    new Batch.Call[PreAnalyseProtos.PreAnalyseService,mutable.Buffer[MapEntry]](){
-      override def call(counter: PreAnalyseService): mutable.Buffer[MapEntry] = {
+    new Batch.Call[PreAnalyseProtos.PreAnalyseService,List[MapEntry]](){
+      override def call(counter: PreAnalyseService): Iterator[MapEntry] = {
         val controller = new ServerRpcController()
         val rpcCallback = new BlockingRpcCallback[PreAnalyseProtos.AnalyseResponse]()
-        counter.getPreData(controller,request,rpcCallback)
+        counter.getPreData(controller, request, rpcCallback)
         val response = rpcCallback.get()
-        if(response != null && response.isInitialized)
-          response.getItemsList.asScala
-        else {
-          val mp =PreAnalyseProtos.MapEntry.newBuilder.setKey("a").setValue("b").build
-          mutable.Buffer(mp)
-        }
+        //if(response != null && response.isInitialized)
+        response.getItemsList().iterator()
+
       }
     })
 

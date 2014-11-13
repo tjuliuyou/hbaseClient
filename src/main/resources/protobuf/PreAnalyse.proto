@@ -4,6 +4,7 @@ option java_generic_services = true;
 option java_generate_equals_and_hash = true;
 option optimize_for = SPEED;
 
+import "Client.proto";
 
 message MapEntry
 {
@@ -11,12 +12,12 @@ message MapEntry
     required string value = 2;
 }
 
-
-
 message AnalyseRequest {
-    optional string filterString = 1;
-    repeated bytes events = 2;
+    required Scan scan = 1;
+    repeated bytes range = 2;
     repeated string groups = 3;
+    repeated MapEntry aggre = 4;
+
 }
 
 message AnalyseResponse {
