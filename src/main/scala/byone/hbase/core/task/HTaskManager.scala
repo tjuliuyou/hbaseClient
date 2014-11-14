@@ -14,12 +14,12 @@ object HTaskManager {
 
   private val manager = new HTaskManager
 
-  def get(uid: String): HTask = {manager.tasks.getOrElseUpdate(uid,new HTask(""))}
+  def get(uid: String): ReadTask = {manager.tasks.getOrElseUpdate(uid,new ReadTask(""))}
 
   val MaxSize = manager.MAXTHREAD
 
   def create(args: String) = {
-    val task = new HTask(args)
+    val task = new ReadTask(args)
     val taskId = task.id
     manager.tasks.update(taskId,task)
     taskId
@@ -29,7 +29,7 @@ object HTaskManager {
     logger.info("add " + workId + "and curr running size: " + manager.running.size)
     if(manager.running.size < MaxSize){
       statusUpdate(workId, 1)
-      HTask.sender ! RunWork(workId)
+      ReadTask.sender ! RunWork(workId)
     }
 
     else{
@@ -43,7 +43,7 @@ object HTaskManager {
     if(manager.created.nonEmpty){
       val uid = manager.created.head
       statusUpdate(uid, 1)
-      HTask.sender ! RunWork(uid)
+      ReadTask.sender ! RunWork(uid)
     }
   }
 
@@ -80,7 +80,7 @@ class HTaskManager(workThread: Int = 3) {
 
   val MAXTHREAD = workThread
 
-  private[HTaskManager] val tasks = TrieMap[String,HTask]()
+  private[HTaskManager] val tasks = TrieMap[String,ReadTask]()
   private[HTaskManager] val taskStatuses = TrieMap[String,Int]()
 
   /**

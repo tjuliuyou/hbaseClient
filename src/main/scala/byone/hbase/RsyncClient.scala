@@ -15,7 +15,7 @@ object RsyncClient {
 
   /**
    * queryData from HBase or cached data. This will return Query task handle id immediately.
-   * then we can get the data or task status with the id @See {byone.hbase.core.task.HTask}.
+   * then we can get the data or task status with the id @See {byone.hbase.core.task.ReadTask}.
    * @param args read args using json
    *             i.e.
    *             """{
