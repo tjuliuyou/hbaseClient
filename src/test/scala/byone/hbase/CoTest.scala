@@ -51,26 +51,26 @@ object CoTest {
 
     val results = table.coprocessorService(classOf[PreAnalyseProtos.PreAnalyseService],
                   null,null,
-    new Batch.Call[PreAnalyseProtos.PreAnalyseService,java.util.List[MapEntry]](){
-      override def call(counter: PreAnalyseService): java.util.List[MapEntry] = {
+    new Batch.Call[PreAnalyseProtos.PreAnalyseService,MapEntry](){
+      override def call(counter: PreAnalyseService): MapEntry = {
         val controller = new ServerRpcController()
         val rpcCallback = new BlockingRpcCallback[PreAnalyseProtos.AnalyseResponse]()
         counter.getPreData(controller, request, rpcCallback)
         val response = rpcCallback.get()
         //if(response != null && response.isInitialized)
-        response.getDataList
+        response.getData
       }
     })
 
     val data = results.values().asScala
 
-    data.foreach(x =>{
-      x.asScala.foreach(y=> {
-        y.getKvList.asScala.foreach(kv => {
-          println(kv.getValue)
-        })
-      })
-    })
+//    data.foreach(x =>{
+//      x.asScala.foreach(y=> {
+//        y.getKvList.asScala.foreach(kv => {
+//          println(kv.getValue)
+//        })
+//      })
+//    })
 
     println(results.size())
 

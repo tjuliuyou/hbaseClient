@@ -13,13 +13,16 @@ import org.slf4j.LoggerFactory
 /**
  * Created by liuyou on 14/11/3.
  */
-class HTask(queryArgs: String)  {
+class ReadTask(queryArgs: String)  {
+  def get = {}
+
 
   private[byone] var stat = 0
   private[byone] var errors = 0
   private[byone] var priority = 0
   private[byone] val buildtime = Calendar.getInstance.getTime
-  private[byone] val logger = LoggerFactory.getLogger(classOf[HTask])
+  private[byone] val logger = LoggerFactory.getLogger(getClass)
+  //val readArgs:
   logger.debug("Now create uuid for this task.")
   val id = UIDCreater.uuid
 
@@ -27,7 +30,7 @@ class HTask(queryArgs: String)  {
     "\r\nQuery Args: " + queryArgs +
     "\r\nCreate at: " + buildtime
 
-  private def parser: QueryArgs = {
+  private def args: QueryArgs = {
 
     logger.info("Parser args...")
     updateStatus(1)
@@ -72,7 +75,7 @@ class HTask(queryArgs: String)  {
   def start = {
     println("Task: " + id + "now running.")
     println("1.paser args...\r\n")
-    val scans = argsToscans(parser)
+    val scans = argsToscans(args)
 
     println("2.get data from hbase...\r\n")
     Thread.sleep(4000)
@@ -80,7 +83,7 @@ class HTask(queryArgs: String)  {
     Thread.sleep(3000)
     println("4.done")
     HTaskManager.statusUpdate(id, 2)
-    HTask.sender ! WorkDone(id)
+    ReadTask.sender ! WorkDone(id)
   }
 
   def restart = {
@@ -107,13 +110,13 @@ class HTask(queryArgs: String)  {
 
   private def updateStatus(currStatus: Int) {
     if (currStatus == -1)
-      HTask.sender ! HError(id)
+      ReadTask.sender ! HError(id)
     stat = currStatus
   }
 
 }
 
-object HTask {
+object ReadTask {
 
 
   val system = ActorSystem("TaskManager")

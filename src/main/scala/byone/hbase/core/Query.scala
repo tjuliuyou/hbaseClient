@@ -16,8 +16,14 @@
  */
 package byone.hbase.core
 
+import java.util.Calendar
+
+import byone.hbase.core.actor.WorkDone
+import byone.hbase.core.task.HTaskManager
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
+import byone.hbase.uid.UIDCreater
 import byone.hbase.util.{Constants, Converter}
+import net.liftweb.json.JsonParser._
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}
 import org.apache.hadoop.hbase.filter.{Filter, FilterList}
@@ -33,22 +39,26 @@ import scala.collection.JavaConverters._
  * Created by liu you on 14-8-13.
  *
  * Core Query class read Hbase/cached to local RDD
- * @param args args to retrieve data { @see QueryArgs}
+ * @param queryAr args to retrieve data { @see QueryArgs}
  */
-class Query(args: QueryArgs) extends java.io.Serializable {
+class Query(queryAr: String) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(getClass)
   private val serialVersionUID = 6329685098267757690L
+  private[byone] var stat = 0
+  private[byone] var errors = 0
+  private[byone] var priority = 0
+  private[byone] val buildtime = Calendar.getInstance.getTime
 
   private val family = Constants.dataFamily(0)
   private val tablename = Constants.dataTable
 
-
+  private val args = parseArgs(queryAr)
   private val range = args.Range.get
   private val events = args.Events.get
   private val filters = args.Filter.get
 
-  private val groups = args.Groups.get
+  //private val groups = args.Groups.get
 
   private val aggres = if (args.Aggres.get.nonEmpty) {
     for (ar <- args.Aggres.get) yield {
@@ -63,9 +73,42 @@ class Query(args: QueryArgs) extends java.io.Serializable {
     ilist.flatten.toList
   }
 
-  private val items = (args.Items.get ++ args.Groups.get ++ aggitems).toSet
+  val items = (args.Items.get ++ args.Groups.get ++ aggitems).toSet
 
 
+
+
+  //val readArgs:
+  logger.debug("Now create uuid for this task.")
+  val id = UIDCreater.uuid
+
+  val info = "Task id: " + id +
+    "\r\nQuery Args: " + queryAr +
+    "\r\nCreate at: " + buildtime
+
+
+
+  //private val query = Query.create(queryArgs)
+
+  // def status = query.status
+
+  //def take = query.get()
+
+  def argsToscans(args: QueryArgs) = {
+
+  }
+
+  def start = {
+    println("Task: " + id + "now running.")
+    println("1.paser args...\r\n")
+    val scans = argsToscans(args)
+
+    println("2.get data from hbase...\r\n")
+    Thread.sleep(4000)
+    println("3.aggregate the data...")
+    Thread.sleep(3000)
+    println("4.done")
+  }
 
 
 //  def get(single: Boolean = true) = {
@@ -86,8 +129,47 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 //
 //    }
 //  }
+//  def get = {
+//  if(args.Groups.)
+//
+//}
+//
+//
+//  def multiGet = {
+//
+//    logger.info("multi get rdds")
+//    val retRdd = {
+//      if (groups.isEmpty)
+//        rawRdd().map(x => family -> x._2)
+//      else
+//       // rawRdd().filter(Query.groupChecker).map(groupBy)
+//    }
+//    if (aggres.nonEmpty) {
+//      Aggre.doAggre(retRdd, aggres)
+//    } else
+//      retRdd
+//  }
+//
+//  def groupBy(raw: (Array[Byte], Map[String, String]))
+//  : (String, Map[String, String]) = {
+//    val keys = for (g <- groups) yield {
+//      raw._2(g)
+//    }
+//    (keys.mkString, raw._2)
+//
+//  }
 
+  /**
+   * raw Future rdd
+   * @return Future[RDD[(String,Map[String,String])]
+   */
+  def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
+    logger.info("get rdds using newRawRdd")
+    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs),items)
 
+    hbaseRdd(scans.toList).map(normalize).cache()
+
+  }
 
 
 
@@ -97,33 +179,37 @@ class Query(args: QueryArgs) extends java.io.Serializable {
 
   var rdd: RDD[(String, Map[String, String])] = Constants.sc.emptyRDD
 
-}
 
-/**
- * Args holds a bunch of args parsed from test file (json)
- * @param Range   Time range Seq should be start time and stop time, to see the format { @see DatePoint#toTs}
- * @param Items   Items Seq that needed to take back for display
- * @param Events  Event type Seq explicit should be take back
- * @param Filter  Filter String will be used for Scans
- * @param Groups Group by Seq
- * @param Aggres  Aggreagte args
- */
-case class QueryArgs(Range: Option[Seq[String]],
-                   Items: Option[Seq[String]],
-                   Events: Option[Seq[String]],
-                   Filter: Option[String],
-                   Groups: Option[Seq[String]],
-                   Aggres: Option[Seq[Seq[String]]],
-                   Order: Option[Boolean])
+  private def parseArgs(argsjson: String): QueryArgs = {
 
-object Query {
+    logger.info("Parser args...")
 
-  private val logger = LoggerFactory.getLogger(getClass)
-  private val tablename = Constants.dataTable
-  private val constConnect = new HTable(Constants.conf, tablename)
-  private val family = Constants.dataFamily(0)
-  Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
-  //def create(args: QueryArgs) = new Query(args)
+    try {
+      implicit val formats = net.liftweb.json.DefaultFormats
+      val args = parse(argsjson).extract[QueryArgs]
+      val range = args.Range.getOrElse(Seq(""))
+      if (range.length != 2) {
+        logger.error("range list size must be 2!")
+        errors += 1
+        if (range(0) > range(1)) {
+          logger.error("start time bigger than stop time.")
+          errors += 1
+        }
+      }
+      args
+    } catch {
+      case e: Exception => {
+        logger.error("Parser QueryArgs with liftweb json error: " + e.getMessage)
+        errors += 1
+        QueryArgs(None,None,None,None,None,None,None)
+      }
+    }
+    finally {
+      if (errors > 0)
+        logger.error("Parser QueryArgs with liftweb json error: ")
+    }
+
+  }
 
   def groupBy(raw: (Array[Byte], Map[String, String]), groups: Seq[String])
   : (String, Map[String, String]) = {
@@ -133,28 +219,28 @@ object Query {
     (keys.mkString, raw._2)
 
   }
-//
-//  /**
-//   * raw Future rdd
-//   * @return Future[RDD[(String,Map[String,String])]
-//   */
-//  def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
-//    logger.info("get rdds using newRawRdd")
-//    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
-//    hbaseRdd(scans.toList).map(normalize).cache()
-//
-//  }
+  //
+  //  /**
+  //   * raw Future rdd
+  //   * @return Future[RDD[(String,Map[String,String])]
+  //   */
+  //  def rawRdd(): RDD[(Array[Byte], Map[String, String])] = {
+  //    logger.info("get rdds using newRawRdd")
+  //    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs))
+  //    hbaseRdd(scans.toList).map(normalize).cache()
+  //
+  //  }
 
   /**
    * parser filter args and events to filter
-   * @param args   : filter args
+   * @param filterString   : filter args
    * @param events : list of events
    * @return Parsered filter list
    */
-  private def hbaseFilter(args: String, events: Seq[String]): FilterList = {
+  def hbaseFilter(filterString: String, events: Seq[String]): FilterList = {
     val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
 
-    if (args.equals("null") && events.isEmpty) {
+    if (filterString.equals("null") && events.isEmpty) {
       logger.debug("filters&& event equals null, set Filter to null")
       //debug code
       //      val exfilter: Filter = new RowFilter(
@@ -181,9 +267,9 @@ object Query {
           flist.addFilter(rowlist)
         }
       }
-      if (!args.equals("null")) {
+      if (!filterString.equals("null")) {
         logger.debug(" Parsering filter string to Filters.")
-        flist.addFilter(new ByParseFilter().parseFilterString(args))
+        flist.addFilter(new ByParseFilter().parseFilterString(filterString))
       }
       flist
     }
@@ -195,9 +281,9 @@ object Query {
    * @param timeRange  time range area
    * @return scan list
    */
-  private def scanList(scanFilter: FilterList,
-                       timeRange: Seq[Array[Byte]],
-                       items: Seq[String]) = {
+  def scanList(scanFilter: FilterList,
+               timeRange: Seq[Array[Byte]],
+               items: Set[String]) = {
     val cf = family.getBytes
     val tab = tablename.getBytes
     rowArea(timeRange).map { rows =>
@@ -308,6 +394,36 @@ object Query {
     val rdd = rddSeq.foldLeft(ret)((rhs, left) => rhs ++ left)
     rdd
   }
+
+
+}
+
+/**
+ * Args holds a bunch of args parsed from test file (json)
+ * @param Range   Time range Seq should be start time and stop time, to see the format { @see DatePoint#toTs}
+ * @param Items   Items Seq that needed to take back for display
+ * @param Events  Event type Seq explicit should be take back
+ * @param Filter  Filter String will be used for Scans
+ * @param Groups Group by Seq
+ * @param Aggres  Aggreagte args
+ */
+case class QueryArgs(Range: Option[Seq[String]],
+                   Items: Option[Seq[String]],
+                   Events: Option[Seq[String]],
+                   Filter: Option[String],
+                   Groups: Option[Seq[String]],
+                   Aggres: Option[Seq[Seq[String]]],
+                   Order: Option[String])
+
+object Query {
+
+  private val logger = LoggerFactory.getLogger(getClass)
+  private val tablename = Constants.dataTable
+  private val constConnect = new HTable(Constants.conf, tablename)
+  private val family = Constants.dataFamily(0)
+  Constants.conf.set(TableInputFormat.INPUT_TABLE, tablename)
+  //def create(args: QueryArgs) = new Query(args)
+
 
 
 
