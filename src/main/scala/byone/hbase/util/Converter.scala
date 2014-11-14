@@ -2,6 +2,7 @@ package byone.hbase.util
 
 import java.text.SimpleDateFormat
 
+import byone.hbase.ScanCovert
 import org.apache.hadoop.hbase.client.Scan
 import scala.collection.JavaConverters._
 /**

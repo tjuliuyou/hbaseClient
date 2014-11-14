@@ -1,23 +1,22 @@
 package byone.hbase
 
-import java.util
-
 import byone.hbase.protobuf.PreAnalyseProtos
 import byone.hbase.protobuf.PreAnalyseProtos.{MapEntry, PreAnalyseService}
+import byone.hbase.util.Converter
 import com.google.protobuf.ByteString
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
-import org.apache.hadoop.hbase.client.HTable
 import org.apache.hadoop.hbase.client.coprocessor.Batch
+import org.apache.hadoop.hbase.client.{HTable, Scan}
 import org.apache.hadoop.hbase.ipc.{BlockingRpcCallback, ServerRpcController}
-import scala.collection.JavaConverters._
-import scala.collection.mutable
+import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 
-import java.util.Iterator
+import scala.collection.JavaConverters._
+
 /**
  * Created by liuyou on 14/11/11.
  */
-object Cotest {
+object CoTest {
 
   // Default global Hbase Configurations
   private val HBASE_CONF_PATH = "src/main/resources/conf/hbase-site.xml"
@@ -33,11 +32,16 @@ object Cotest {
 
     val events = ByteString.copyFrom("abc".getBytes())
     //val request: PreAnalyseProtos.AnalyseRequest = null
+    val scan = new Scan()
 
-
+    val ts = System.currentTimeMillis()
     val group = List("a","b")
+
+    val range = List(Converter.Int2Byte(0,4),Converter.num2Byte(ts/1000,4))
+    val protorange = range.map(ByteString.copyFrom).asJava
     val request = PreAnalyseProtos.AnalyseRequest.newBuilder()
-        .setFilterString("SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')")
+        .setScan(ProtobufUtil.toScan(scan))
+        .addAllRange(protorange)
         .addAllGroups(group.toIterable.asJava)
         .build()
 
@@ -47,16 +51,25 @@ object Cotest {
 
     val results = table.coprocessorService(classOf[PreAnalyseProtos.PreAnalyseService],
                   null,null,
-    new Batch.Call[PreAnalyseProtos.PreAnalyseService,List[MapEntry]](){
-      override def call(counter: PreAnalyseService): Iterator[MapEntry] = {
+    new Batch.Call[PreAnalyseProtos.PreAnalyseService,java.util.List[MapEntry]](){
+      override def call(counter: PreAnalyseService): java.util.List[MapEntry] = {
         val controller = new ServerRpcController()
         val rpcCallback = new BlockingRpcCallback[PreAnalyseProtos.AnalyseResponse]()
         counter.getPreData(controller, request, rpcCallback)
         val response = rpcCallback.get()
         //if(response != null && response.isInitialized)
-        response.getItemsList().iterator()
-
+        response.getDataList
       }
+    })
+
+    val data = results.values().asScala
+
+    data.foreach(x =>{
+      x.asScala.foreach(y=> {
+        y.getKvList.asScala.foreach(kv => {
+          println(kv.getValue)
+        })
+      })
     })
 
     println(results.size())

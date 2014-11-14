@@ -1,7 +1,7 @@
 package byone.hbase
 
 import byone.hbase.uid.UniqueId
-import byone.hbase.util.{Constants, Converter, ScanCovert}
+import byone.hbase.util.{Constants, Converter}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Scan}
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat
