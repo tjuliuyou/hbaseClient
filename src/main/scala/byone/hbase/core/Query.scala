@@ -17,7 +17,6 @@
 package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
-import byone.hbase.uid.UniqueId
 import byone.hbase.util.{Constants, Converter}
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.client.{HTable, Result, Scan}

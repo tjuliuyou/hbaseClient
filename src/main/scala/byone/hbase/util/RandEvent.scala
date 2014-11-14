@@ -466,7 +466,7 @@ object RandEvent {
     val event = data(num)
 
     val ts = System.currentTimeMillis()
-    val pre = Random.nextInt(Constants.REGIONRANGE)
+    val pre = Random.nextInt(Constants.REGIONRANGE) + Constants.STARTKEY - 1
 
     val row = Converter.Int2Byte(pre, 1) ++ Converter.num2Byte(ts / 1000, 4) ++
       Converter.Int2Byte(num) ++ Converter.num2Byte(ts % 1000, 3) ++
@@ -479,7 +479,7 @@ object RandEvent {
     val event = data(num)
 
     val ts = System.currentTimeMillis()
-    val pre = Random.nextInt(Constants.REGIONRANGE)
+    val pre = Random.nextInt(Constants.REGIONRANGE) + Constants.STARTKEY - 1
 
     val row = Converter.Int2Byte(pre, 1) ++ Converter.num2Byte(ts / 1000, 4) ++
       Converter.Int2Byte(num) ++ Converter.ip2Byte(event("hostIpAddr")) ++

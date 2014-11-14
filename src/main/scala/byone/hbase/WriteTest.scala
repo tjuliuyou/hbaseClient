@@ -1,20 +1,30 @@
 package byone.hbase
 
+import byone.hbase.util.{RandEvent, Constants}
+import org.apache.hadoop.hbase.client.{HTableUtil, HTable}
+import scala.collection.JavaConverters._
 /**
- * Created by liuyou on 14/11/7.
+ * Created by liuyou on 14/11/14.
  */
 object WriteTest {
 
   def main(args: Array[String]) {
+    val tablename = Constants.dataTable
 
-    for(i <- 1000 to 1100) {
-//      if(i % 15 == 0)
-//        Thread.sleep(2000)
-      RsyncClient.writeDataToHBase("data"+i.toString)
+    val tb = new HTable(Constants.conf, tablename)
+    //val tbutil = new HTableUtil()
 
+    tb.setAutoFlush(false, false)
+    tb.setWriteBufferSize(10 * 1024 * 1024)
+    var a: Int = 0
+    while (a < 100) {
+      a += 1
+      val plist = RandEvent.rand(1000)
+      if (a % 10 == 0) println(a * 1000)
+      //tb.put(plist.asJava)
+      HTableUtil.bucketRsPut(tb, plist.asJava)
     }
-
+    Constants.sc.stop()
   }
-
 
 }

@@ -5,7 +5,7 @@ package byone.hbase
 /**
  * Created by liuyou on 14/11/3.
  */
-object taskTest {
+object RsyncReadTest {
   def main(args: Array[String]) {
 //    val handle = RsyncClient.queryData(
 //      """{

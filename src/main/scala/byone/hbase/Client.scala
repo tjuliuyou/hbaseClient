@@ -9,7 +9,7 @@ import scala.collection.JavaConverters._
 /**
  * Created by dream on 14-8-13.
  */
-object Test {
+object Client {
 
 
 
