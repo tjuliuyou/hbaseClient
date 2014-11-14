@@ -1,9 +1,9 @@
 package byone.hbase
 
-import byone.hbase.core.{Table, QueryArgs, Query}
-import byone.hbase.util.{RandEvent, Constants}
-import net.liftweb.json.JsonParser._
-import org.apache.hadoop.hbase.client.{HTableUtil, HTable}
+import byone.hbase.core.{Query, Table}
+import byone.hbase.util.{Constants, RandEvent}
+import org.apache.hadoop.hbase.client.{HTable, HTableUtil}
+
 import scala.collection.JavaConverters._
 
 /**
@@ -12,29 +12,29 @@ import scala.collection.JavaConverters._
 object Client {
 
 
+
   def read(user: String) {
-    // read test.json to class testlist
-    implicit val formats = net.liftweb.json.DefaultFormats
-    val source = scala.io.Source.fromFile("src/main/resources/test.json").mkString
-    val m = parse(source)
 
-    val testlist: Seq[QueryArgs] = m.children.map(_.extract[QueryArgs])
-
-    // using one of testlist
-
-    val currtest = testlist(0)
-    val query = Query.create(currtest)
-
-    val rdd = query.get()
-    //val sortRdd = rdd.collect().sortBy(raw => raw._1)
-   // rdd.collect().foreach(println)
-    println("multi get count: " + rdd.count())
-
-    //val raw = query.rawRdd()
-
-    Query.close()
-
-    Constants.sc.stop()
+//    val query = Query.create("""{
+//           "Range": ["12/10/2014 11:08:12","12/10/2014 19:08:15"],
+//           "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
+//           "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
+//           "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
+//           "Groups": ["hostName"],
+//           "Aggres": [["avg","cpuUtil"]]
+//          }""")
+//
+//    val rdd = query.get()
+//    //val sortRdd = rdd.collect().sortBy(raw => raw._1)
+//   // rdd.collect().foreach(println)
+//
+//    println("multi get count: " + rdd.count())
+//
+//    //val raw = query.rawRdd()
+//
+//    Query.close()
+//
+//    Constants.sc.stop()
   }
 
   def create(user: String) {
@@ -87,3 +87,5 @@ object Client {
   }
 
 }
+
+

@@ -2,12 +2,12 @@ package byone.hbase.uid
 
 import byone.hbase.core.Table
 import byone.hbase.util.{Constants, Converter}
-import com.twitter.util.LruMap
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.filter.KeyOnlyFilter
 import org.slf4j.LoggerFactory
-
+import scala.collection.mutable.Map
 import scala.collection.JavaConverters._
+
 
 /**
  * Created by dream on 7/7/14.
@@ -18,7 +18,7 @@ class UniqueId extends java.io.Serializable {
   private val serialVersionUID = 6529685098267757680L
   private val tableName = Constants.uidTable
 
-  private val cached = new LruMap[Array[Byte], Array[Byte]](100)
+  private val cached = Map[Array[Byte], Array[Byte]]()
 
   private val uidTable = Table(tableName)
 

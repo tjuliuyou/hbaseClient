@@ -1,5 +1,6 @@
 package byone.hbase.util
 
+import byone.hbase.uid.UniqueId
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.spark.{SparkConf, SparkContext}
@@ -49,9 +50,11 @@ object Constants {
    */
   val REGIONNUM     =  24
   /**
-   * Default pre-spilt regions numbers
+   * Default startkey
    */
   val STARTKEY     =  1
+
+  val uid = new UniqueId
 
   // Default global Hbase Configurations
   private val HBASE_CONF_PATH = "src/main/resources/conf/hbase-site.xml"
@@ -68,9 +71,7 @@ object Constants {
     //.setMaster("local")
     //.setMaster("yarn-client")
     .setMaster("spark://client.dream:7077")
-    .setJars(Seq("target/scala-2.10/hbaseclient_2.10-0.2.2.jar"
-    ,"/home/dream/.ivy2/cache/com.twitter/util-core_2.10/jars/util-core_2.10-6.12.1.jar"
-    ,"/home/dream/.ivy2/cache/com.twitter/util-collection_2.10/jars/util-collection_2.10-6.12.1.jar"))
+    .setJars(Seq("target/scala-2.10/hbaseclient_2.10-0.2.2.jar"))
 
   val sc = new SparkContext(sparkConf)
 
