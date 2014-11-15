@@ -4,6 +4,6 @@
     "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
     "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
     "Groups": ["hostName"],
-    "Aggres": [["avg","cpuUtil","memUtil"]],
+    "Aggres": null,
     "Order" : "asc"
 }
