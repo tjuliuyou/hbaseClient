@@ -1,6 +1,8 @@
 package byone.hbase
 
+import byone.hbase.core.QueryArgs
 import byone.hbase.core.task.ReadTask
+import net.liftweb.json.JsonParser._
 
 /**
  * Created by liuyou on 14/11/14.
@@ -10,13 +12,29 @@ object ReadTest {
 
     val queryArgs = scala.io.Source.fromFile("src/main/resources/test.json").mkString
 
+
     println(queryArgs)
 
-    val readTask = new ReadTask(queryArgs)
+    try {
+      implicit val formats = net.liftweb.json.DefaultFormats
+      val x = parse(queryArgs).extract[QueryArgs]
+      println(x)
 
-    readTask.start
+      val in = x.Aggres.getOrElse(null)
+      println(in)
+      println(in.isEmpty)
 
-    val data = readTask.get
+    } catch {
+      case e: Exception => {
+        println(e.getMessage)
+        //QueryArgs(None,None,None,None,None,None,None)
+      }
+    }
+//    val readTask = new ReadTask(queryArgs)
+//
+//    readTask.start
+//
+//    val data = readTask.get
     // using one of testlist
 
     //val range = List(Converter.Int2Byte(0,4),Converter.num2Byte(ts/1000,4))
