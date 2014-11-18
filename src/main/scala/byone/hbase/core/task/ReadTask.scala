@@ -15,7 +15,7 @@ import scala.collection.JavaConverters._
 /**
  * Created by liuyou on 14/11/3.
  */
-class ReadTask(queryArgs: String)  {
+class ReadTask(queryArgs: String) extends java.io.Serializable {
 
   private[ReadTask] val buildtime = Calendar.getInstance.getTime
   private[ReadTask] val logger = LoggerFactory.getLogger(getClass)
@@ -31,12 +31,12 @@ class ReadTask(queryArgs: String)  {
 
   private val family = Constants.dataFamily(0)
   private val tablename = Constants.dataTable
-  private val constConnect = new HTable(Constants.conf, tablename)
+ // private val constConnect = new HTable(Constants.conf, tablename)
   //val readArgs:
   updateStatus(1)
   private lazy val args = parseArgs(queryArgs)
 
-  private lazy val range = args.Range.getOrElse({
+  private lazy val range: Seq[String] = args.Range.getOrElse({
     updateStatus(-1,"did not set time range or with error format.")
     Seq.empty
   })
@@ -89,13 +89,13 @@ class ReadTask(queryArgs: String)  {
     } else {
       query.resRdd(filters, events, range, items,groups,aggres)
     }
-    println("2.get data from hbase...\r\n")
-    Thread.sleep(4000)
-    println("3.aggregate the data...")
-    Thread.sleep(3000)
-    println("4.done")
-    HTaskManager.statusUpdate(id, 2)
-    ReadTask.sender ! WorkDone(id)
+//    println("2.get data from hbase...\r\n")
+//    Thread.sleep(4000)
+//    println("3.aggregate the data...")
+//    Thread.sleep(3000)
+//    println("4.done")
+//    HTaskManager.statusUpdate(id, 2)
+    //ReadTask.sender ! WorkDone(id)
   }
 
   def restart = {
@@ -144,7 +144,7 @@ class ReadTask(queryArgs: String)  {
       }
     }
   }
-  def close() = constConnect.close()
+ // def close() = constConnect.close()
 }
 
 object ReadTask {

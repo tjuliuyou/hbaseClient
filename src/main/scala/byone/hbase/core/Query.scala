@@ -17,8 +17,8 @@
 package byone.hbase.core
 
 import byone.hbase.filter.{ByParseFilter, CompareFilter, EventComparator, RowFilter}
-import byone.hbase.protobuf.PreAnalyseProtos
-import byone.hbase.protobuf.PreAnalyseProtos.{PreAnalyseService, MapEntry}
+import byone.hbase.protobuf.PreAggProtos
+import byone.hbase.protobuf.PreAggProtos.MapEntry
 import byone.hbase.util.{Constants, Converter}
 import com.google.protobuf.ByteString
 import org.apache.hadoop.hbase.HBaseConfiguration
@@ -29,9 +29,9 @@ import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.ipc.{BlockingRpcCallback, ServerRpcController}
 import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputFormat}
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil
-
 import org.apache.spark.rdd.RDD
 import org.slf4j.LoggerFactory
+
 import scala.collection.JavaConverters._
 
 /**
@@ -40,45 +40,10 @@ import scala.collection.JavaConverters._
  * Core Query class read Hbase/cached to local RDD
  * //@param queryAr args to retrieve data { @see QueryArgs}
  */
-class Query(tablename: String, family: String) {
+class Query(tablename: String, family: String) extends java.io.Serializable {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
-  /**
-   * parser filter args and events to filter
-   * @param filterString   : filter args
-   * @param events : list of events
-   * @return Parsered filter list
-   */
-  def hbaseFilter(filterString: String, events: Seq[String]): FilterList = {
-    val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
-
-    if (filterString.isEmpty && events.isEmpty) {
-      logger.debug("filters&& event equals null, set Filter to null")
-      null
-    }
-
-    else {
-      if (events.nonEmpty) {
-        logger.debug(" Parsering events to Filters.")
-        val meaningful = events.map(Constants.uid.toId).filter(nullChecker)
-        if (meaningful.nonEmpty) {
-          val ents = for (event <- meaningful) yield {
-            val rowfilter: Filter = new RowFilter(
-              CompareFilter.CompareOp.EQUAL, new EventComparator(event))
-            rowfilter
-          }
-          val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE, ents.asJava)
-          flist.addFilter(rowlist)
-        }
-      }
-      if (filterString.nonEmpty) {
-        logger.debug(" Parsering filter string to Filters.")
-        flist.addFilter(new ByParseFilter().parseFilterString(filterString))
-      }
-      flist
-    }
-  }
 
 
   def groupBy(raw: Map[String, String], groups: Seq[String])
@@ -191,17 +156,7 @@ class Query(tablename: String, family: String) {
     retmap.toMap
   }
 
-  /**
-   * Check item equal null
-   * @param any any type
-   * @return
-   */
-  def nullChecker(any: AnyRef): Boolean = {
-    any match {
-      case null => false
-      case _ => true
-    }
-  }
+
 
   /**
    * Check if event belongs to group
@@ -235,7 +190,7 @@ class Query(tablename: String, family: String) {
   def rawRdd(filters: String, events: Seq[String], range: Seq[String], items: Set[String])
   : RDD[Map[String, String]] = {
     logger.info("get rdds using newRawRdd")
-    val scans = scanList(hbaseFilter(filters, events), range.map(Converter.toTs),items)
+    val scans = scanList(Query.hbaseFilter(filters, events), range.map(Converter.toTs),items)
 
     hbaseRdd(scans.toList).map(normalize).cache()
 
@@ -246,25 +201,25 @@ class Query(tablename: String, family: String) {
   : RDD[(String, String)] = {
 
     val table = new HTable(Constants.conf, tablename)
-    val scan = getScan(hbaseFilter(filters,events),items)
+    val scan = getScan(Query.hbaseFilter(filters,events),items)
     val protorange =range.map(Converter.toTs).map(ByteString.copyFrom).asJava
 
     val agg = for(ar <- arrges) yield {
-      PreAnalyseProtos.TupleEntry.newBuilder().setKey(ar._1).setValue(ar._2).build()
+      PreAggProtos.TupleEntry.newBuilder().setKey(ar._1).setValue(ar._2).build()
     }
-    val request = PreAnalyseProtos.AnalyseRequest.newBuilder()
+    val request = PreAggProtos.Request.newBuilder()
       .setScan(ProtobufUtil.toScan(scan))
       .addAllRange(protorange)
       .addAllGroups(groups.asJava)
-      .setAggre(PreAnalyseProtos.MapEntry.newBuilder().addAllKv(agg.asJava).build())
+      .setAggre(PreAggProtos.MapEntry.newBuilder().addAllKv(agg.asJava).build())
       .build()
 
-    val results = table.coprocessorService(classOf[PreAnalyseProtos.PreAnalyseService],
+    val results = table.coprocessorService(classOf[PreAggProtos.PreAggService],
       null,null,
-      new Batch.Call[PreAnalyseProtos.PreAnalyseService,MapEntry](){
-        override def call(counter: PreAnalyseService): MapEntry = {
+      new Batch.Call[PreAggProtos.PreAggService,MapEntry](){
+        override def call(counter: PreAggProtos.PreAggService): MapEntry = {
           val controller = new ServerRpcController()
-          val rpcCallback = new BlockingRpcCallback[PreAnalyseProtos.AnalyseResponse]()
+          val rpcCallback = new BlockingRpcCallback[PreAggProtos.Response]()
           counter.getPreData(controller, request, rpcCallback)
           val response = rpcCallback.get()
           //if(response != null && response.isInitialized)
@@ -306,9 +261,61 @@ case class QueryArgs(Range: Option[Seq[String]],
 
 object Query {
 
+
   def create(tablename: String, family: String) = new Query(tablename,family)
 
+  private val logger = LoggerFactory.getLogger(getClass)
+  /**
+   * parser filter args and events to filter
+   * @param filterString   : filter args
+   * @param events : list of events
+   * @return Parsered filter list
+   */
+  def hbaseFilter(filterString: String, events: Seq[String]): FilterList = {
+    val flist = new FilterList(FilterList.Operator.MUST_PASS_ALL)
+
+    if (filterString.isEmpty && events.isEmpty) {
+      logger.debug("filters&& event equals null, set Filter to null")
+      null
+    }
+
+    else {
+      if (events.nonEmpty) {
+        logger.debug(" Parsering events to Filters.")
+        val meaningful = events.map(Constants.uid.toId).filter(nullChecker)
+        if (meaningful.nonEmpty) {
+          val ents = for (event <- meaningful) yield {
+            val rowfilter: Filter = new RowFilter(
+              CompareFilter.CompareOp.EQUAL, new EventComparator(event))
+            rowfilter
+          }
+          val rowlist: Filter = new FilterList(FilterList.Operator.MUST_PASS_ONE, ents.asJava)
+          flist.addFilter(rowlist)
+        }
+      }
+      if (filterString.nonEmpty) {
+        logger.debug(" Parsering filter string to Filters.")
+        flist.addFilter(new ByParseFilter().parseFilterString(filterString))
+      }
+      flist
+    }
+  }
+
+
+  /**
+   * Check item equal null
+   * @param any any type
+   * @return
+   */
+  def nullChecker(any: AnyRef): Boolean = {
+    any match {
+      case null => false
+      case _ => true
+    }
+  }
+
 }
+
 
 //class Query(queryAr: String) extends java.io.Serializable {
 

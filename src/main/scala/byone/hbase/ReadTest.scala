@@ -2,34 +2,24 @@ package byone.hbase
 
 import byone.hbase.core.QueryArgs
 import byone.hbase.core.task.ReadTask
+import byone.hbase.util.Constants
 import net.liftweb.json.JsonParser._
+import org.apache.hadoop.hbase.client.HTable
 
 /**
  * Created by liuyou on 14/11/14.
  */
 object ReadTest {
   def main(args: Array[String]) {
-
+    val constConnect = new HTable(Constants.conf, Constants.dataTable)
     val queryArgs = scala.io.Source.fromFile("src/main/resources/test.json").mkString
 
+    val read = new ReadTask(queryArgs)
 
-    println(queryArgs)
+    val data = read.start
+    println(data.count())
 
-    try {
-      implicit val formats = net.liftweb.json.DefaultFormats
-      val x = parse(queryArgs).extract[QueryArgs]
-      println(x)
-
-      val in = x.Aggres.getOrElse(null)
-      println(in)
-      println(in.isEmpty)
-
-    } catch {
-      case e: Exception => {
-        println(e.getMessage)
-        //QueryArgs(None,None,None,None,None,None,None)
-      }
-    }
+    constConnect.close()
 //    val readTask = new ReadTask(queryArgs)
 //
 //    readTask.start
