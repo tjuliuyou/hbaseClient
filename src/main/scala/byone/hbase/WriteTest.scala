@@ -17,9 +17,9 @@ object WriteTest {
     tb.setAutoFlush(false, false)
     tb.setWriteBufferSize(10 * 1024 * 1024)
     var a: Int = 0
-    while (a < 100) {
+    while (a < 2) {
       a += 1
-      val plist = RandEvent.rand(1000)
+      val plist = RandEvent.rand(200)
       if (a % 10 == 0) println(a * 1000)
       //tb.put(plist.asJava)
       HTableUtil.bucketRsPut(tb, plist.asJava)

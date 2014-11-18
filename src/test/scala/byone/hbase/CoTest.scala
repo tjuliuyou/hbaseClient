@@ -1,7 +1,8 @@
 package byone.hbase
 
-import byone.hbase.protobuf.PreAnalyseProtos
-import byone.hbase.protobuf.PreAnalyseProtos.{MapEntry, PreAnalyseService}
+import byone.hbase.core.Query
+import byone.hbase.protobuf.PreAggProtos
+import byone.hbase.protobuf.PreAggProtos.MapEntry
 import byone.hbase.util.Converter
 import com.google.protobuf.ByteString
 import org.apache.hadoop.fs.Path
@@ -12,6 +13,7 @@ import org.apache.hadoop.hbase.ipc.{BlockingRpcCallback, ServerRpcController}
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
 /**
  * Created by liuyou on 14/11/11.
@@ -28,51 +30,89 @@ object CoTest {
   conf.addResource(new Path(MAPR_CONF_PATH))
 
   def main(args: Array[String]) {
-   val table = new HTable(conf,"test1")
-
-    val events = ByteString.copyFrom("abc".getBytes())
-    //val request: PreAnalyseProtos.AnalyseRequest = null
+    val table = new HTable(conf, "log_data")
+    val items = Seq("eventType","cpuUtil","hostName","cpuName")
+    //val request: PreAggProtos.AnalyseRequest = null
     val scan = new Scan()
 
-    val ts = System.currentTimeMillis()
-    val group = List("a","b")
 
-    val range = List(Converter.Int2Byte(0,4),Converter.num2Byte(ts/1000,4))
+    val filterString = ""
+    val event: Seq[String] = Seq("PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL")
+
+    val filter = Query.hbaseFilter(filterString,event)
+    scan.setFilter(filter)
+    scan.setCacheBlocks(false)
+    scan.setCaching(2000)
+    //scan.setReversed(true)
+    items.foreach(x => scan.addColumn("d".getBytes,x.getBytes))
+
+
+    val ts = System.currentTimeMillis()
+    val groups = List("hostName")
+    val arrges = Map("cpuUtil" -> "avg", "memUtil" -> "avg")
+
+    val range = List(Converter.num2Byte(0, 4), Converter.num2Byte(ts / 1000, 4))
     val protorange = range.map(ByteString.copyFrom).asJava
-    val request = PreAnalyseProtos.AnalyseRequest.newBuilder()
-        .setScan(ProtobufUtil.toScan(scan))
-        .addAllRange(protorange)
-        .addAllGroups(group.toIterable.asJava)
-        .build()
+    val agg = for (ar <- arrges) yield {
+      PreAggProtos.TupleEntry.newBuilder().setKey(ar._1).setValue(ar._2).build()
+    }
+    val request = PreAggProtos.Request.newBuilder()
+      .setScan(ProtobufUtil.toScan(scan))
+      .addAllRange(protorange)
+      .addAllGroups(groups.asJava)
+      .setAggre(PreAggProtos.MapEntry.newBuilder().addAllKv(agg.asJava).build())
+      .build()
 
 
     println(request.getGroupsList)
 
 
-    val results = table.coprocessorService(classOf[PreAnalyseProtos.PreAnalyseService],
-                  null,null,
-    new Batch.Call[PreAnalyseProtos.PreAnalyseService,MapEntry](){
-      override def call(counter: PreAnalyseService): MapEntry = {
-        val controller = new ServerRpcController()
-        val rpcCallback = new BlockingRpcCallback[PreAnalyseProtos.AnalyseResponse]()
-        counter.getPreData(controller, request, rpcCallback)
-        val response = rpcCallback.get()
-        //if(response != null && response.isInitialized)
-        response.getData
-      }
-    })
+    val results = table.coprocessorService(classOf[PreAggProtos.PreAggService],
+      null, null,
+      new Batch.Call[PreAggProtos.PreAggService, mutable.Buffer[MapEntry]]() {
+        override def call(counter: PreAggProtos.PreAggService): mutable.Buffer[MapEntry] = {
+          val controller = new ServerRpcController()
+          val rpcCallback = new BlockingRpcCallback[PreAggProtos.rawResponse]()
+          counter.getRawData(controller, request, rpcCallback)
+          val response = rpcCallback.get()
+          //if(response != null && response.isInitialized)
+          response.getRawList.asScala
+        }
+      })
 
-    val data = results.values().asScala
+    val data = results.values().asScala.toList.flatten
 
-//    data.foreach(x =>{
-//      x.asScala.foreach(y=> {
-//        y.getKvList.asScala.foreach(kv => {
-//          println(kv.getValue)
-//        })
+    //    data.foreach(x =>{
+    //      x.asScala.foreach(y=> {
+    //        y.getKvList.asScala.foreach(kv => {
+    //          println(kv.getValue)
+    //        })
+    //      })
+    //    })
+
+
+
+//    val temp = data.map(sub => {
+//      val kvList = sub.getKvList.asScala
+//      println(kvList.size)
+//      kvList.map(kv => {
+//        kv.getKey -> kv.getValue
 //      })
-//    })
+//    }).flatten
 
-    println(results.size())
+    //val temp = data.flatten
+
+    println(data.size)
+
+    val temp = data.map(sub =>{
+      val kvList = sub.getKvList.asScala
+      kvList.map(kv => {
+                kv.getKey -> kv.getValue
+              }).toMap
+
+    })
+    temp.foreach(println)
+   // println(temp.size)
 
 
   }

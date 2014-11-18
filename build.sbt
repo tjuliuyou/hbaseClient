@@ -8,12 +8,12 @@ resolvers += "Apache" at "https://repository.apache.org/content/repositories/rel
 
 libraryDependencies ++= Seq(
   "org.apache.spark" % "spark-core_2.10" % "1.1.0",
-  "net.liftweb" %% "lift-json" % "2.6-M4"
-  //"org.apache.hadoop" % "hadoop-common" % "2.3.0",
-  //"org.apache.hadoop" % "hadoop-mapreduce-client" % "2.3.0",
-  //"org.apache.hbase" % "hbase-common" % "0.98.2-hadoop2",
-  //"org.apache.hbase" % "hbase-client" % "0.98.2-hadoop2",
-  //"org.apache.hbase" % "hbase-server" % "0.98.2-hadoop2"
+  "net.liftweb" %% "lift-json" % "2.6-M4",
+  "org.apache.hadoop" % "hadoop-common" % "2.3.0",
+  "org.apache.hadoop" % "hadoop-mapreduce-client" % "2.3.0",
+  "org.apache.hbase" % "hbase-common" % "0.98.2-hadoop2",
+  "org.apache.hbase" % "hbase-client" % "0.98.2-hadoop2",
+  "org.apache.hbase" % "hbase-server" % "0.98.2-hadoop2"
   //"com.twitter" %% "util-collection" % "6.12.1",
   //"net.debasishg" %% "redisclient" % "2.13"
 )

@@ -295,7 +295,6 @@ object RandEvent {
       "hostIpAddr" -> "10.133.64.3",
       "bufMemKB" -> "140932",
       "eventName" -> "System memory Utilization stats for a device",
-      "memUtil" -> "24.99",
       "cacheMemKB" -> "873856",
       "hostName" -> "GZskylcollector",
       "eventSeverityCat" -> "LOW",
@@ -313,6 +312,7 @@ object RandEvent {
     cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
     cols += ("freeMemKB" -> (1500 + Random.nextInt(2159980)).toString)
+    cols += ("memUtil" -> Random.nextDouble.toString.substring(0,4))
     //table.adds(row,cols)
   }
 
@@ -347,7 +347,7 @@ object RandEvent {
     cols += ("reptDevName" -> x)
     cols += ("hostName" -> x)
     cols += ("collectorId" -> Random.nextInt(200).toString)
-    cols += ("cpuUtil" -> Random.nextDouble.toString)
+    cols += ("cpuUtil" -> Random.nextDouble.toString.substring(0,4))
     //table.adds(row,cols)
   }
 
