@@ -17,7 +17,7 @@ object WriteTest {
     tb.setAutoFlush(false, false)
     tb.setWriteBufferSize(10 * 1024 * 1024)
     var a: Int = 0
-    while (a < 2) {
+    while (a < 24) {
       a += 1
       val plist = RandEvent.rand(200)
       if (a % 10 == 0) println(a * 1000)

@@ -31,7 +31,7 @@ object CoTest {
 
   def main(args: Array[String]) {
     val table = new HTable(conf, "log_data")
-    val items = Seq("eventType","cpuUtil","hostName","cpuName")
+    val items = Seq("eventType","cpuUtil","hostName","memUtil")
     //val request: PreAggProtos.AnalyseRequest = null
     val scan = new Scan()
 
@@ -80,8 +80,69 @@ object CoTest {
         }
       })
 
-    val data = results.values().asScala.toList.flatten
+//    val data = results.values().asScala.toList.flatten
+//
+//    println(data.size)
+//
+//    val temp = data.map(sub =>{
+//      val kvList = sub.getKvList.asScala
+//      kvList.map(kv => {
+//        kv.getKey -> kv.getValue
+//      }).toMap
+//
+//    })
+//    temp.foreach(println)
 
+    results.asScala.foreach(regiondata => {
+      val region = regiondata._1.foreach(sub => print("," + sub))
+
+      println("------------------------"+ region + "------------------------")
+      val kvmap = regiondata._2.map(sub => {
+        val kvList = sub.getKvList.asScala
+              kvList.map(kv => {
+                kv.getKey -> kv.getValue
+              }).toMap
+
+      })
+
+      kvmap.foreach(println)
+
+      println("------------------------------------------------------------------------")
+
+    })
+
+
+
+    val predata = table.coprocessorService(classOf[PreAggProtos.PreAggService],
+      null, null,
+      new Batch.Call[PreAggProtos.PreAggService, MapEntry]() {
+        override def call(counter: PreAggProtos.PreAggService): MapEntry = {
+          val controller = new ServerRpcController()
+          val rpcCallback = new BlockingRpcCallback[PreAggProtos.Response]()
+          counter.getPreData(controller, request, rpcCallback)
+          val response = rpcCallback.get()
+          //if(response != null && response.isInitialized)
+          response.getData
+        }
+      })
+
+    predata.asScala.map(x => {
+      val region = x._1.foreach(sub => print("," + sub))
+
+      println("------------------------"+ region + "------------------------")
+      x._2.getKvList.asScala.foreach(kv => {
+        println(kv.getKey +":   " + kv.getValue)
+      })
+      println("------------------------------------------------------------------------")
+    })
+
+//    val pre = predata.values().asScala
+//
+//    pre.foreach(sub => {
+//      sub.getKvList.asScala.foreach(kv => {
+//        println(kv.getKey +":   " + kv.getValue)
+//      })
+//    })
     //    data.foreach(x =>{
     //      x.asScala.foreach(y=> {
     //        y.getKvList.asScala.foreach(kv => {
@@ -102,16 +163,7 @@ object CoTest {
 
     //val temp = data.flatten
 
-    println(data.size)
 
-    val temp = data.map(sub =>{
-      val kvList = sub.getKvList.asScala
-      kvList.map(kv => {
-                kv.getKey -> kv.getValue
-              }).toMap
-
-    })
-    temp.foreach(println)
    // println(temp.size)
 
 

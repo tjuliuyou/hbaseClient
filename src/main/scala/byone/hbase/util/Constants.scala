@@ -44,11 +44,11 @@ object Constants {
   /**
    * Possible pre values for all regions
    */
-  val REGIONRANGE   =  24
+  val REGIONRANGE   =  3
   /**
    * Default pre-spilt regions numbers
    */
-  val REGIONNUM     =  24
+  val REGIONNUM     =  3
   /**
    * Default startkey
    */
