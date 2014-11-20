@@ -4,7 +4,7 @@ import byone.hbase.util.{Constants, Converter}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.io.compress.Compression.Algorithm
 import org.apache.hadoop.hbase.regionserver.BloomType
-import org.apache.hadoop.hbase.{Cell, HColumnDescriptor, HTableDescriptor}
+import org.apache.hadoop.hbase.{TableName, Cell, HColumnDescriptor, HTableDescriptor}
 import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 
@@ -30,7 +30,7 @@ class Table(tableName: String) extends java.io.Serializable {
   def create(familys: Seq[String], force: Boolean = false) {
 
     def doCreate = {
-      val tableDesc: HTableDescriptor = new HTableDescriptor(tableName)
+      val tableDesc: HTableDescriptor = new HTableDescriptor(TableName.valueOf(tableName))
       for (fc <- familys) tableDesc.addFamily(new HColumnDescriptor(fc))
       Connect.admin.createTable(tableDesc)
       ("create table: '" + tableName + "' successfully.")
@@ -60,7 +60,7 @@ class Table(tableName: String) extends java.io.Serializable {
     if (Connect.admin.tableExists(tableName))
       logger.error("table '" + tableName + "' already exists.")
     else {
-      val desc: HTableDescriptor = new HTableDescriptor(tableName)
+      val desc: HTableDescriptor = new HTableDescriptor(TableName.valueOf(tableName))
       for (fc <- familys) {
         val hdes: HColumnDescriptor = new HColumnDescriptor(fc)
         hdes.setInMemory(true)

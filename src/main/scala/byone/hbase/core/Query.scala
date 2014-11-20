@@ -31,6 +31,7 @@ import org.apache.hadoop.hbase.mapreduce.{MultiTableInputFormat, TableInputForma
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil
 import org.apache.spark.rdd.RDD
 import org.slf4j.LoggerFactory
+import org.apache.spark.SparkContext._
 
 import scala.collection.JavaConverters._
 
@@ -86,7 +87,7 @@ class Query(tablename: String, family: String) extends java.io.Serializable {
     val scan = new Scan()
     scan.setCacheBlocks(false)
     scan.setCaching(2000)
-    scan.setReversed(true)
+    //scan.setReversed(true)
     scan.setFilter(scanFilter)
     items.foreach(item => scan.addColumn(cf, item.getBytes))
     scan
@@ -214,31 +215,9 @@ class Query(tablename: String, family: String) extends java.io.Serializable {
       .setAggre(PreAggProtos.MapEntry.newBuilder().addAllKv(agg.asJava).build())
       .build()
 
-    val results = table.coprocessorService(classOf[PreAggProtos.PreAggService],
-      null,null,
-      new Batch.Call[PreAggProtos.PreAggService,MapEntry](){
-        override def call(counter: PreAggProtos.PreAggService): MapEntry = {
-          val controller = new ServerRpcController()
-          val rpcCallback = new BlockingRpcCallback[PreAggProtos.Response]()
-          counter.getPreData(controller, request, rpcCallback)
-          val response = rpcCallback.get()
-          //if(response != null && response.isInitialized)
-          response.getData
-        }
-      })
+    Query.batchGet(table,request)
 
-    val data = results.values().asScala
-
-    val temp = data.map(sub => {
-      val kvList = sub.getKvList.asScala
-      kvList.map(kv => {
-        kv.getKey -> kv.getValue
-      })
-    }).flatten
-   //val rdd = Constants.sc.emptyRDD[Map[String,String]]()
-    Constants.sc.makeRDD(temp.toSeq)
   }
-
 }
 
 /**
@@ -262,7 +241,53 @@ case class QueryArgs(Range: Option[Seq[String]],
 object Query {
 
 
+  def aggre(lh:(String, String),rh: (String, String)): (String, String) = {
+    if(lh._2.isEmpty ||rh._2.isEmpty)
+      (lh._1,"")
+    else {
+      val lv = lh._2.toDouble
+      val rv = rh._2.toDouble
+      val ret = lh._1 match {
+        case "avg" => (lv + rv)/2
+        case "min" => Math.min(lv,rv)
+        case "max" => Math.max(lv,rv)
+        case "cou" => lv + rv
+      }
+
+      (lh._1,ret.toString)
+    }
+  }
   def create(tablename: String, family: String) = new Query(tablename,family)
+
+
+  def batchGet(table: HTable,request: PreAggProtos.Request) = {
+    val results =  table.coprocessorService(classOf[PreAggProtos.PreAggService],
+      null, null,
+      new Batch.Call[PreAggProtos.PreAggService, MapEntry]() {
+        override def call(counter: PreAggProtos.PreAggService): MapEntry = {
+          val controller = new ServerRpcController()
+          val rpcCallback = new BlockingRpcCallback[PreAggProtos.Response]()
+          counter.getPreData(controller, request, rpcCallback)
+          val response = rpcCallback.get()
+          //if(response != null && response.isInitialized)
+          response.getData
+        }
+      })
+
+    val data = results.values().asScala.map(sub => {
+      val kvList = sub.getKvList.asScala
+      kvList.map(kv => {
+        kv.getKey -> kv.getValue
+      })
+    }).flatten
+    //val rdd = Constants.sc.emptyRDD[Map[String,String]]()
+    val rdd = Constants.sc.makeRDD(data.toSeq)
+    rdd.map(x => {
+      (x._1,(x._1.substring(0,3),x._2))
+    }).reduceByKey(Query.aggre).map(x =>{
+      (x._1,x._2._2)
+    })
+  }
 
   private val logger = LoggerFactory.getLogger(getClass)
   /**
