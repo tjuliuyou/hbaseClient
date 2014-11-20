@@ -3,7 +3,7 @@ package byone.hbase
 import byone.hbase.core.Query
 import byone.hbase.protobuf.PreAggProtos
 import byone.hbase.protobuf.PreAggProtos.MapEntry
-import byone.hbase.util.Converter
+import byone.hbase.util.{Constants, Converter}
 import com.google.protobuf.ByteString
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.HBaseConfiguration
@@ -11,9 +11,9 @@ import org.apache.hadoop.hbase.client.coprocessor.Batch
 import org.apache.hadoop.hbase.client.{HTable, Scan}
 import org.apache.hadoop.hbase.ipc.{BlockingRpcCallback, ServerRpcController}
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil
+import org.apache.spark.SparkContext._
 
 import scala.collection.JavaConverters._
-import scala.collection.mutable
 
 /**
  * Created by liuyou on 14/11/11.
@@ -28,6 +28,23 @@ object CoTest {
   conf.addResource(new Path(HBASE_CONF_PATH))
   conf.addResource(new Path(YARN_CONF_PATH))
   conf.addResource(new Path(MAPR_CONF_PATH))
+
+  def aggre(lh:(String, String),rh: (String, String)): (String, String) = {
+    if(lh._2.isEmpty ||rh._2.isEmpty)
+      (lh._1,"")
+    else {
+      val lv = lh._2.toDouble
+      val rv = rh._2.toDouble
+      val ret = lh._1 match {
+        case "avg" => (lv + rv)/2
+        case "min" => Math.min(lv,rv)
+        case "max" => Math.max(lv,rv)
+        case "cou" => lv + rv
+      }
+
+      (lh._1,ret.toString)
+    }
+  }
 
   def main(args: Array[String]) {
     val table = new HTable(conf, "log_data")
@@ -49,7 +66,7 @@ object CoTest {
 
     val ts = System.currentTimeMillis()
     val groups = List("hostName")
-    val arrges = Map("cpuUtil" -> "avg", "memUtil" -> "avg")
+    val arrges = Map("cpuUtil" -> "avg", "memUtil" -> "count")
 
     val range = List(Converter.num2Byte(0, 4), Converter.num2Byte(ts / 1000, 4))
     val protorange = range.map(ByteString.copyFrom).asJava
@@ -66,19 +83,19 @@ object CoTest {
 
     println(request.getGroupsList)
 
-
-    val results = table.coprocessorService(classOf[PreAggProtos.PreAggService],
-      null, null,
-      new Batch.Call[PreAggProtos.PreAggService, mutable.Buffer[MapEntry]]() {
-        override def call(counter: PreAggProtos.PreAggService): mutable.Buffer[MapEntry] = {
-          val controller = new ServerRpcController()
-          val rpcCallback = new BlockingRpcCallback[PreAggProtos.rawResponse]()
-          counter.getRawData(controller, request, rpcCallback)
-          val response = rpcCallback.get()
-          //if(response != null && response.isInitialized)
-          response.getRawList.asScala
-        }
-      })
+//
+//    val results = table.coprocessorService(classOf[PreAggProtos.PreAggService],
+//      null, null,
+//      new Batch.Call[PreAggProtos.PreAggService, mutable.Buffer[MapEntry]]() {
+//        override def call(counter: PreAggProtos.PreAggService): mutable.Buffer[MapEntry] = {
+//          val controller = new ServerRpcController()
+//          val rpcCallback = new BlockingRpcCallback[PreAggProtos.rawResponse]()
+//          counter.getRawData(controller, request, rpcCallback)
+//          val response = rpcCallback.get()
+//          //if(response != null && response.isInitialized)
+//          response.getRawList.asScala
+//        }
+//      })
 
 //    val data = results.values().asScala.toList.flatten
 //
@@ -93,23 +110,23 @@ object CoTest {
 //    })
 //    temp.foreach(println)
 
-    results.asScala.foreach(regiondata => {
-      val region = regiondata._1.foreach(sub => print("," + sub))
-
-      println("------------------------"+ region + "------------------------")
-      val kvmap = regiondata._2.map(sub => {
-        val kvList = sub.getKvList.asScala
-              kvList.map(kv => {
-                kv.getKey -> kv.getValue
-              }).toMap
-
-      })
-
-      kvmap.foreach(println)
-
-      println("------------------------------------------------------------------------")
-
-    })
+//    results.asScala.foreach(regiondata => {
+//      val region = regiondata._1.foreach(sub => print("," + sub))
+//
+//
+//      val kvmap = regiondata._2.map(sub => {
+//        val kvList = sub.getKvList.asScala
+//              kvList.map(kv => {
+//                kv.getKey -> kv.getValue
+//              }).toMap
+//
+//      })
+//
+//      kvmap.foreach(println)
+//
+//      println("------------------------------------------------------------------------")
+//
+//    })
 
 
 
@@ -126,46 +143,37 @@ object CoTest {
         }
       })
 
-    predata.asScala.map(x => {
-      val region = x._1.foreach(sub => print("," + sub))
-
-      println("------------------------"+ region + "------------------------")
-      x._2.getKvList.asScala.foreach(kv => {
-        println(kv.getKey +":   " + kv.getValue)
-      })
-      println("------------------------------------------------------------------------")
-    })
-
-//    val pre = predata.values().asScala
+//    predata.asScala.map(x => {
+//      val region = x._1.foreach(sub => print("," + sub))
 //
-//    pre.foreach(sub => {
-//      sub.getKvList.asScala.foreach(kv => {
+//      x._2.getKvList.asScala.foreach(kv => {
 //        println(kv.getKey +":   " + kv.getValue)
 //      })
+//      println("------------------------------------------------------------------------")
 //    })
-    //    data.foreach(x =>{
-    //      x.asScala.foreach(y=> {
-    //        y.getKvList.asScala.foreach(kv => {
-    //          println(kv.getValue)
-    //        })
-    //      })
-    //    })
 
 
+    val data = predata.values().asScala
 
-//    val temp = data.map(sub => {
-//      val kvList = sub.getKvList.asScala
-//      println(kvList.size)
-//      kvList.map(kv => {
-//        kv.getKey -> kv.getValue
-//      })
-//    }).flatten
+    val temp = data.map(sub => {
+      val kvList = sub.getKvList.asScala
+      kvList.map(kv => {
+        kv.getKey -> kv.getValue
+      })
+    }).flatten
+    //val rdd = Constants.sc.emptyRDD[Map[String,String]]()
+    val rdd = Constants.sc.makeRDD(temp.toSeq)
+    //rdd.collect().foreach(println)
 
-    //val temp = data.flatten
+    val red = rdd.map(x => {
+      (x._1,(x._1.substring(0,3),x._2))
+    }).reduceByKey(aggre).map(x =>{
+      (x._1,x._2._2)
+    })
 
 
-   // println(temp.size)
-
+    red.collect().foreach(println)
+    Constants.sc.stop()
 
   }
 }
