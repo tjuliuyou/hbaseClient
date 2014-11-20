@@ -1,8 +1,8 @@
 {
-    "Range": ["2014/12/10 11:08:12","2014/12/10 19:08:15"],
+    "Range": ["2014/11/19 11:08:12","2014/11/20 19:08:15"],
     "Items": ["collectorId", "eventType", "relayDevIpAddr", "cpuUtil","hostIpAddr","eventSeverity"],
-    "Events": ["PH_DEV_MON_SYS_MEM_UTIL","PH_DEV_MON_SYS_PER_CPU_UTIL"],
-    "Filter": "SingleColumnValueFilter ('d','hostIpAddr',=,'binary:10.133.64.2')",
+    "Events": null,
+    "Filter": null,
     "Groups": null,
     "Aggres": null,
     "Order" : "asc"
